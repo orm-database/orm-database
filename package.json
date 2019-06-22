@@ -1,0 +1,22 @@
+{
+  "name": "orm-database",
+  "version": "1.0.0",
+  "description": "orm-database",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orm-database/orm-database.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/orm-database/orm-database/issues"
+  },
+  "homepage": "https://github.com/orm-database/orm-database#readme",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1"
+  }
+}
