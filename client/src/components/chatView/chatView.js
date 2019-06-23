@@ -1,39 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import './chatView.css';
 
+import MessageItem from '../messageItem/messageItem';
+
 function ChatView(props) {
   /* props = {
     selectedGroupId: Number - group_id of the chat group
   } */
 
-  const [messageList, setMessageList] = useState(null);
+  const [messageList, setMessageList] = useState([]);
 
   useEffect(() => {
     // @TODO fetch all messages in the group given by props.selectedGroupId
   }, []);
 
   const generateMessages = () => {
-    
+    if (messageList.length) {
+      const messages = messageList.map((message, index) => {
+        return (
+          <MessageItem author={message.author} timestamp={message.timestamp} content={message.text} key={index} />
+        );
+      });
+
+      return (messages);
+    } else {
+      return null;
+    }
   }
 
 
   return (
-    <ul class='list-group list-group-flush scrollable'>
-      <li class='list-group-item'>Cras justo odio</li>
-      <li class='list-group-item'>Dapibus ac facilisis in</li>
-      <li class='list-group-item'>Morbi leo risus</li>
-      <li class='list-group-item'>Porta ac consectetur ac</li>
-      <li class='list-group-item'>Vestibulum at eros</li>
-      <li class='list-group-item'>Cras justo odio</li>
-      <li class='list-group-item'>Dapibus ac facilisis in</li>
-      <li class='list-group-item'>Morbi leo risus</li>
-      <li class='list-group-item'>Porta ac consectetur ac</li>
-      <li class='list-group-item'>Vestibulum at eros</li>
-      <li class='list-group-item'>Cras justo odio</li>
-      <li class='list-group-item'>Dapibus ac facilisis in</li>
-      <li class='list-group-item'>Morbi leo risus</li>
-      <li class='list-group-item'>Porta ac consectetur ac</li>
-      <li class='list-group-item'>Vestibulum at eros</li>
+    <ul className='list-group list-group-flush scrollable'>
+      {generateMessages()}
     </ul>
   );
 }
