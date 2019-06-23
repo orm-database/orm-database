@@ -5,6 +5,9 @@
   "scripts": {
     "start": "nodemon server.js",
     "build": "npm run build --prefix ./client",
+    "test": "npm test --prefix ./client",
+    "test-cover": "npm run test-cover --prefix ./client",
+    "coveralls": "cat ./client/coverage/lcov.info | node node_modules/.bin/coveralls",
     "dev": "concurrently \"npm start\" \"npm run client-start\"",
     "client-install": "npm install --prefix ./client",
     "client-start": "npm start --prefix ./client",
@@ -27,6 +30,7 @@
     "nodemon": "^1.19.1"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.15"
+    "@types/jest": "^24.0.15",
+    "coveralls": "^3.0.4"
   }
 }

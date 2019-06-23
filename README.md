@@ -1,5 +1,6 @@
 # orm-database
 ![build status](https://travis-ci.org/orm-database/orm-database.svg?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/orm-database/orm-database/badge.svg?branch=master)](https://coveralls.io/github/orm-database/orm-database?branch=master)
 
 ## Getting Started
 
