@@ -5,7 +5,7 @@ import { APP_NAME } from '../../utilities/constants';
 
 function NavbarBrand() {
   return (
-    <a class="navbar-brand" href="#">{APP_NAME}</a>
+    <a className="navbar-brand" href="#">{APP_NAME}</a>
   );
 }
 
