@@ -1,0 +1,12 @@
+.list-group-item {
+  background: none;
+}
+
+.selected {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.not-selected {
+  font-weight: 300;
+}

@@ -1,4 +1,10 @@
 .group-menu {
   height: calc(100vh - 56px);
-  background-color: red;
+  /* background-color: red; */
+  background-image: linear-gradient(#6610f2, #6f42c1);
+}
+
+.channels-container h5,
+.direct-container h5 {
+  font-weight: 300;
 }

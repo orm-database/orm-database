@@ -9,6 +9,10 @@ function Main() {
   const [selectedGroupId, setSelectedGroupId] = useState(null);
 
   // @TODO use pubsub to subscribe to group changes and pass down as appropriate
+  useEffect(() => {
+    // TEST DATA
+    setSelectedGroupId(1);
+  }, []);
 
   const handleGroupChange = (newGroup) => {
     setSelectedGroupId(newGroup);

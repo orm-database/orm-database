@@ -7,6 +7,7 @@ import { CHAT_GROUP_TYPES } from '../../utilities/constants';
 
 function ChatListGroup(props) {
   /* props = {
+    groupType: String - one of CHAT_GROUP_TYPES
     selectedGroupId: Number - group_id of the chat group
   } */
   
@@ -14,7 +15,43 @@ function ChatListGroup(props) {
   const [groups, setGroups] = useState(null);
 
   useEffect(() => {
-    // @TODO grab groups from global state
+    // @TODO grab groups from global state based on props.groupType
+    // TEST DATA
+    let groups = [{
+      group_id: 1,
+      type: CHAT_GROUP_TYPES.group,
+      name: 'Project Team',
+      unread_count: 0
+    }];
+
+    let directs = [
+      {
+        group_id: 2,
+        type: CHAT_GROUP_TYPES.direct,
+        name: 'Justin Louie',
+        unread_count: 2
+      },
+      {
+        group_id: 3,
+        type: CHAT_GROUP_TYPES.direct,
+        name: 'Nigel Phillips',
+        unread_count: 4
+      },
+      {
+        group_id: 4,
+        type: CHAT_GROUP_TYPES.direct,
+        name: 'Daniel Sochor',
+        unread_count: 3
+      }
+    ];
+
+    if (props.groupType === CHAT_GROUP_TYPES.group) {
+      setGroups(groups);
+      setGroupsFetched(true);
+    } else {
+      setGroups(directs);
+      setGroupsFetched(true);
+    }
   }, []);
 
   const generateChatListItems = () => {
@@ -35,7 +72,13 @@ function ChatListGroup(props) {
             let active = props.selectedGroupId === item.group_id;
 
             return (
-              <ChatListItem type={groupTypeVals[groupType]} key={item.group_id} active={active} />
+              <ChatListItem 
+                type={groupTypeVals[groupType]} 
+                name={item.name} 
+                unreadCount={item.unread_count} 
+                active={active} 
+                key={item.group_id} 
+              />
             )
           } else {
             return null;
