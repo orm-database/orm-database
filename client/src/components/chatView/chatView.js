@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './chatView.css';
 
 function ChatView(props) {
@@ -6,6 +6,15 @@ function ChatView(props) {
     selectedGroupId: Number - group_id of the chat group
   } */
 
+  const [messageList, setMessageList] = useState(null);
+
+  useEffect(() => {
+    // @TODO fetch all messages in the group given by props.selectedGroupId
+  }, []);
+
+  const generateMessages = () => {
+    
+  }
 
 
   return (
