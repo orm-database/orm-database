@@ -1,4 +1,4 @@
-.chat-content {
+.chat-view {
   height: calc(100vh - 56px);
-  background-color: blue;
+  /* background-color: blue; */
 }
