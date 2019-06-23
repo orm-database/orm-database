@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './main.css';
 
-function Main() {
-  return (
-    <div className='main-content'>
-      {/* GroupsView - left side, full height */}
+import GroupsView from '../groupsView/groupsView';
 
-      {/* ChatContent - rest of the viewport */}
+function Main() {
+
+  const [selectedGroup, setSelectedGroup] = useState(null);
+
+  return (
+    <div className='container-fluid'>
+      <div className='row'>
+        <GroupsView group={selectedGroup} />
+
+        {/* ChatContent - rest of the viewport */}
+      </div>
     </div>
   );
 }
