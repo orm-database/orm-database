@@ -6,17 +6,19 @@ import ChatContent from '../chatContent/chatContent';
 
 function Main() {
 
-  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [selectedGroupId, setSelectedGroupId] = useState(null);
+
+  // @TODO use pubsub to subscribe to group changes and pass down as appropriate
 
   const handleGroupChange = (newGroup) => {
-    setSelectedGroup(newGroup);
+    setSelectedGroupId(newGroup);
   }
 
   return (
     <div className='container-fluid'>
       <div className='row'>
-        <GroupsView group={selectedGroup} onGroupChange={handleGroupChange} />
-        <ChatContent group={selectedGroup} />
+        <GroupsView selectedGroupId={selectedGroupId} />
+        <ChatContent selectedGroupId={selectedGroupId} />
       </div>
     </div>
   );

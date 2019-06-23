@@ -6,6 +6,9 @@ import ChatListItem from '../chatListItem/chatListItem';
 import { CHAT_GROUP_TYPES } from '../../utilities/constants';
 
 function ChatListGroup(props) {
+  /* props = {
+    selectedGroupId: Number - group_id of the chat group
+  } */
   
   const [groupsFetched, setGroupsFetched] = useState(false);
   const [groups, setGroups] = useState(null);
@@ -29,8 +32,10 @@ function ChatListGroup(props) {
           let groupType = groupTypeVals.indexOf(item.type);
   
           if (groupType >= 0) {
+            let active = props.selectedGroupId === item.group_id;
+
             return (
-              <ChatListItem type={groupTypeVals[groupType]} key={item.group_id} />
+              <ChatListItem type={groupTypeVals[groupType]} key={item.group_id} active={active} />
             )
           } else {
             return null;
