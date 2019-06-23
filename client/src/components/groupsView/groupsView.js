@@ -10,7 +10,7 @@ function GroupsView(props) {
 
   // @TODO will likely need to add logic to distinguish between channels group and direct group
   return (
-    <div className='col-lg-2 p-0 group-menu'>
+    <div className='col-lg-2 p-0 group-menu scrollable'>
       <div className='channels-container mt-1 mb-4'>
         <span>Channels</span>
         <ChatListGroup selectedGroupId={props.selectedGroupId} />
