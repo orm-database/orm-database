@@ -10,7 +10,7 @@ function MessageItem(props) {
   } */
 
   return (
-    <li class='list-group-item'>
+    <li className='list-group-item'>
       <span className='author'>{props.author}: </span>
       <span className='timestamp float-right ml-1 text-muted'>{props.timestamp}</span>
       <span className='content'>{props.content}</span>
