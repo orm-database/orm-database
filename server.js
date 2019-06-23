@@ -19,7 +19,11 @@ app.use(express.json());
 
 app.listen(port);
 
+// ****** IMPORTANT *******
+// Don't create a get route for '/' because heroku will get confused and overwrite the static react files
+// ************************
+
 //@TODO Delete below after you verify the the app is working
-app.route('/').get(function(request, response) {
-    response.json(config);
-});
+// app.route('/').get(function(request, response) {
+//     response.json(config);
+// });
