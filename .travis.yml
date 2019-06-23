@@ -10,6 +10,6 @@ install:
   - npm run setup
 script:
   - npm test -- --coverage --watchAll=false
-  - npm run build
+  - CI=false npm run build
 after_success:
   - npm run coveralls
