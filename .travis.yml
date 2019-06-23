@@ -8,3 +8,8 @@ cache:
   - node_modules
 install:
   - npm install
+script:
+  - npm test -- --coverage --watchAll=false
+  - npm run build
+after_success:
+  - npm run coveralls
