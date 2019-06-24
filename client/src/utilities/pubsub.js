@@ -1,6 +1,8 @@
 var PubSub = {};
 
 (function(obj) {
+  var obs = {};
+  
   obj.publish = (notif, data) => {
     if (!obs[notif]) {
       return false;
