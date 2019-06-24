@@ -20,5 +20,6 @@ export const NOTIF = {
 // @TODO change these to match what the backend engineers go with
 export const API = {
   signin: '/api/signin',
-  signup: '/api/signup'
-}
+  signup: '/api/signup',
+  signout: '/api/signout'
+};
