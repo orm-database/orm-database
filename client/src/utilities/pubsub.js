@@ -1,8 +1,8 @@
-var PubSub = {};
+var Pubsub = {};
 
 (function(obj) {
   var obs = {};
-  
+
   obj.publish = (notif, data) => {
     if (!obs[notif]) {
       return false;
@@ -37,6 +37,6 @@ var PubSub = {};
       }
     }
   };
-})(PubSub);
+})(Pubsub);
 
-export default PubSub;
+export default Pubsub;
