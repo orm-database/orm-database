@@ -1,38 +1,38 @@
 var Pubsub = {};
 
 (function(obj) {
-  var obs = {};
+  var observers = {};
 
   obj.publish = (notif, data) => {
-    if (!obs[notif]) {
+    if (!observers[notif]) {
       return false;
     }
 
-    let subs = obs[notif];
+    let subs = observers[notif];
 
-    for (var sub of subs) {
-      sub.callback(data);
+    for (var subscriber of subs) {
+      subscriber.callback(data);
     }
   };
 
-  obj.subscribe = (notif, sub, cb) => {
-    if (!obs[notif]) {
-      obs[notif] = [];
+  obj.subscribe = (notif, subscriber, cb) => {
+    if (!observers[notif]) {
+      observers[notif] = [];
     }
 
-    obs[notif].push({
-      observer: sub,
+    observers[notif].push({
+      observer: subscriber,
       callback: cb
     });
   };
 
-  obj.unsubscribe = (notif, sub) => {
-    let subs = obs[notif];
+  obj.unsubscribe = (notif, subscriber) => {
+    let subs = observers[notif];
 
     for (var i in subs) {
-      if (subs[i].observer === sub) {
+      if (subs[i].observer === subscriber) {
         subs.splice(i, 1);
-        obs[notif] = subs;
+        observers[notif] = subs;
         return;
       }
     }
