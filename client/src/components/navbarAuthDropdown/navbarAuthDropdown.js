@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './navbarAuthDropdown.css';
 
 import Pubsub from '../../utilities/pubsub';
-import { NOTIF } from '../../utilities/notif';
+import { NOTIF } from '../../utilities/constants';
 
 function NavbarAuthDropdown(props) {
 
