@@ -1,14 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import './navbarAuthDropdown.css';
 
+import Pubsub from '../../utilities/pubsub';
+import { NOTIF } from '../../utilities/notif';
+
 function NavbarAuthDropdown(props) {
 
   const [authenticated, setAuthenticated] = useState(false);
 
   // @TODO check local storage for session token and try to sign in if it exists
-  // useEffect(() => {
-    
-  // }, []);
+  useEffect(() => {
+    Pubsub.subscribe(NOTIF.SIGN_IN, this, handleSignin);
+    Pubsub.subscribe(NOTIF.SIGN_OUT, this, handleSignout);
+
+
+
+    return (() => {
+      Pubsub.unsubscribe(NOTIF.SIGN_IN, this);
+      Pubsub.unsubscribe(NOTIF.SIGN_OUT, this);
+    });
+  }, []);
+
+  // Do not need to verify authentication because the auth object will verify before sending a notification through pubsub
+  const handleSignin = () => {
+    setAuthenticated(true);
+  }
+
+  const handleSignout = () => {
+    setAuthenticated(false);
+  }
 
   const generateDropdownMenuContent = () => {
     let menuContent;
@@ -17,7 +37,6 @@ function NavbarAuthDropdown(props) {
       menuContent = generateAuthenticatedMenu();
     } else {
       menuContent = generateGenericMenu();
-      console.log(typeof menuContent);
     }
 
     return (
