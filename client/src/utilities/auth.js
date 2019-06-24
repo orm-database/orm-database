@@ -45,6 +45,7 @@ var Auth = {};
       }
     }).then(response => {
       if (response.status == 200) {
+        user = {};
         Pubsub.publish(NOTIF.SIGN_OUT, null);
       } else {
         // @TODO not sure what to do in a .then handler here
