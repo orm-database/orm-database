@@ -2,6 +2,7 @@ require('dotenv').config();
 
 var express = require('express');
 var app = express();
+var io = require('socket.io')(app);
 
 const path = require('path');
 const env = process.env.NODE_ENV || 'development';
