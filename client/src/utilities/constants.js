@@ -13,7 +13,8 @@ export const CHAT_GROUP_TYPES = {
 export const NOTIF = {
   SIGN_IN: 'signin',
   SIGN_UP: 'signup',
-  SIGN_OUT: 'signout'
+  SIGN_OUT: 'signout',
+  MESSAGES_RECEIVED: 'messages_received'
 };
 
 // API routes
@@ -21,5 +22,9 @@ export const NOTIF = {
 export const API = {
   signin: '/api/signin',
   signup: '/api/signup',
-  signout: '/api/signout'
+  signout: '/api/signout',
+  create: '/api/create',
+  join: '/api/join',
+  sendMessage: '/api/send',
+  getMessages: '/api/get/'
 };
