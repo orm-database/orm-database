@@ -5,6 +5,18 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
+io.on('connection', () =>{
+    console.log('a user is connected');
+})
+
+//io.on('connection', function (socket) {
+  //  console.log('a user connected');
+    //socket.emit('news', {hello: 'world'});
+    //socket.on('my other event', function (data){
+    //    console.log(data);
+    //});
+//});
+
 const path = require('path');
 const env = process.env.NODE_ENV || 'development';
 const reactConfig = require(path.join(__dirname, '/config/config.static.json'))[env];
@@ -26,13 +38,7 @@ app.listen(port);
 // ************************
 
 //@TODO Delete below after you verify the the app is working
-// app.route('/').get(function(request, response) {
-//     response.json(config);
+//app.route('/').get(function(request, response) {
+//   response.json(config);
 // });
 
-io.on('connection', function (socket) {
-    socket.emit('news', {hello: 'world'});
-    socket.on('my other event', function (data){
-        console.log(data);
-    });
-});
