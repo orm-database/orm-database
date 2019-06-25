@@ -2,7 +2,8 @@ require('dotenv').config();
 
 var express = require('express');
 var app = express();
-var io = require('socket.io')(app);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 const path = require('path');
 const env = process.env.NODE_ENV || 'development';
@@ -28,3 +29,10 @@ app.listen(port);
 // app.route('/').get(function(request, response) {
 //     response.json(config);
 // });
+
+io.on('connection', function (socket) {
+    socket.emit('news', {hello: 'world'});
+    socket.on('my other event', function (data){
+        console.log(data);
+    });
+});
