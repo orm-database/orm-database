@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 var express = require('express');
+const socketIO = require('socket.io');
 var app = express();
 
 const path = require('path');
@@ -20,7 +21,10 @@ app.use(express.json());
 // Routes
 require("./routes/api-routes")(app);
 
-app.listen(port);
+const server = app.listen(port);
+
+const io = socketIO(server);
+require('./middleware/socket')(io);
 
 // ****** IMPORTANT *******
 // Don't create a get route for '/' because heroku will get confused and overwrite the static react files

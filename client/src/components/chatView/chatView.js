@@ -3,6 +3,8 @@ import './chatView.css';
 
 import MessageItem from '../messageItem/messageItem';
 
+import Data from '../../utilities/data';
+
 function ChatView(props) {
   /* props = {
     selectedGroupId: Number - group_id of the chat group
