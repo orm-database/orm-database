@@ -1,5 +1,5 @@
 // Dependencies
-const hashpass = require('hashPass');
+const hashpass = require('hashpass');
 
 let users = {
     // Create a user
