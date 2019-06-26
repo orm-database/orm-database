@@ -3,11 +3,20 @@ import Pubsub from './pubsub';
 import Auth from './auth';
 import { API, NOTIF } from './constants';
 
+const io = require('socket.io-client');
+
 var Data = {};
 
-(function(obj) {
+(function (obj) {
   var channels = {};
   var currentMessages = {};
+
+  // SOCKET IO TEST
+  var socket = io();
+
+  socket.on('time', function (timeString) {
+    console.log(timeString);
+  });
 
   // @TODO create a listener function for new messages on the current channel
   // socket.io client library?
