@@ -3,7 +3,7 @@ const hashpass = require('hashpass');
 
 let users = {
     // Create a user
-    create: (req, callback) => {
+    create: (req, res) => {
         if (!req.body.email_address.includes('@') || !req.body.email_address.includes('.')) {
             res.status(400).json({ 'error': 'email is not valid' });
         } else if (req.body.password !== req.body.password_confirm) {
@@ -16,7 +16,7 @@ let users = {
                 salt: hashedPassword.salt
             };
 
-            callback(userRequest);
+            res.json(userRequest);
         }
     }
 };
