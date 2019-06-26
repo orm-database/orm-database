@@ -15,8 +15,11 @@ var port = process.env.PORT || 9000;
 var config = require('./config/config');
 
 app.use(express.static(path.join(__dirname, reactConfig))); // serving react files
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Routes
+require("./routes/api-routes")(app);
 
 const server = app.listen(port);
 
@@ -26,8 +29,3 @@ require('./middleware/socket')(io);
 // ****** IMPORTANT *******
 // Don't create a get route for '/' because heroku will get confused and overwrite the static react files
 // ************************
-
-//@TODO Delete below after you verify the the app is working
-// app.route('/').get(function(request, response) {
-//     response.json(config);
-// });
