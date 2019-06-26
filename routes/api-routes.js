@@ -1,24 +1,23 @@
 // Dependencies
+const users = require('../controllers/users-controller');
 
 // Routes
 module.exports = app => {
-    // POST route for users
+    // POST route for creating a user
     app.post('/api/users', (req, res) => {
-        let payload = req.body;
+        users.create(req, respsonse => {
+            console.log('API routes response:');
+            console.log(respsonse);
 
-        console.log('API routes response:');
-        console.log(payload);
-
-        res.json(payload);
+            res.json(respsonse);
+        });
     });
 
     // POST route for messages
     app.post('/api/messages', (req, res) => {
-        let payload = req.body;
-
         console.log('API routes response:');
-        console.log(payload);
+        console.log(req.body);
 
-        res.json(payload);
+        res.json(req.body);
     });
 };
