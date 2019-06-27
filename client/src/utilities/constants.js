@@ -29,3 +29,10 @@ export const API = {
   sendMessage: '/api/send',
   getMessages: '/api/get/'
 };
+
+// Auth modal types
+// Doubly purposed to be the text displayed at the top of the modal
+export const AUTH_MODAL_TYPES = {
+  signin: 'Sign In',
+  signup: 'Sign Up'
+};
