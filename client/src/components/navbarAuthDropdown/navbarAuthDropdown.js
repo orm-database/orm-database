@@ -30,6 +30,11 @@ function NavbarAuthDropdown(props) {
     setAuthenticated(false);
   }
 
+  const toggleModal = () => {
+    console.log('toggle modal fired');
+    Pubsub.publish(NOTIF.MODAL_TOGGLE, null);
+  }
+
   const generateDropdownMenuContent = () => {
     let menuContent;
 
@@ -57,9 +62,9 @@ function NavbarAuthDropdown(props) {
     // @TODO add onClicks to the buttons
     return (
       <div className='d-flex justify-content-center flex-column'>
-        <button type='button' className='btn btn-primary mx-2'>Sign In</button>
+        <button type='button' className='btn btn-primary mx-2' onClick={toggleModal}>Sign In</button>
         {/* <div className="dropdown-divider"></div> */}
-        <button type='button' className='btn btn-link'>Create an Account</button>
+        <button type='button' className='btn btn-link' onClick={toggleModal}>Create an Account</button>
       </div>
     );
   }
