@@ -4,7 +4,7 @@ import './authModal.css';
 import Modal from 'react-modal';
 
 import Pubsub from '../../utilities/pubsub';
-import NOTIF from '../../utilities/constants';
+import { NOTIF } from '../../utilities/constants';
 
 const customStyles = {
   content : {
@@ -64,12 +64,13 @@ function AuthModal(props) {
       onRequestClose={closeModal}
       style={customStyles}
       contentLabel='Auth Modal'
+      ariaHideApp={false}
     >
       <label>Email:</label>
       <input type='text' value={emailVal} placeholder='Email Address' onChange={handleEmailChange}></input>
       <label>Password</label>
       <input type='password' value={passwordVal} placeholder='Password' onChange={handlePasswordChange}></input>
-      <input type='submit' onSubmit={authSubmit}>Submit</input>
+      <input type='submit' onClick={authSubmit} value='Submit'></input>
     </Modal>
   )
 }
