@@ -11,6 +11,7 @@ export const CHAT_GROUP_TYPES = {
 
 // Notification strings for pubsub
 export const NOTIF = {
+  MODAL_TOGGLE: 'modal_toggle',
   SIGN_IN: 'signin',
   SIGN_UP: 'signup',
   SIGN_OUT: 'signout',
