@@ -91,6 +91,13 @@ let getUserById = function (req, res) {
     });
 };
 
+// Delete a user
+let deleteUser = function (req, res) {
+    users.delete(req.params.id, function (err, result) {
+        res.status(200).json({ 'message': 'user deleted successfully' });
+    });
+};
+
 // Update the user from the SELECT query with a session_token
 let handleLogin = function (req, res, err, result) {
     if (err) {
@@ -120,5 +127,6 @@ module.exports = {
     login: login,
     logout: logout,
     get: getUsers,
-    getUserById: getUserById
+    getUserById: getUserById,
+    delete: deleteUser
 };

@@ -29,6 +29,11 @@ module.exports = function (app) {
         users.getUserById(req, res);
     });
 
+    // DELETE route for deleting a user
+    app.delete('/api/users/:id', function (req, res) {
+        users.delete(req, res);
+    });
+
     // POST route for messages
     app.post('/api/messages', function (req, res) {
         console.log('API routes response:');

@@ -138,6 +138,14 @@ let users = {
 
         orm.select(query, cb);
     },
+    delete: function (user_id, cb) {
+        let query = {
+            table: 'users',
+            where: [{ user_id }]
+        };
+
+        orm.delete(query, cb);
+    },
     updateSession: function (email, uuid, cb) {
         let query = {
             table: 'users',
