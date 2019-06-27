@@ -1,13 +1,7 @@
 var mysql = require("mysql");
-var config = require(__dirname + "/../config.json")[process.env.APP_ENV || 'local'];
 
-var connection = mysql.createConnection({
-    user: config.user,
-    password: config.password,
-    host: config.host,
-    port: config.port,
-    database: config.database
-});
+var config = require('./config');
+var connection = mysql.createConnection(config.mysql.url);
 
 connection.connect(function (error) {
     if (error) throw error;

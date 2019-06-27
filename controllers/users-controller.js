@@ -1,7 +1,8 @@
 // Dependencies
-const hashpass = require('hashpass');
+let hashpass = require('hashpass');
+let users = require('../models/user');
 
-let users = {
+let usersController = {
     // Create a user
     create: (req, res) => {
         if (!req.body.email_address.includes('@') || !req.body.email_address.includes('.')) {
@@ -11,12 +12,30 @@ let users = {
         } else {
             let hashedPassword = hashpass(req.body.password);
             let userRequest = {
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
                 email_address: req.body.email_address,
+                alias: req.body.alias,
                 password: hashedPassword.hash,
-                salt: hashedPassword.salt
+                salt: hashedPassword.salt,
+                session_token: 'abcdefg', // @TODO replace placeholder
+                created: req.body.created
             };
-
-            res.status(200).json(userRequest);
+            users.createUser(userRequest, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    if (err.sqlMessage.includes('Duplicate')) {
+                        res.status(400).json({ 'error': 'email already exists in system' });
+                    } else {
+                        res.status(500).json({ 'error': 'oops we did something bad' });
+                    }
+                } else {
+                    res.status(200).json({
+                        user_id: result.insertId,
+                        email: userRequest.email_address
+                    });
+                }
+            });
         }
     },
     // Log in as a user
@@ -39,4 +58,4 @@ let users = {
     }
 };
 
-module.exports = users;
+module.exports = usersController;

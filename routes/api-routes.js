@@ -1,5 +1,5 @@
 // Dependencies
-const users = require('../controllers/users-controller');
+let users = require('../controllers/users-controller');
 
 // Routes
 module.exports = app => {

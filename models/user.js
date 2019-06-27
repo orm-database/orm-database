@@ -6,7 +6,7 @@ let users = {
     //         cb(res);
     //     });
     // },
-    
+
     selectUser: function (cb) {
         orm.selectUser(['user_id', 'first_name', 'last_name'], 'users', function (res) {
             cb(res);
@@ -51,9 +51,9 @@ let users = {
         };
         orm.insert(query, function (error, data) {
             if (error) {
-                console.log(error.code +' - ' +error.sqlMessage);
+                console.log(error.code + ' - ' + error.sqlMessage);
             }
-            cb(data);
+            cb(error, data);
         });
     },
     deleteUser: function (user_id, cb) {
