@@ -4,6 +4,7 @@ import './navbar.css';
 // Component imports
 import NavbarBrand from '../navbarBrand/navbarBrand';
 import NavbarAuthDropdown from '../navbarAuthDropdown/navbarAuthDropdown';
+import AuthModal from '../authModal/authModal';
 
 function Header() {
 
@@ -20,6 +21,7 @@ function Header() {
           <NavbarAuthDropdown />
         </ul>
       </div>
+      <AuthModal />
     </nav>
   );
 }
