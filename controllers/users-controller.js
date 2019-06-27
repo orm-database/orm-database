@@ -1,61 +1,91 @@
 // Dependencies
 let hashpass = require('hashpass');
+let uuidv1 = require('uuid/v1');
 let users = require('../models/user');
 
-let usersController = {
-    // Create a user
-    create: (req, res) => {
-        if (!req.body.email_address.includes('@') || !req.body.email_address.includes('.')) {
-            res.status(400).json({ 'error': 'email is not valid' });
-        } else if (req.body.password !== req.body.password_confirm) {
-            res.status(400).json({ 'error': 'passwords do not match' });
-        } else {
-            let hashedPassword = hashpass(req.body.password);
-            let userRequest = {
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
-                email_address: req.body.email_address,
-                alias: req.body.alias,
-                password: hashedPassword.hash,
-                salt: hashedPassword.salt,
-                session_token: 'abcdefg', // @TODO replace placeholder
-                created: req.body.created
-            };
-            users.createUser(userRequest, (err, result) => {
-                if (err) {
-                    console.log(err);
-                    if (err.sqlMessage.includes('Duplicate')) {
-                        res.status(400).json({ 'error': 'email already exists in system' });
-                    } else {
-                        res.status(500).json({ 'error': 'oops we did something bad' });
-                    }
+// Create a user
+let create = (req, res) => {
+    if (!req.body.email_address.includes('@') || !req.body.email_address.includes('.')) {
+        res.status(400).json({ 'error': 'email is not valid' });
+    } else if (req.body.password !== req.body.password_confirm) {
+        res.status(400).json({ 'error': 'passwords do not match' });
+    } else {
+        let hashedPassword = hashpass(req.body.password);
+        let userRequest = {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            email_address: req.body.email_address,
+            alias: req.body.alias,
+            password: hashedPassword.hash,
+            salt: hashedPassword.salt,
+            session_token: 'abcdefg', // @TODO replace placeholder
+            created: req.body.created
+        };
+        users.createUser(userRequest, (err, result) => {
+            if (err) {
+                console.log(err);
+                if (err.sqlMessage.includes('Duplicate')) {
+                    res.status(400).json({ 'error': 'email already exists in system' });
                 } else {
-                    res.status(200).json({
-                        user_id: result.insertId,
-                        email: userRequest.email_address
-                    });
+                    res.status(500).json({ 'error': 'oops we did something bad' });
                 }
-            });
-        }
-    },
-    // Log in as a user
-    login: (req, res) => {
-        let hashedPassword = hashpass(req.body.password); // Placeholder for confirming password
-        let password = hashedPassword.hash; // Placeholder for confirming password
-        let failAttempt = false; // Placeholder for testing unmatched password
-
-        loginAttempt = hashpass(req.body.password, hashedPassword.salt);
-        if ((loginAttempt.hash === password) &&
-            (!failAttempt)) {
-            res.status(200).json({ alias: req.body.alias });
-        } else {
-            res.status(401).json({ 'error': 'improper login credentials' });
-        }
-    },
-    // Log out as a user
-    logout: (req, res) => {
-        res.json({ 'message': 'user logged out successfully' });
+            } else {
+                res.status(200).json({
+                    user_id: result.insertId,
+                    email: userRequest.email_address
+                });
+            }
+        });
     }
 };
 
-module.exports = usersController;
+// Log in as a user
+let login = (req, res) => {
+
+    if (req.body.email_address === undefined) {
+
+        users.selectByAlias(req.body.alias, (err, result) => {
+            handleLogin(req, res, err, result);
+        });
+    }
+    else {
+        users.selectByEmail(req.body.email_address, (err, result) => {
+            handleLogin(req, res, err, result);
+        });
+    }
+};
+
+// Log out as a user
+let logout = (req, res) => {
+    res.status(200).json({ 'message': 'user logged out successfully' });
+};
+
+// Update the user from the SELECT query with a session_token
+let handleLogin = (req, res, err, result) => {
+    if (err) {
+        console.log(err);
+        res.status(500).json({ 'error': 'oops we did something bad' });
+    } else if (!result.length) {
+        res.status(404).json({ 'error': 'user not found' });
+    } else {
+        let user = result[0];
+        loginAttempt = hashpass(req.body.password, user.salt);
+        if (loginAttempt.hash === user.password) {
+            let uuid = uuidv1();
+            users.updateSession(user.email_address, uuid, (error, queryResult) => {
+                delete user.password;
+                delete user.salt;
+                delete user.session_token;
+                res.header('x-session-token', uuid).status(200).json(user);
+            });
+        } else {
+            res.status(401).json({ 'error': 'improper login credentials' });
+        }
+    }
+};
+
+module.exports = {
+    create: create,
+    login: login,
+    logout: logout
+};

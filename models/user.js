@@ -72,6 +72,31 @@ let users = {
         });
     },
 
+    selectByEmail: function (email, cb) {
+        let query = {
+            table: 'users',
+            where: [{ email_address: email.toLowerCase() }]
+        };
+
+        orm.select(query, cb);
+    },
+    selectByAlias: function (alias, cb) {
+        let query = {
+            table: 'users',
+            where: [{ alias }]
+        };
+
+        orm.select(query, cb);
+    },
+    updateSession: function (email, uuid, cb) {
+        let query = {
+            table: 'users',
+            data: { session_token: uuid },
+            where: [{ email_address: email.toLowerCase() }]
+        };
+
+        orm.update(query, cb);
+    }
 };
 
 // Export the database functions for the controller (catsController.js).
