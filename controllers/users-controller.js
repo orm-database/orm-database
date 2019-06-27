@@ -16,8 +16,26 @@ let users = {
                 salt: hashedPassword.salt
             };
 
-            res.json(userRequest);
+            res.status(200).json(userRequest);
         }
+    },
+    // Log in as a user
+    login: (req, res) => {
+        let hashedPassword = hashpass(req.body.password); // Placeholder for confirming password
+        let password = hashedPassword.hash; // Placeholder for confirming password
+        let failAttempt = false; // Placeholder for testing unmatched password
+
+        loginAttempt = hashpass(req.body.password, hashedPassword.salt);
+        if ((loginAttempt.hash === password) &&
+            (!failAttempt)) {
+            res.status(200).json({ alias: req.body.alias });
+        } else {
+            res.status(401).json({ 'error': 'improper login credentials' });
+        }
+    },
+    // Log out as a user
+    logout: (req, res) => {
+        res.json({ 'message': 'user logged out successfully' });
     }
 };
 
