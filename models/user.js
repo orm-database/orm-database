@@ -96,7 +96,16 @@ let users = {
         };
 
         orm.update(query, cb);
-    }
+    },
+    removeSession: function (session, cb) {
+        let query = {
+            table: 'users',
+            data: { session_token: null },
+            where: [{ session_token: session }]
+        };
+
+        orm.update(query, cb);
+    },
 };
 
 // Export the database functions for the controller (catsController.js).

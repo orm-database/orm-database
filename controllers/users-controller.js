@@ -57,7 +57,9 @@ let login = (req, res) => {
 
 // Log out as a user
 let logout = (req, res) => {
-    res.status(200).json({ 'message': 'user logged out successfully' });
+    users.removeSession(req.headers['x-session-token'], (error, result) => {
+        res.status(200).json({ 'message': 'user logged out successfully' });
+    });
 };
 
 // Update the user from the SELECT query with a session_token
