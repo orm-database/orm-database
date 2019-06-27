@@ -4,7 +4,7 @@ let uuidv1 = require('uuid/v1');
 let users = require('../models/user');
 
 // Create a user
-let create = (req, res) => {
+let create = function (req, res) {
     if (!req.body.email_address.includes('@') || !req.body.email_address.includes('.')) {
         res.status(400).json({ 'error': 'email is not valid' });
     } else if (req.body.password !== req.body.password_confirm) {
@@ -21,7 +21,7 @@ let create = (req, res) => {
             session_token: 'abcdefg', // @TODO replace placeholder
             created: req.body.created
         };
-        users.createUser(userRequest, (err, result) => {
+        users.createUser(userRequest, function (err, result) {
             if (err) {
                 console.log(err);
                 if (err.sqlMessage.includes('Duplicate')) {
@@ -40,30 +40,59 @@ let create = (req, res) => {
 };
 
 // Log in as a user
-let login = (req, res) => {
+let login = function (req, res) {
 
     if (req.body.email_address === undefined) {
 
-        users.selectByAlias(req.body.alias, (err, result) => {
+        users.selectByAlias(req.body.alias, function (err, result) {
             handleLogin(req, res, err, result);
         });
     }
     else {
-        users.selectByEmail(req.body.email_address, (err, result) => {
+        users.selectByEmail(req.body.email_address, function (err, result) {
             handleLogin(req, res, err, result);
         });
     }
 };
 
 // Log out as a user
-let logout = (req, res) => {
-    users.removeSession(req.headers['x-session-token'], (error, result) => {
+let logout = function (req, res) {
+    users.removeSession(req.headers['x-session-token'], function (err, result) {
         res.status(200).json({ 'message': 'user logged out successfully' });
     });
 };
 
+// Fetch one user by session_token or all users
+let getUsers = function (req, res) {
+    if (req.headers['x-session-token']) {
+
+        users.selectBySession(req.headers['x-session-token'], function (err, result) {
+            if (result.length) {
+                res.status(200).json(result[0]);
+            } else {
+                res.status(404).json({ 'error': 'user not found' });
+            }
+        });
+    } else {
+        users.selectAll(function (err, result) {
+            res.status(200).json({ data: result });
+        });
+    }
+};
+
+// Fetch one user by ID
+let getUserById = function (req, res) {
+    users.selectById(req.params.id, function (err, result) {
+        if (result.length) {
+            res.status(200).json(result[0]);
+        } else {
+            res.status(404).json({ 'error': 'user not found' });
+        }
+    });
+};
+
 // Update the user from the SELECT query with a session_token
-let handleLogin = (req, res, err, result) => {
+let handleLogin = function (req, res, err, result) {
     if (err) {
         console.log(err);
         res.status(500).json({ 'error': 'oops we did something bad' });
@@ -74,7 +103,7 @@ let handleLogin = (req, res, err, result) => {
         loginAttempt = hashpass(req.body.password, user.salt);
         if (loginAttempt.hash === user.password) {
             let uuid = uuidv1();
-            users.updateSession(user.email_address, uuid, (error, queryResult) => {
+            users.updateSession(user.email_address, uuid, function (error, queryResult) {
                 delete user.password;
                 delete user.salt;
                 delete user.session_token;
@@ -89,5 +118,7 @@ let handleLogin = (req, res, err, result) => {
 module.exports = {
     create: create,
     login: login,
-    logout: logout
+    logout: logout,
+    get: getUsers,
+    getUserById: getUserById
 };

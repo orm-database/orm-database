@@ -88,6 +88,56 @@ let users = {
 
         orm.select(query, cb);
     },
+    selectAll: function (cb) {
+        let query = {
+            columns: [
+                'user_id',
+                'first_name',
+                'last_name',
+                'email_address',
+                'alias',
+                'session_token',
+                'created',
+                'updated'],
+            table: 'users'
+        };
+
+        orm.select(query, cb);
+    },
+    selectById: function (user_id, cb) {
+        let query = {
+            columns: [
+                'user_id',
+                'first_name',
+                'last_name',
+                'email_address',
+                'alias',
+                'session_token',
+                'created',
+                'updated'],
+            table: 'users',
+            where: [{ user_id }]
+        };
+
+        orm.select(query, cb);
+    },
+    selectBySession: function (session_token, cb) {
+        let query = {
+            columns: [
+                'user_id',
+                'first_name',
+                'last_name',
+                'email_address',
+                'alias',
+                'session_token',
+                'created',
+                'updated'],
+            table: 'users',
+            where: [{ session_token }]
+        };
+
+        orm.select(query, cb);
+    },
     updateSession: function (email, uuid, cb) {
         let query = {
             table: 'users',
