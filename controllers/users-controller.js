@@ -32,6 +32,10 @@ let users = {
         } else {
             res.status(401).json({ 'error': 'improper login credentials' });
         }
+    },
+    // Log out as a user
+    logout: (req, res) => {
+        res.json({ 'message': 'user logged out successfully' });
     }
 };
 

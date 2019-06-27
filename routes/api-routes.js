@@ -13,6 +13,11 @@ module.exports = app => {
         users.login(req, res);
     });
 
+    // POST route for user login
+    app.delete('/api/users/login', (req, res) => {
+        users.logout(req, res);
+    });
+
     // POST route for messages
     app.post('/api/messages', (req, res) => {
         console.log('API routes response:');
