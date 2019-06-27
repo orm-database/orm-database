@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS ormDB;
 CREATE DATABASE ormDB;
 
 USE ormDB;
-select 'create users';
+select 'create users - begin';
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(50) NOT NULL,
@@ -20,8 +20,10 @@ ALTER TABLE users
 	ADD CONSTRAINT unique_alias UNIQUE KEY(`alias`);
 ALTER TABLE users
 	ADD CONSTRAINT unique_email UNIQUE KEY(`email_address`);
+select 'create users - end';
 
-select 'create messages';
+
+select 'create messages - begin';
 CREATE TABLE `messages` (
   `message_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -29,68 +31,71 @@ CREATE TABLE `messages` (
   `message_time` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (`message_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-ALTER TABLE `messages` ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) 
+ALTER TABLE `messages` ADD CONSTRAINT `fk_message_users_user_id` FOREIGN KEY (`user_id`) 
     REFERENCES `users` (`user_id`);
+select 'create messages - end';
 
 
-select 'create channels';
+select 'create channels - begin';
 CREATE TABLE `channels` (
   `channel_id` int(11) NOT NULL AUTO_INCREMENT,
   `channel_name` varchar(50),
   PRIMARY KEY (`channel_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+select 'create channels - end';
 
 
-select 'create channel_details';
-CREATE TABLE `channel_details` (
+select 'create channel_user - begin';
+CREATE TABLE `channel_user` (
   `channel_id` int(11),
   `user_id` int(11) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-ALTER TABLE `channel_details` ADD CONSTRAINT `channel_id` FOREIGN KEY (`channel_id`) 
+ALTER TABLE `channel_user` ADD CONSTRAINT `fk_channel_user_channels_channel_id` FOREIGN KEY (`channel_id`) 
     REFERENCES `channels` (`channel_id`);
-ALTER TABLE `channel_details` ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) 
+ALTER TABLE `channel_user` ADD CONSTRAINT `fk_channel_user_users_user_id` FOREIGN KEY (`user_id`) 
     REFERENCES `users` (`user_id`);
+select 'create channel_user - end';
 
 
-select 'create dm_groups';
-CREATE TABLE `dm_groups` (
-  `dm_group_id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`dm_group_id`)
+select 'create direct_groups - begin';
+CREATE TABLE `direct_groups` (
+  `direct_group_id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`direct_group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+select 'create direct_groups - end';
 
 
-select 'create dm_group_detail';
-CREATE TABLE `dm_group_detail` (
-  `dm_group_id` int(11),
+select 'create direct_group_user - begin';
+CREATE TABLE `direct_group_user` (
+  `direct_group_id` int(11),
   `user_id` int(11) DEFAULT NULL
---       PRIMARY KEY (`dm_group_id`)
-
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-ALTER TABLE `dm_group_detail` ADD CONSTRAINT `dm_group_id` FOREIGN KEY (`dm_group_id`) 
-    REFERENCES `dm_groups` (`dm_group_id`);
-ALTER TABLE `dm_group_detail` ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) 
+ALTER TABLE `direct_group_user` ADD CONSTRAINT `fk_direct_group_group_id` FOREIGN KEY (`direct_group_id`) 
+    REFERENCES `direct_groups` (`direct_group_id`);
+ALTER TABLE `direct_group_user` ADD CONSTRAINT `fk_direct_group_user_user_id` FOREIGN KEY (`user_id`) 
     REFERENCES `users` (`user_id`);
+select 'create direct_group_user - end';
 
-select 'create direct_message';
-CREATE TABLE `direct_message` (
-  `dm_group_id` int(11),
+
+select 'create direct_message - begin';
+CREATE TABLE `direct_group_message` (
+  `direct_group_id` int(11),
   `message_id` int(11)
---       PRIMARY KEY (`dm_group_id`)
-
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-ALTER TABLE `direct_message` ADD CONSTRAINT `dm_group_id` FOREIGN KEY (`dm_group_id`) 
-    REFERENCES `dm_group_detail` (`dm_group_id`);
-ALTER TABLE `direct_message` ADD CONSTRAINT `message_id` FOREIGN KEY (`message_id`) 
+ALTER TABLE `direct_group_message` ADD CONSTRAINT `fk_group_message_user` FOREIGN KEY (`direct_group_id`) 
+    REFERENCES `direct_group_user` (`direct_group_id`);
+ALTER TABLE `direct_group_message` ADD CONSTRAINT `fk_direct_group_message` FOREIGN KEY (`message_id`) 
     REFERENCES `messages` (`message_id`);
+select 'create direct_message - end';
 
-select 'create channel_message';
+
+select 'create channel_message - begin';
 CREATE TABLE `channel_message` (
   `channel_id` int(11),
   `message_id` int(11)
---     PRIMARY KEY (`channel_id`)
-
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-ALTER TABLE `channel_message` ADD CONSTRAINT `channel_id` FOREIGN KEY (`channel_id`) 
+ALTER TABLE `channel_message` ADD CONSTRAINT `fk_channel_message_channel_id` FOREIGN KEY (`channel_id`) 
     REFERENCES `channels` (`channel_id`);
-ALTER TABLE `channel_message` ADD CONSTRAINT `message_id` FOREIGN KEY (`message_id`) 
+ALTER TABLE `channel_message` ADD CONSTRAINT `fk_channel_message_message_message_id` FOREIGN KEY (`message_id`) 
     REFERENCES `messages` (`message_id`);
+select 'create channel_message - end';
