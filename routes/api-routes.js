@@ -5,12 +5,7 @@ const users = require('../controllers/users-controller');
 module.exports = app => {
     // POST route for creating a user
     app.post('/api/users', (req, res) => {
-        users.create(req, respsonse => {
-            console.log('API routes response:');
-            console.log(respsonse);
-
-            res.json(respsonse);
-        });
+        users.create(req, res)
     });
 
     // POST route for messages
