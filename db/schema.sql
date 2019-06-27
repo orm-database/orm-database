@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS group_project2;
-CREATE DATABASE group_project2;
+DROP DATABASE IF EXISTS ormDB;
+CREATE DATABASE ormDB;
 
-USE group_project2;
+USE ormDB;
 select 'create users - begin';
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
