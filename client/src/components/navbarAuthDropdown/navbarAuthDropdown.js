@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './navbarAuthDropdown.css';
 
 import Pubsub from '../../utilities/pubsub';
-import { NOTIF } from '../../utilities/constants';
+import { NOTIF, AUTH_MODAL_TYPES } from '../../utilities/constants';
 
 function NavbarAuthDropdown(props) {
 
@@ -30,9 +30,9 @@ function NavbarAuthDropdown(props) {
     setAuthenticated(false);
   }
 
-  const toggleModal = () => {
+  const toggleModal = (modalType) => {
     console.log('toggle modal fired');
-    Pubsub.publish(NOTIF.MODAL_TOGGLE, null);
+    Pubsub.publish(NOTIF.MODAL_TOGGLE, modalType);
   }
 
   const generateDropdownMenuContent = () => {
@@ -62,9 +62,9 @@ function NavbarAuthDropdown(props) {
     // @TODO add onClicks to the buttons
     return (
       <div className='d-flex justify-content-center flex-column'>
-        <button type='button' className='btn btn-primary mx-2' onClick={toggleModal}>Sign In</button>
+        <button type='button' className='btn btn-primary mx-2' onClick={() => toggleModal(AUTH_MODAL_TYPES.signin)}>Sign In</button>
         {/* <div className="dropdown-divider"></div> */}
-        <button type='button' className='btn btn-link' onClick={toggleModal}>Create an Account</button>
+        <button type='button' className='btn btn-link' onClick={() => toggleModal(AUTH_MODAL_TYPES.signup)}>Create an Account</button>
       </div>
     );
   }
