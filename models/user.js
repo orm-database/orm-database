@@ -1,30 +1,17 @@
 const orm = require("../config/orm.js");
 
 let users = {
-    // select: function (cb) {
-    //     orm.select(['todo_id', 'todo_name', 'todo_complete'], 'users', function (res) {
-    //         cb(res);
-    //     });
-    // },
-    
-    selectUser: function (cb) {
-        orm.selectUser(['user_id', 'first_name', 'last_name'], 'users', function (res) {
-            cb(res);
-        });
-    },
-
-
-    select: function (cb) {
+    select: (cb) => {
         let query = {
             columns: ['user_id', 'alias', 'first_name', 'last_name'], //will default to ['*'] (not recommended)
             table: 'users',
         };
-        orm.select(query, function (error, data) {
+        orm.select(query, (error, data) => {
             // console.log(data);
             cb(data);
         });
     },
-    selectJoin: function (cb) {
+    selectJoin: (cb) => {
         let queryString = `SELECT * FROM users 
                             JOIN messages
                                 ON messages.user_id = users.user_id WHERE users.user_id = ? `;
@@ -33,41 +20,40 @@ let users = {
             console.log(data);
         });
     },
-    selectWhere: function (where, cb) {
+    selectWhere: (where, cb) => {
         let query = {
             columns: ['user_id', 'alias', 'first_name', 'last_name'], //will default to ['*'] (not recommended)
             table: 'users',
             where: [where]
         };
-        orm.select(query, function (error, data) {
-            // console.log(data);
+        orm.select(query, (error, data) => {
             cb(data);
         });
     },
-    createUser: function (userObj, cb) {
+    createUser: (userObj, cb) => {
         let query = {
             table: 'users',
             data: userObj //ensure the keys of the object match the table columns
         };
-        orm.insert(query, function (error, data) {
+        orm.insert(query, (error, data) => {
             if (error) {
                 console.log(error.code +' - ' +error.sqlMessage);
             }
             cb(data);
         });
     },
-    deleteUser: function (user_id, cb) {
+    deleteUser: (user_id, cb) => {
         let query = {
             table: 'users',
             where: [{ user_id: user_id }]
         };
-        orm.delete(query, function (error, data) {
+        orm.delete(query, (error, data) => {
             cb(data);
         });
     },
 
-    login: function (cb) {
-        orm.login("users", function (res) {
+    login: (cb) => {
+        orm.login("users", (res) => {
             cb(res);
         });
     },
