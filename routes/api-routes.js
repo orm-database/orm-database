@@ -5,7 +5,12 @@ const users = require('../controllers/users-controller');
 module.exports = app => {
     // POST route for creating a user
     app.post('/api/users', (req, res) => {
-        users.create(req, res)
+        users.create(req, res);
+    });
+
+    // POST route for user login
+    app.post('/api/users/login', (req, res) => {
+        users.login(req, res);
     });
 
     // POST route for messages
