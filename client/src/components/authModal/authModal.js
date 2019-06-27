@@ -42,15 +42,15 @@ function AuthModal() {
     });
   }, []);
 
-  const handleModalToggle = (modalType) => {
-    if (modalType === AUTH_MODAL_TYPES.signin) {
+  const handleModalToggle = (type) => {
+    if (type === AUTH_MODAL_TYPES.signin) {
       setModalType(AUTH_MODAL_TYPES.signin);
       setChangeTypeBtnText(changeTypeBtnTextValues.signin);
-    } else if (modalType === AUTH_MODAL_TYPES.signout) {
+    } else if (type === AUTH_MODAL_TYPES.signout) {
       setModalType(AUTH_MODAL_TYPES.signout);
       setChangeTypeBtnText(changeTypeBtnTextValues.signout);
     }
-    
+
     setModalIsOpen(!modalIsOpen);
   }
 
