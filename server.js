@@ -10,7 +10,7 @@ const reactConfig = require(path.join(__dirname, '/config/config.static.json'))[
 
 // Default port cannot be 3000
 // If you change it from 9000, you must also change the "proxy" field in ./client/package.json
-var port = process.env.PORT || 9000;
+var PORT = process.env.PORT || 9000;
 
 var config = require('./config/config');
 
@@ -19,9 +19,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Routes
-require("./routes/api-routes")(app);
+// require("./routes/api-routes")(app);
+var userRoute = require("./controllers/users.js");
+var channelRoute = require("./controllers/channels.js");
+var messageRoute = require("./controllers/messages.js");
+app.use(userRoute);
+app.use(channelRoute);
+app.use(messageRoute);
 
-const server = app.listen(port);
+const server = app.listen(PORT, function () {
+    console.log("Server listening on: http://localhost:" + PORT);
+});
 
 const io = socketIO(server);
 require('./middleware/socket')(io);
