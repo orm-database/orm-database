@@ -46,9 +46,9 @@ function AuthModal() {
     if (type === AUTH_MODAL_TYPES.signin) {
       setModalType(AUTH_MODAL_TYPES.signin);
       setChangeTypeBtnText(changeTypeBtnTextValues.signin);
-    } else if (type === AUTH_MODAL_TYPES.signout) {
-      setModalType(AUTH_MODAL_TYPES.signout);
-      setChangeTypeBtnText(changeTypeBtnTextValues.signout);
+    } else if (type === AUTH_MODAL_TYPES.signup) {
+      setModalType(AUTH_MODAL_TYPES.signup);
+      setChangeTypeBtnText(changeTypeBtnTextValues.signup);
     }
 
     setModalIsOpen(!modalIsOpen);
