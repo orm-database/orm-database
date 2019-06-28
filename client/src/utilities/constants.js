@@ -19,15 +19,22 @@ export const NOTIF = {
 };
 
 // API routes
-// @TODO change these to match what the backend engineers go with
 export const API = {
-  signin: '/api/signin',
+  getUsers: '/api/users',
+  getUserById: '/api/user/',
+  signin: '/api/users/login',
   signup: '/api/users',
-  signout: '/api/signout',
-  create: '/api/create',
-  join: '/api/join',
-  sendMessage: '/api/send',
-  getMessages: '/api/get/'
+  signout: '/api/users/login',
+  deleteUserById: '/api/users/',
+  getAllChannels: '/api/channels',
+  getChannelById: '/api/channels/',
+  createChannel: '/api/channels',
+  deleteChannelById: '/api/channels/',
+  // join: '/api/join',
+  sendMessage: '/api/messages',
+  getMessages: '/api/messages',
+  getMessageById: '/api/messages/',
+  deleteMessageById: '/api/messages/'
 };
 
 // Auth modal types
