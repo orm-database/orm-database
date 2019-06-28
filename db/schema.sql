@@ -11,7 +11,7 @@ CREATE TABLE `users` (
   `alias` varchar(50)  NOT NULL,
   `password` varchar(50)  NOT NULL,
   `salt` varchar(50)  NOT NULL,
-  `session_token` varchar(50)  NOT NULL,
+  `session_token` varchar(50),
   `created` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   `updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
