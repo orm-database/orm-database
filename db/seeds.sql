@@ -1,13 +1,14 @@
-INSERT INTO USERS (first_name, last_name, email_address, alias, password, salt, session_token)
-	VALUES('Nigel', 'Phillips', 'nigel@email.com', 'nigel', 'nigel', 'salt', '34ss3f562g'),
-	('Justin', 'Louie', 'justin@email.com', 'justin', 'justin', 'salt', '34ss3f562g'),
-	('Daniel', 'Sochor', 'daniel@email.com', 'daniel', 'daniel', 'salt', '34ss3f562g'),
-	('Chris', 'Burke', 'chris@email.com', 'chris', 'chris', 'salt', '34ss3f562g');
+use ormDB;
+INSERT INTO USERS (first_name, last_name, email_address, alias, password, salt)
+	VALUES('Nigel', 'Phillips', 'nigel@email.com', 'nigel', 'nigel', 'salt'),
+	('Justin', 'Louie', 'justin@email.com', 'justin', 'justin', 'salt'),
+	('Daniel', 'Sochor', 'daniel@email.com', 'daniel', 'daniel', 'salt'),
+	('Chris', 'Burke', 'chris@email.com', 'chris', 'chris', 'salt');
 
 INSERT INTO channels
 	(channel_name) VALUES('Project Team');
 
-INSERT INTO channel_details (channel_id, user_id)
+INSERT INTO channel_user (channel_id, user_id)
 	VALUES(1, 1),
 	(1, 2);
 
@@ -20,7 +21,7 @@ INSERT INTO channel_message VALUES(1, 1);
 SELECT * FROM channel_message
 	JOIN messages
 		ON channel_message.message_id = messages.message_id
-	JOIN channel_details
-		ON channel_message.channel_id = channel_details.channel_id
+	JOIN channel_user
+		ON channel_message.channel_id = channel_user.channel_id
 	JOIN users
-		ON users.user_id = channel_details.user_id;
+		ON users.user_id = channel_user.user_id;
