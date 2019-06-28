@@ -88,6 +88,7 @@ function AuthModal() {
     // @TODO send to auth sign in/up and close the modal if returns a success
     console.log('auth credentials (not yet) submitted');
     console.log(emailVal, passwordVal, confirmPasswordVal);
+    Auth.sendSignupRequest(emailVal, passwordVal, confirmPasswordVal);
   }
 
   const generateFormContents = () => {
