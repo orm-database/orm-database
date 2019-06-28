@@ -22,10 +22,15 @@ var Auth = {};
     });
   }
 
-  obj.sendSignupRequest = (email, password) => {
+  obj.sendSignupRequest = (email, password, password_confirm) => {
+    console.log('sent signup request');
     axios.post(API.signup, {
-      email: email,
-      password: password
+      first_name: 'Chris',
+      last_name: 'Burke',
+      alias: 'Burkcules',
+      email_address: email,
+      password: password,
+      password_confirm: password_confirm
     }).then(response => {
       user = response.data.user;
       Pubsub.publish(NOTIF.SIGN_IN, null);
