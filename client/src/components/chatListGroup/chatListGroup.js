@@ -12,38 +12,11 @@ function ChatListGroup(props) {
   } */
   
   const [groupsFetched, setGroupsFetched] = useState(false);
-  const [groups, setGroups] = useState(null);
+  const [groups, setGroups] = useState([]);
+  const [directs, setDirects] = useState([]);
 
   useEffect(() => {
     // @TODO grab groups from global state based on props.groupType
-    // TEST DATA
-    let groups = [{
-      group_id: 1,
-      type: CHAT_GROUP_TYPES.group,
-      name: 'Project Team',
-      unread_count: 0
-    }];
-
-    let directs = [
-      {
-        group_id: 2,
-        type: CHAT_GROUP_TYPES.direct,
-        name: 'Justin Louie',
-        unread_count: 2
-      },
-      {
-        group_id: 3,
-        type: CHAT_GROUP_TYPES.direct,
-        name: 'Nigel Phillips',
-        unread_count: 4
-      },
-      {
-        group_id: 4,
-        type: CHAT_GROUP_TYPES.direct,
-        name: 'Daniel Sochor',
-        unread_count: 3
-      }
-    ];
 
     if (props.groupType === CHAT_GROUP_TYPES.group) {
       setGroups(groups);
@@ -52,7 +25,7 @@ function ChatListGroup(props) {
       setGroups(directs);
       setGroupsFetched(true);
     }
-  }, []);
+  });
 
   const generateChatListItems = () => {
     // display a loading notification while the code is fetching the groups

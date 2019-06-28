@@ -15,29 +15,7 @@ function ChatView(props) {
   useEffect(() => {
     // @TODO fetch all messages in the group given by props.selectedGroupId
     // TEST DATA
-    let messages = [{
-      author: 'Chris',
-      timestamp: '9:30 am',
-      text: 'Good morning everyone'
-    },
-    {
-      author: 'Nigel',
-      timestamp: '9:32 am',
-      text: 'Good morning Chris'
-    },
-    {
-      author: 'Daniel',
-      timestamp: '9:35 am',
-      text: 'How is everyone\'s weekend going?'
-    },
-    {
-      author: 'Justin',
-      timestamp: '9:37 am',
-      text: 'Pretty good'
-    }
-  ];
-
-  setMessageList(messages);
+    
   }, []);
 
   const generateMessages = () => {
