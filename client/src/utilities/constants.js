@@ -11,6 +11,7 @@ export const CHAT_GROUP_TYPES = {
 
 // Notification strings for pubsub
 export const NOTIF = {
+  MODAL_TOGGLE: 'modal_toggle',
   SIGN_IN: 'signin',
   SIGN_UP: 'signup',
   SIGN_OUT: 'signout',
@@ -21,10 +22,17 @@ export const NOTIF = {
 // @TODO change these to match what the backend engineers go with
 export const API = {
   signin: '/api/signin',
-  signup: '/api/signup',
+  signup: '/api/users',
   signout: '/api/signout',
   create: '/api/create',
   join: '/api/join',
   sendMessage: '/api/send',
   getMessages: '/api/get/'
+};
+
+// Auth modal types
+// Doubly purposed to be the text displayed at the top of the modal
+export const AUTH_MODAL_TYPES = {
+  signin: 'Sign In',
+  signup: 'Sign Up'
 };

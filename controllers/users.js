@@ -56,7 +56,7 @@ router.post("/api/users", (req, res) => {
             password: hashedPassword.hash,
             salt: hashedPassword.salt,
             session_token: 'abcdefg', // @TODO replace placeholder
-            created: req.body.created
+            // created: req.body.created
         };
         user.createUser(userRequest, (err, result) => {
             if (err) {
