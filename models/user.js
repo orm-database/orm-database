@@ -1,15 +1,20 @@
 const orm = require("../config/orm.js");
 
 let users = {
-    select: (cb) => {
+    select: cb => {
         let query = {
-            columns: ['user_id', 'alias', 'first_name', 'last_name'], //will default to ['*'] (not recommended)
+            columns: [
+                'user_id',
+                'first_name',
+                'last_name',
+                'email_address',
+                'alias',
+                'session_token',
+                'created',
+                'updated'],
             table: 'users',
         };
-        orm.select(query, (error, data) => {
-            // console.log(data);
-            cb(data);
-        });
+        orm.select(query, cb);
     },
     selectJoin: (cb) => {
         let queryString = `SELECT * FROM users 
@@ -22,42 +27,61 @@ let users = {
     },
     selectWhere: (where, cb) => {
         let query = {
-            columns: ['user_id', 'alias', 'first_name', 'last_name'], //will default to ['*'] (not recommended)
+            columns: [
+                'user_id',
+                'first_name',
+                'last_name',
+                'email_address',
+                'alias',
+                'session_token',
+                'created',
+                'updated'],
             table: 'users',
             where: [where]
         };
-        orm.select(query, (error, data) => {
-            cb(data);
-        });
+        orm.select(query, cb);
     },
     createUser: (userObj, cb) => {
         let query = {
             table: 'users',
             data: userObj //ensure the keys of the object match the table columns
         };
-        orm.insert(query, (error, data) => {
-            if (error) {
-                console.log(error.code +' - ' +error.sqlMessage);
-            }
-            cb(data);
-        });
+        orm.insert(query, cb);
     },
     deleteUser: (user_id, cb) => {
         let query = {
             table: 'users',
             where: [{ user_id: user_id }]
         };
-        orm.delete(query, (error, data) => {
-            cb(data);
-        });
+        orm.delete(query, cb);
     },
 
-    login: (cb) => {
-        orm.login("users", (res) => {
-            cb(res);
-        });
-    },
+    selectByEmail: (email, cb) => {
+        let query = {
+            table: 'users',
+            where: [{ email_address: email.toLowerCase() }]
+        };
 
+        orm.select(query, cb);
+    },
+    updateSession: (email, uuid, cb) => {
+        let query = {
+            table: 'users',
+            data: { session_token: uuid },
+            where: [{ email_address: email.toLowerCase() }]
+        };
+
+        orm.update(query, cb);
+    },
+    update: (where, cb) => {
+        let query = {
+            table: 'users',
+            data: { session_token: null },
+            where: [{ where }]
+        };
+
+        orm.update(query, cb);
+    }
 };
 
 // Export the database functions for the controller (catsController.js).
