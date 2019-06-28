@@ -147,6 +147,33 @@ Now if you look at `signinForm.js` on line 8, you'll see:
 
 ### controlled components
 
-I'll fill this out later, but what's here now should be enough to get you started on the `<SigninForm />` and `<SignupForm />` components.
+The concept of controlled components is perfectly illustrated by a signin form.  When you get to the "Bonus" section above, you'll be breaking down the content in `<SigninForm />` to be their own components.  Basically each input group will be rendered by the parent component - `<SigninForm />` - as `<FormInput />` components (called `child` components) with the appropriate props passed down.
 
-When I update it, I'll commit and push in the `auth-modal-refactor` branch and let you know.  Pulling my change won't cause any conflicts if you don't modify this file.
+Now consider the use case of a sign in form.  It has an email input field and a password input field.  When the user hits the submit button, we need to grab the values of those input fields and send the info in an http request.
+
+But how do we grab that info?  Let's say the submit button resides in the parent `<SigninForm />` component.  In this case, the parent component, `<SigninForm />` is responsible for passing the email and password through the http request, BUT the email and password values are not stored in `<SigninForm />`, they're stored in their own `<FormInput />` components so it can't access them.
+
+What if we put the submit button in one of the `<FormInput />` components? Nope.  It would only have access to one of the pieces of information.
+
+The solution is to make `<FormInput />` a controlled component. This means that the parent component (`<SigninForm />` in this case) will have a state variable for each value you need.  In order to ensure the `input` tags within `<FormInput />` function properly, you pass the state variables from `<SigninForm />` AND their update functions as props to `<FormInput />`.  It would look something like this:
+```
+// signinForm.js
+const [emailVal, setEmailVal] = useState('');
+
+return (
+  <FormInput value={emailVal} onChange={setEmailVal} (other props) />
+);
+
+// formInput.js
+function FormInput(props) {
+  const handleChange = (event) => {
+    props.onChange(event.target.value);
+  }
+
+  return (
+    <label>{props.labelTitle}</label>
+    <input type='email' value={props.value} onChange={handleChange} />
+  );
+}
+```
+Note that I named the props of `<FormInput />` as `value` and `onChange`.  Props names do not have to match the HTML attribute names they'll eventuall go to, they can be any valid variable name.  I just find it helpful to name them as close to what they'll actually represent as possible.
