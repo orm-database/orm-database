@@ -28,20 +28,41 @@ var Data = {};
 
   }
 
+  obj.getAllChannels = () => {
+    axios.get(API.getAllChannels).then(response => {
+      console.log('get all channels resolved');
+      console.log(response);
+    }).catch(error => {
+      console.log(error);
+      // @TODO send helpful error back to user
+    })
+  }
+
+  obj.getChannelById = (params) => {
+    axios.get(API.getAllChannels + params.channel_id).then(reponse => {
+      console.log('get channel by Id resolved');
+      console.log(response);
+    }).catch(error => {
+      console.log(error);
+      // @TODO send helpful error back to user
+    })
+  }
+
   // @TODO make post requests more DRY
-  obj.createChannel = (channelName, channelType, channelPassword) => {
-    axios.post(API.create, {
-      channel_name: channelName,
-      channel_type: channelType,
-      channel_password: channelPassword,
-      token: Auth.user.token
+  obj.createChannel = (params) => {
+    axios.post(API.createChannel, {
+      channel_name: params.channel_name
     }).then(response => {
       // @TODO add new channel to channels, or overwrite?
+      console.log('create channel resolved');
+      console.log(response);
     }).catch(error => {
       console.log(error);
       // @TODO send helpful error back to user
     });
   }
+
+  // @TODO create function for axios.delete channel
 
   obj.joinChannel = (channelName, channelType, channelPassword) => {
     axios.post(API.join, {
@@ -57,11 +78,10 @@ var Data = {};
     });
   }
 
-  obj.sendMessage = (channelId, message) => {
+  obj.sendMessage = (params) => {
     axios.post(API.sendMessage, {
-      channel_id: channelId,
-      message: message,
-      token: Auth.user.token
+      user_id: Auth.user.user_id,
+      message_text: params.message_text
     }).then(response => {
       // @TODO add message to currentMessages and publish a notification
     }).catch(error => {
