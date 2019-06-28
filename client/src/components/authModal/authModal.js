@@ -30,15 +30,20 @@ function AuthModal() {
   const [changeTypeBtnText, setChangeTypeBtnText] = useState(changeTypeBtnTextValues.signin);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const [firstNameVal, setFirstNameVal] = useState('');
+  const [lastNameVal, setLastNameVal] = useState('');
+  const [usernameVal, setUsernameVal] = useState('');
   const [emailVal, setEmailVal] = useState('');
   const [passwordVal, setPasswordVal] = useState('');
   const [confirmPasswordVal, setConfirmPasswordVal] = useState('');
 
   useEffect(() => {
     Pubsub.subscribe(NOTIF.MODAL_TOGGLE, this, handleModalToggle);
+    Pubsub.subscribe(NOTIF.SIGN_IN, this, closeModal);
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.MODAL_TOGGLE, this);
+      Pubsub.unsubscribe(NOTIF.SIGN_IN, this);
     });
   }, []);
 
@@ -68,6 +73,18 @@ function AuthModal() {
     setModalIsOpen(false);
   }
 
+  const handleFirstNameChange = (event) => {
+    setFirstNameVal(event.target.value);
+  }
+
+  const handleLastNameChange = (event) => {
+    setLastNameVal(event.target.value);
+  }
+
+  const handleUsernameChange = (event) => {
+    setUsernameVal(event.target.value);
+  }
+
   const handleEmailChange = (event) => {
     // @TODO implement live validation
     setEmailVal(event.target.value);
@@ -85,10 +102,19 @@ function AuthModal() {
   const authSubmit = (event) => {
     event.preventDefault();
 
+    let signupObj = {
+      first_name: firstNameVal,
+      last_name: lastNameVal,
+      alias: usernameVal,
+      email: emailVal,
+      password: passwordVal,
+      password_confirm: confirmPasswordVal 
+    };
+
     // @TODO send to auth sign in/up and close the modal if returns a success
     console.log('auth credentials (not yet) submitted');
     console.log(emailVal, passwordVal, confirmPasswordVal);
-    Auth.sendSignupRequest(emailVal, passwordVal, confirmPasswordVal);
+    Auth.sendSignupRequest(signupObj);
   }
 
   const generateFormContents = () => {
@@ -108,6 +134,18 @@ function AuthModal() {
     } else if (modalType === AUTH_MODAL_TYPES.signup) {
       return (
         <div className='modal-body'>
+          <div className='form-group'>
+            <label>First Name</label>
+            <input type='email' className='form-control' placeholder='First Name' value={firstNameVal} onChange={handleFirstNameChange}></input>
+          </div>
+          <div className='form-group'>
+            <label>Last Name</label>
+            <input type='email' className='form-control' placeholder='Last Name' value={lastNameVal} onChange={handleLastNameChange}></input>
+          </div>
+          <div className='form-group'>
+            <label>Username</label>
+            <input type='email' className='form-control' placeholder='Username' value={usernameVal} onChange={handleUsernameChange}></input>
+          </div>
           <div className='form-group'>
             <label>Email Address</label>
             <input type='email' className='form-control' placeholder='Enter email' value={emailVal} onChange={handleEmailChange}></input>
