@@ -39,7 +39,7 @@ var Data = {};
   }
 
   obj.getChannelById = (params) => {
-    axios.get(API.getAllChannels + params.channel_id).then(reponse => {
+    axios.get(API.getAllChannels + params.channel_id).then(response => {
       console.log('get channel by Id resolved');
       console.log(response);
     }).catch(error => {
