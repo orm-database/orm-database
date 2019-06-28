@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+
+// When using bootstrap, these types of files are often empty, but I still keep them in case I want to tweak something later
 import './signinForm.css';
 
 import Auth from '../../utilities/auth';
@@ -10,10 +12,13 @@ function SigninForm(props) {
   } */
 
   const [emailVal, setEmailVal] = useState('');
+  // Add the necessary local state for password input with the useState hook
 
   const handleEmailChange = (event) => {
     setEmailVal(event.target.value);
   }
+
+  // implement a handler function for the user typing in the password field
 
   const authSubmit = () => {
     // Eventually make a call to Auth.sendSigninRequest
@@ -35,6 +40,7 @@ function SigninForm(props) {
         </div>
         <div className='form-group'>
           {/* Fill in the password part of the form here - it should look like the email form group above */}
+          {/* **IMPORTANT** Keep class names consistent so that Bootstrap will style everything properly */}
         </div>
 
         {/* LEAVE THE BELOW HTML AS IS */}
