@@ -12,14 +12,21 @@ var Data = {};
   var currentMessages = {};
 
   // SOCKET IO TEST
-  // var socket = io();
+  var socket = io();
 
-  // socket.on('time', function (timeString) {
-  //   console.log(timeString);
-  // });
+  socket.on('time', function (timeString) {
+    // console.log(timeString);
+  });
 
   // @TODO create a listener function for new messages on the current channel
   // socket.io client library?
+  obj.joinSocketRoom = (channelId) => {
+
+  }
+
+  obj.leaveSocketRoom = (channelId) => {
+
+  }
 
   // @TODO make post requests more DRY
   obj.createChannel = (channelName, channelType, channelPassword) => {
