@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './authModal.css';
 
 import Modal from 'react-modal';
+import AuthModalHeader from '../authModalHeader/authModalHeader';
+import SigninForm from '../signinForm/signinForm';
+import SignupForm from '../signupForm/signupForm';
 
 import Auth from '../../utilities/auth';
 import Pubsub from '../../utilities/pubsub';
@@ -29,13 +32,6 @@ function AuthModal() {
   const [modalType, setModalType] = useState(AUTH_MODAL_TYPES.signin);
   const [changeTypeBtnText, setChangeTypeBtnText] = useState(changeTypeBtnTextValues.signin);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const [firstNameVal, setFirstNameVal] = useState('');
-  const [lastNameVal, setLastNameVal] = useState('');
-  const [usernameVal, setUsernameVal] = useState('');
-  const [emailVal, setEmailVal] = useState('');
-  const [passwordVal, setPasswordVal] = useState('');
-  const [confirmPasswordVal, setConfirmPasswordVal] = useState('');
 
   useEffect(() => {
     Pubsub.subscribe(NOTIF.MODAL_TOGGLE, this, handleModalToggle);
@@ -73,92 +69,14 @@ function AuthModal() {
     setModalIsOpen(false);
   }
 
-  const handleFirstNameChange = (event) => {
-    setFirstNameVal(event.target.value);
-  }
-
-  const handleLastNameChange = (event) => {
-    setLastNameVal(event.target.value);
-  }
-
-  const handleUsernameChange = (event) => {
-    setUsernameVal(event.target.value);
-  }
-
-  const handleEmailChange = (event) => {
-    // @TODO implement live validation
-    setEmailVal(event.target.value);
-  }
-
-  const handlePasswordChange = (event) => {
-    // @TODO implement live validation
-    setPasswordVal(event.target.value);
-  }
-
-  const handleConfirmPasswordChange = (event) => {
-    setConfirmPasswordVal(event.target.value);
-  }
-
-  const authSubmit = (event) => {
-    event.preventDefault();
-
-    let signupObj = {
-      first_name: firstNameVal,
-      last_name: lastNameVal,
-      alias: usernameVal,
-      email: emailVal,
-      password: passwordVal,
-      password_confirm: confirmPasswordVal 
-    };
-
-    // @TODO send to auth sign in/up and close the modal if returns a success
-    console.log('auth credentials (not yet) submitted');
-    console.log(emailVal, passwordVal, confirmPasswordVal);
-    Auth.sendSignupRequest(signupObj);
-  }
-
   const generateFormContents = () => {
     if (modalType === AUTH_MODAL_TYPES.signin) {
       return (
-        <div className='modal-body'>
-          <div className='form-group'>
-            <label>Email Address</label>
-            <input type='email' className='form-control' placeholder='Enter email' value={emailVal} onChange={handleEmailChange}></input>
-          </div>
-          <div className='form-group'>
-            <label>Password</label>
-            <input type='password' className='form-control' placeholder='Password' value={passwordVal} onChange={handlePasswordChange}></input>
-          </div>
-        </div>
+        <SigninForm toggleModalType={toggleModalType} changeTypeBtnText={changeTypeBtnText} />
       );
     } else if (modalType === AUTH_MODAL_TYPES.signup) {
       return (
-        <div className='modal-body'>
-          <div className='form-group'>
-            <label>First Name</label>
-            <input type='email' className='form-control' placeholder='First Name' value={firstNameVal} onChange={handleFirstNameChange}></input>
-          </div>
-          <div className='form-group'>
-            <label>Last Name</label>
-            <input type='email' className='form-control' placeholder='Last Name' value={lastNameVal} onChange={handleLastNameChange}></input>
-          </div>
-          <div className='form-group'>
-            <label>Username</label>
-            <input type='email' className='form-control' placeholder='Username' value={usernameVal} onChange={handleUsernameChange}></input>
-          </div>
-          <div className='form-group'>
-            <label>Email Address</label>
-            <input type='email' className='form-control' placeholder='Enter email' value={emailVal} onChange={handleEmailChange}></input>
-          </div>
-          <div className='form-group'>
-            <label>Password</label>
-            <input type='password' className='form-control' placeholder='Password' value={passwordVal} onChange={handlePasswordChange}></input>
-          </div>
-          <div className='form-group'>
-            <label>Confirm Password</label>
-            <input type='password' className='form-control' placeholder='Password' value={confirmPasswordVal} onChange={handleConfirmPasswordChange}></input>
-          </div>
-        </div>
+        <SignupForm toggleModalType={toggleModalType} changeTypeBtnText={changeTypeBtnText} />
       )
     } else {
       console.log('error in authModal type: ' + modalType);
@@ -178,22 +96,11 @@ function AuthModal() {
       contentLabel='Auth Modal'
       ariaHideApp={false}
     >
-      <div className='modal-header'>
-        <h5 className='modal-title'>{modalType}</h5>
-        <button type='button' className='close' onClick={closeModal}>
-          <span aria-hidden='true'>&times;</span>
-        </button>
-      </div>
+      <AuthModalHeader modalType={modalType} closeModal={closeModal} />
       <div className='error-info'>
         {generateErrorInfo()}
       </div>
-      <form>
-        {generateFormContents()}
-        <button type='button' className='btn btn-link' onClick={toggleModalType}>{changeTypeBtnText}</button>
-        <div className='modal-footer'>
-          <button type='submit' className='btn btn-primary' onClick={authSubmit}>Submit</button>
-        </div>
-      </form>
+      {generateFormContents()} 
     </Modal>
   )
 }
