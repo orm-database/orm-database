@@ -1,6 +1,5 @@
 import React from 'react';
 import './groupsView.css';
-import plusSign from '../../images/plus.svg';
 
 import ChatListGroup from '../chatListGroup/chatListGroup';
 
@@ -16,6 +15,10 @@ function GroupsView(props) {
     console.log('add channel');
   }
 
+  const addDirectMessage = () => {
+    console.log('add DM');
+  }
+
   // @TODO will likely need to add logic to distinguish between channels group and direct group
   return (
     <div className='col-lg-2 p-0 group-menu scrollable'>
@@ -29,7 +32,10 @@ function GroupsView(props) {
       </div>
       
       <div className='direct-container mt-1 mb-4'>
-        <h5 className='pl-2 text-light'>Direct Messages</h5>
+        <div className='list-group-header d-flex justify-content-between'>
+          <h5 className='pl-2 text-light'>Direct Messages</h5>
+          <button type='button' className='add-btn' onClick={addDirectMessage}></button>
+        </div>
         <ChatListGroup groupType={CHAT_GROUP_TYPES.direct} selectedGroupId={props.selectedGroupId} />
       </div>
     </div>
