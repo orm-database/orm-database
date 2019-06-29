@@ -111,6 +111,15 @@ let orm = {
         connection.query(queryString, queryArray, function (error, result) {
             callback(error, result);
         });
+    },
+    insertNull: function (query, callback) {
+        let queryString = 'INSERT INTO ?? (??) VALUES (NULL)';
+
+        let sqlQuery = connection.query(queryString, [query.table, query.columns], function (error, result) {
+            callback(error, result);
+        });
+
+        console.log(sqlQuery)
     }
 };
 
