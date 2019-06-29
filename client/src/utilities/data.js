@@ -36,7 +36,7 @@ var Data = {};
     }).catch(error => {
       console.log(error);
       // @TODO send helpful error back to user
-    })
+    });
   }
 
   obj.getChannelById = (params) => {
@@ -46,7 +46,7 @@ var Data = {};
     }).catch(error => {
       console.log(error);
       // @TODO send helpful error back to user
-    })
+    });
   }
 
   // @TODO make post requests more DRY
@@ -65,12 +65,10 @@ var Data = {};
 
   // @TODO create function for axios.delete channel
 
-  obj.joinChannel = (channelName, channelType, channelPassword) => {
+  obj.joinChannel = (params) => {
     axios.post(API.join, {
-      channel_name: channelName,
-      channel_type: channelType,
-      channel_password: channelPassword,
-      token: Auth.user.token
+      channel_id: params.channel_id,
+      users: params.users
     }).then(response => {
       // @TODO add new channel to channels, or overwrite?
     }).catch(error => {
@@ -99,7 +97,7 @@ var Data = {};
     }).catch(error => {
       console.log(error);
       // @TODO send helpful error back to user
-    })
+    });
   }
 })(Data);
 

@@ -31,7 +31,7 @@ export const API = {
   getChannelById: '/api/channels/',
   createChannel: '/api/channels',
   deleteChannelById: '/api/channels/',
-  // join: '/api/join',
+  join: '/api/channel-users',
   sendMessage: '/api/messages',
   getMessages: '/api/messages',
   getMessageById: '/api/messages/',
