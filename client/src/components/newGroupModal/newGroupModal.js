@@ -78,12 +78,6 @@ function NewGroupModal(props) {
       contentLabel='New Group'
       ariaHideApp={false}
     >
-      <div className='modal-header'>
-        <h5 className='modal-title'>Add New Group</h5>
-        <button type='button' className='close' onClick={closeModal}>
-          <span aria-hidden='true'>&times;</span>
-        </button>
-      </div>
       <div className='error-info'>
         {generateErrorInfo()}
       </div>
@@ -100,20 +94,24 @@ function NewGroupModal(props) {
         <div className='tab-content'>
           <div role='tabpanel' className='tab-pane fade in active show' id='newgroup'>
             <form>
-              <div className='form-group'>
-                <label>Channel Name</label>
+              <div className='form-group mt-4'>
                 <input type='text' className='form-control' value={channelNameVal} onChange={handleChannelNameChange} placeholder='Enter Channel Name'></input>
               </div>
-              <button type='button' className='btn btn-primary' onClick={addChannelSubmit}>Add Channel</button>
+              <div className='d-flex justify-content-between'>
+                <button type='button' className='btn btn-primary' onClick={addChannelSubmit}>Add Channel</button>
+                <button type='button' className='btn btn-secondary' onClick={closeModal}>Close</button>
+              </div>
             </form>
           </div>
           <div role='tabpanel' className='tab-pane fade' id='newdirect'>
             <form>
-              <div className='form-group'>
-                <label>Recipient</label>
+              <div className='form-group mt-4'>
                 <input type='text' className='form-control' value={directRecipientVal} onChange={handleDirectRecipientChange} placeholder={'Enter Recipient\'s Name'}></input>
               </div>
-              <button type='button' className='btn btn-primary' onClick={sendDirectMessageSubmit}>Send Message</button>
+              <div className='d-flex justify-content-between'>
+                <button type='button' className='btn btn-primary' onClick={sendDirectMessageSubmit}>Send Message</button>
+                <button type='button' className='btn btn-secondary' onClick={closeModal}>Close</button>
+              </div>
             </form>
           </div>
         </div>
