@@ -10,10 +10,11 @@
 }
 
 .add-btn {
-  height: 20px;
-  width: 20px;
-  margin: 4px 4px 0 4px;
-  background: url('../../images/plus.png');
-  background-size: 20px 20px;
+  height: 25px;
+  width: 25px;
+  margin: 0 4px 0 4px;
+  background: none;
+  background: url('../../images/icons8-plus.svg');
+  background-size: 25px 25px;
   border: none;
 }
