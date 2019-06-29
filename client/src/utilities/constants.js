@@ -11,6 +11,7 @@ export const CHAT_GROUP_TYPES = {
 
 // Notification strings for pubsub
 export const NOTIF = {
+  MODAL_TOGGLE: 'modal_toggle',
   SIGN_IN: 'signin',
   SIGN_UP: 'signup',
   SIGN_OUT: 'signout',
@@ -18,13 +19,27 @@ export const NOTIF = {
 };
 
 // API routes
-// @TODO change these to match what the backend engineers go with
 export const API = {
-  signin: '/api/signin',
-  signup: '/api/signup',
-  signout: '/api/signout',
-  create: '/api/create',
-  join: '/api/join',
-  sendMessage: '/api/send',
-  getMessages: '/api/get/'
+  getUsers: '/api/users',
+  getUserById: '/api/user/',
+  signin: '/api/users/login',
+  signup: '/api/users',
+  signout: '/api/users/login',
+  deleteUserById: '/api/users/',
+  getAllChannels: '/api/channels',
+  getChannelById: '/api/channels/',
+  createChannel: '/api/channels',
+  deleteChannelById: '/api/channels/',
+  // join: '/api/join',
+  sendMessage: '/api/messages',
+  getMessages: '/api/messages',
+  getMessageById: '/api/messages/',
+  deleteMessageById: '/api/messages/'
+};
+
+// Auth modal types
+// Doubly purposed to be the text displayed at the top of the modal
+export const AUTH_MODAL_TYPES = {
+  signin: 'Sign In',
+  signup: 'Sign Up'
 };
