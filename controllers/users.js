@@ -11,7 +11,7 @@ router.get("/api/users", (req, res) => {
 
     if (req.headers['x-session-token']) {
 
-        user.selectWhere(req.headers['x-session-token'], (err, result) => {
+        user.selectWhere({ session_token: req.headers['x-session-token'] }, (err, result) => {
             if (result.length) {
                 res.status(200).json(result[0]);
             } else {
