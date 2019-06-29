@@ -10,7 +10,7 @@ function FormInput(props) {
   
     return (
       <label>{props.labelTitle}</label>
-      <input type='email' value={props.value} onChange={handleChange} />
+      <input type='input' value={props.value} onChange={handleChange}></input>
     );
   }
 

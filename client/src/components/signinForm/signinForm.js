@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import './signinForm.css';
 
 import Auth from '../../utilities/auth';
+import FormInput from '../../components/formInput';
 
 function SigninForm(props) {
   /* props = {
