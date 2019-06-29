@@ -58,25 +58,27 @@ var Auth = {};
 
   }
 
-  obj.sendSignoutRequest = () => {
+  obj.sendSignoutRequest = (params) => {
     // @TODO need to verify what direction we're taking with the session token business
     axios({
       url: API.signout,
       method: 'delete',
-      data: {
-        user_id: user.user_id
+      headers: {
+        'x-session-token': params.session_token
       }
     }).then(response => {
       if (response.status == 200) {
         user = {};
         Pubsub.publish(NOTIF.SIGN_OUT, null);
+        console.log('signout success');
       } else {
         // @TODO not sure what to do in a .then handler here
+        console.log('signout resolved, but not status 200');
       }
     }).catch(error => {
       console.log(error);
       // @TODO send an error back to the user
-    })
+    });
   }
 
   // @TODO implement some sort of persistent session check
@@ -95,15 +97,17 @@ const validateSignupRequest = (params) => {
   /* API requires all of:
     first_name
     last_name
-    email_address
+    email
     alias
     password
   */
+  console.log(params);
   if (params.first_name &&
     params.last_name &&
-    params.email_address &&
+    params.email &&
     params.alias &&
-    params.password) {
+    params.password &&
+    params.password_confirm) {
     return true;
   }
 
