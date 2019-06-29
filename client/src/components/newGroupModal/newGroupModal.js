@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import Data from '../../utilities/data';
 import Pubsub from '../../utilities/pubsub';
 import { NOTIF, GROUP_MODAL_TYPES } from '../../utilities/constants';
+import Auth, { user } from '../../utilities/auth';
 
 const customStyles = {
   content: {
@@ -55,7 +56,20 @@ function NewGroupModal(props) {
     let params = {
       channel_name: channelNameVal
     };
-    Data.createChannel(params);
+    Data.createChannel(params).then(response => {
+      let channel_id = response.channel_id;
+      console.log(user);
+      if ((channel_id || channel_id == 0) && user.user_id) {
+        let joinObj = {
+          channel_id: channel_id,
+          users: [user.user_id]
+        }
+        Data.joinChannel(joinObj);
+      } else {
+        console.log('error joining channel');
+        console.log(channel_id, user);
+      } 
+    });
   }
 
   const sendDirectMessageSubmit = () => {
