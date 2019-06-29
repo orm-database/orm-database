@@ -9,7 +9,8 @@ var Data = {};
 
 (function (obj) {
   var channels = {};
-  var currentMessages = {};
+  var currentChannel = {};
+  var users = {};
 
   // SOCKET IO TEST
   var socket = io();
@@ -93,7 +94,7 @@ var Data = {};
   // @TODO send auth token with get request
   obj.fetchMessages = (channelId) => {
     axios.get(API.getMessages + channelId).then(response => {
-      currentMessages = response.data.messages;
+      // set currentChannel with response info
       Pubsub.publish(NOTIF.MESSAGES_RECEIVED, null);
     }).catch(error => {
       console.log(error);
