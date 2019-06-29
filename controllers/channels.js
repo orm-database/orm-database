@@ -50,4 +50,30 @@ router.delete("/api/channels/:channel_id", (req, res) => {
     });
 });
 
+// POST route for adding channel users
+router.post('/api/channels/:channel_id', (req, res) => {
+    console.log('add channel users');
+
+    req.body.users.forEach(userId => {
+        channel.insertChannelUsers(
+            {
+                channel_id: req.params.channel_id,
+                user_id: userId
+            },
+            (err, result) => {
+                console.log(result)
+                if (err) {
+                    console.log(err);
+
+                    res.status(500).json({ 'error': 'oops we did something bad' });
+                } else {
+                    res.status(200).json({
+                        message: 'complete'
+                    });
+                }
+            }
+        );
+    });
+});
+
 module.exports = router;

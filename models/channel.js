@@ -45,6 +45,13 @@ let channels = {
             cb(data);
         });
     },
+    insertChannelUsers: (channelUsers, cb) => {
+        let query = {
+            table: 'channel_user',
+            data: channelUsers
+        };
+        orm.insert(query, cb);
+    }
 
 };
 
