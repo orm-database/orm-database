@@ -2,8 +2,10 @@ import React from 'react';
 import './groupsView.css';
 
 import ChatListGroup from '../chatListGroup/chatListGroup';
+import NewGroupModal from '../newGroupModal/newGroupModal';
 
-import { CHAT_GROUP_TYPES } from '../../utilities/constants';
+import { CHAT_GROUP_TYPES, NOTIF } from '../../utilities/constants';
+import Pubsub from '../../utilities/pubsub';
 
 function GroupsView(props) {
   /* props = {
@@ -13,10 +15,12 @@ function GroupsView(props) {
   const addChannel = () => {
     // @TODO implement logic for adding a channel
     console.log('add channel');
+    Pubsub.publish(NOTIF.GROUP_MODAL_TOGGLE, null);
   }
 
   const addDirectMessage = () => {
     console.log('add DM');
+    Pubsub.publish(NOTIF.GROUP_MODAL_TOGGLE, null);
   }
 
   // @TODO will likely need to add logic to distinguish between channels group and direct group
@@ -38,6 +42,8 @@ function GroupsView(props) {
         </div>
         <ChatListGroup groupType={CHAT_GROUP_TYPES.direct} selectedGroupId={props.selectedGroupId} />
       </div>
+
+      <NewGroupModal />
     </div>
   );
 }
