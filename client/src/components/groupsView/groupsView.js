@@ -14,12 +14,10 @@ function GroupsView(props) {
 
   const addChannel = () => {
     // @TODO implement logic for adding a channel
-    console.log('add channel');
     Pubsub.publish(NOTIF.GROUP_MODAL_TOGGLE, null);
   }
 
   const addDirectMessage = () => {
-    console.log('add DM');
     Pubsub.publish(NOTIF.GROUP_MODAL_TOGGLE, null);
   }
 
