@@ -25,6 +25,7 @@ function NewGroupModal(props) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const [channelNameVal, setChannelNameVal] = useState('');
+  const [directRecipientVal, setDirectRecipientVal] = useState('');
 
   const closeModal = () => {
     setModalIsOpen(false);
@@ -46,6 +47,10 @@ function NewGroupModal(props) {
     setChannelNameVal(event.target.value);
   }
 
+  const handleDirectRecipientChange = (event) => {
+    setDirectRecipientVal(event.target.value);
+  }
+
   const addChannelSubmit = () => {
     let params = {
       channel_name: channelNameVal
@@ -53,10 +58,18 @@ function NewGroupModal(props) {
     Data.createChannel(params);
   }
 
+  const sendDirectMessageSubmit = () => {
+    let params = {
+
+    };
+    // @TODO send to Data.[send direct message]
+  }
+
   const generateErrorInfo = () => {
     return null;
   }
 
+  // @TODO break down this component into more
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -95,7 +108,13 @@ function NewGroupModal(props) {
             </form>
           </div>
           <div role='tabpanel' className='tab-pane fade' id='newdirect'>
-            New Direct Test
+            <form>
+              <div className='form-group'>
+                <label>Recipient</label>
+                <input type='text' className='form-control' value={directRecipientVal} onChange={handleDirectRecipientChange} placeholder={'Enter Recipient\'s Name'}></input>
+              </div>
+              <button type='button' className='btn btn-primary' onClick={sendDirectMessageSubmit}>Send Message</button>
+            </form>
           </div>
         </div>
       </div>
