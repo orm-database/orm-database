@@ -76,4 +76,25 @@ router.post('/api/channel-users', (req, res) => {
     });
 });
 
+// POST route for creating a channel
+router.post('/api/channels', (req, res) => {
+    console.log('create channel');
+
+    // @TODO check if channel exists
+    // do stuff
+    // else
+    channel.create(req.body, (err, result) => {
+        if (err) {
+            console.log(err);
+
+            res.status(500).json({ 'error': 'oops we did something bad' });
+        } else {
+            res.status(200).json({
+                channel_id: result.insertId,
+                channel_name: req.body.channel_name
+            });
+        }
+    });
+});
+
 module.exports = router;
