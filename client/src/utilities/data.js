@@ -7,10 +7,11 @@ const io = require('socket.io-client');
 
 var Data = {};
 
+var Channels = {};
+var CurrentChannel = {};
+var Users = {};
+
 (function (obj) {
-  var channels = {};
-  var currentChannel = {};
-  var users = {};
 
   // SOCKET IO TEST
   var socket = io();
@@ -32,7 +33,7 @@ var Data = {};
   obj.getAllChannels = () => {
     axios.get(API.getAllChannels).then(response => {
       console.log('get all channels resolved');
-      console.log(response);
+      Pubsub.publish(NOTIF.GROUPS_DOWNLOADED, response.data);
     }).catch(error => {
       console.log(error);
       // @TODO send helpful error back to user
@@ -51,16 +52,21 @@ var Data = {};
 
   // @TODO make post requests more DRY
   obj.createChannel = (params) => {
-    axios.post(API.createChannel, {
-      channel_name: params.channel_name
-    }).then(response => {
-      // @TODO add new channel to channels, or overwrite?
-      console.log('create channel resolved');
-      console.log(response);
-    }).catch(error => {
-      console.log(error);
-      // @TODO send helpful error back to user
+    return new Promise((resolve, reject) => {
+      axios.post(API.createChannel, {
+        channel_name: params.channel_name
+      }).then(response => {
+        // @TODO add new channel to channels, or overwrite?
+        console.log('create channel resolved');
+        console.log(response);
+        resolve(response.data);
+      }).catch(error => {
+        console.log(error);
+        reject();
+        // @TODO send helpful error back to user
+      });
     });
+    
   }
 
   // @TODO create function for axios.delete channel
@@ -102,3 +108,9 @@ var Data = {};
 })(Data);
 
 export default Data;
+
+export {
+  Channels,
+  CurrentChannel,
+  Users
+};

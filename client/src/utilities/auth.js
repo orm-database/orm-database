@@ -4,9 +4,10 @@ import { API, NOTIF } from './constants';
 
 var Auth = {};
 
+var user = {};
+
 (function (obj) {
   // @TODO 
-  var user = {};
 
   obj.checkForExistingSession = () => {
     let session_token = localStorage.getItem('x-session-token');
@@ -17,8 +18,9 @@ var Auth = {};
     if (session_token) {
       axios.get(API.getUsers, { headers: { 'x-session-token': session_token } }).then(response => {
         if (validateUserData(response.data)) {
-          user = response.data;
+          user = shallowCopyObj(response.data);
         }
+        console.log(user);
         Pubsub.publish(NOTIF.SIGN_IN, null);
       }).catch(error => {
         console.log(error);
@@ -149,4 +151,12 @@ const validateUserData = (data) => {
   return false;
 }
 
+const shallowCopyObj = (obj) => {
+  return Object.assign({}, obj);
+}
+
 export default Auth;
+
+export {
+  user
+};
