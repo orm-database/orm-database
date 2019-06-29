@@ -13,12 +13,17 @@ function SigninForm(props) {
 
   const [emailVal, setEmailVal] = useState('');
   // Add the necessary local state for password input with the useState hook
+  const [passwordVal, setPasswordVal] = useState('');
 
   const handleEmailChange = (event) => {
     setEmailVal(event.target.value);
   }
 
   // implement a handler function for the user typing in the password field
+
+  const handlePasswordChange = (event) => {
+    setPasswordVal(event.target.value);
+  }
 
   const authSubmit = () => {
     // Eventually make a call to Auth.sendSigninRequest
@@ -28,7 +33,7 @@ function SigninForm(props) {
 
     console.log('Signin form submitted');
     console.log('email: ' + emailVal);
-    // console.log passwordVal
+    console.log('password: ' + passwordVal);
   }
 
   return (
@@ -39,6 +44,8 @@ function SigninForm(props) {
           <input type='email' className='form-control' placeholder='Enter email' value={emailVal} onChange={handleEmailChange}></input>
         </div>
         <div className='form-group'>
+          <label>Password</label>
+          <input type='password' className='form-control' placeholder='Enter password' value={passwordVal} onChange={handlePasswordChange}></input>
           {/* Fill in the password part of the form here - it should look like the email form group above */}
           {/* **IMPORTANT** Keep class names consistent so that Bootstrap will style everything properly */}
         </div>
