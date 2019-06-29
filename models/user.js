@@ -77,7 +77,8 @@ let users = {
         let query = {
             table: 'users',
             data: { session_token: null },
-            where: [{ where }]
+            where: [ where ],
+            debug: true
         };
 
         orm.update(query, cb);

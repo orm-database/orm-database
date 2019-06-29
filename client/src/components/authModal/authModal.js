@@ -102,19 +102,25 @@ function AuthModal() {
   const authSubmit = (event) => {
     event.preventDefault();
 
-    let signupObj = {
-      first_name: firstNameVal,
-      last_name: lastNameVal,
-      alias: usernameVal,
-      email: emailVal,
-      password: passwordVal,
-      password_confirm: confirmPasswordVal 
-    };
+    if (modalType === AUTH_MODAL_TYPES.signin) {
+      let signinObj = {
+        email_address: emailVal,
+        password: passwordVal
+      };
 
-    // @TODO send to auth sign in/up and close the modal if returns a success
-    console.log('auth credentials (not yet) submitted');
-    console.log(emailVal, passwordVal, confirmPasswordVal);
-    Auth.sendSignupRequest(signupObj);
+      Auth.sendSigninRequest(signinObj);
+    } else if (modalType === AUTH_MODAL_TYPES.signup) {
+      let signupObj = {
+        first_name: firstNameVal,
+        last_name: lastNameVal,
+        alias: usernameVal,
+        email: emailVal,
+        password: passwordVal,
+        password_confirm: confirmPasswordVal 
+      };
+
+      Auth.sendSignupRequest(signupObj);
+    }
   }
 
   const generateFormContents = () => {

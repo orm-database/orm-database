@@ -3,7 +3,9 @@ import './chatListGroup.css';
 
 import ChatListItem from '../chatListItem/chatListItem';
 
-import { CHAT_GROUP_TYPES } from '../../utilities/constants';
+import { CHAT_GROUP_TYPES, NOTIF } from '../../utilities/constants';
+import Pubsub from '../../utilities/pubsub';
+import Data from '../../utilities/data';
 
 function ChatListGroup(props) {
   /* props = {
@@ -16,6 +18,18 @@ function ChatListGroup(props) {
   const [directs, setDirects] = useState([]);
 
   useEffect(() => {
+    Data.getAllChannels();
+  }, []);
+  
+  useEffect(() => {
+    Pubsub.subscribe(NOTIF.GROUPS_DOWNLOADED, this, handleNewGroups);
+
+    return (() => {
+      Pubsub.unsubscribe(NOTIF.GROUPS_DOWNLOADED, this);
+    });
+  }, []);
+  
+  useEffect(() => {
     // @TODO grab groups from global state based on props.groupType
 
     if (props.groupType === CHAT_GROUP_TYPES.group) {
@@ -26,6 +40,11 @@ function ChatListGroup(props) {
       setGroupsFetched(true);
     }
   });
+
+  const handleNewGroups = (data) => {
+    setGroups(data);
+    setGroupsFetched(true);
+  }
 
   const generateChatListItems = () => {
     // display a loading notification while the code is fetching the groups

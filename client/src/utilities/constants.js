@@ -12,10 +12,12 @@ export const CHAT_GROUP_TYPES = {
 // Notification strings for pubsub
 export const NOTIF = {
   MODAL_TOGGLE: 'modal_toggle',
+  GROUP_MODAL_TOGGLE: 'group_modal_toggle',
   SIGN_IN: 'signin',
   SIGN_UP: 'signup',
   SIGN_OUT: 'signout',
-  MESSAGES_RECEIVED: 'messages_received'
+  MESSAGES_RECEIVED: 'messages_received',
+  GROUPS_DOWNLOADED: 'groups_downloaded'
 };
 
 // API routes
@@ -30,7 +32,7 @@ export const API = {
   getChannelById: '/api/channels/',
   createChannel: '/api/channels',
   deleteChannelById: '/api/channels/',
-  // join: '/api/join',
+  join: '/api/channel-users',
   sendMessage: '/api/messages',
   getMessages: '/api/messages',
   getMessageById: '/api/messages/',
@@ -42,4 +44,11 @@ export const API = {
 export const AUTH_MODAL_TYPES = {
   signin: 'Sign In',
   signup: 'Sign Up'
+};
+
+// New group modal types
+// Doubly purposed to be the text displayed at the top of the modal
+export const GROUP_MODAL_TYPES = {
+  group: 'New Group',
+  direct: 'New Direct Message'
 };
