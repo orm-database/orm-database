@@ -44,7 +44,7 @@ function SignupForm(props) {
     console.log('Signup form submitted');
     console.log('first name: ' + firstNameVal);
     console.log('last name: ' + lastNameVal);
-    console.log('username: ' + userNameVal);
+    console.log('username: ' + usernameVal);
     console.log('email: ' + emailVal);
     console.log('password: ' + passwordVal);
     console.log('confirmed password: ' + confirmPasswordVal);
