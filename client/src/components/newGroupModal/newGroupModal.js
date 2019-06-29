@@ -24,6 +24,8 @@ function NewGroupModal(props) {
   const [modalType, setModalType] = useState(GROUP_MODAL_TYPES.group);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const [channelNameVal, setChannelNameVal] = useState('');
+
   const closeModal = () => {
     setModalIsOpen(false);
   }
@@ -38,6 +40,17 @@ function NewGroupModal(props) {
 
   const handleModalToggle = (data) => {
     setModalIsOpen(!modalIsOpen);
+  }
+
+  const handleChannelNameChange = (event) => {
+    setChannelNameVal(event.target.value);
+  }
+
+  const addChannelSubmit = () => {
+    let params = {
+      channel_name: channelNameVal
+    };
+    Data.createChannel(params);
   }
 
   const generateErrorInfo = () => {
@@ -73,7 +86,13 @@ function NewGroupModal(props) {
 
         <div className='tab-content'>
           <div role='tabpanel' className='tab-pane fade in active show' id='newgroup'>
-            New Group Test
+            <form>
+              <div className='form-group'>
+                <label>Channel Name</label>
+                <input type='text' className='form-control' value={channelNameVal} onChange={handleChannelNameChange} placeholder='Enter Channel Name'></input>
+              </div>
+              <button type='button' className='btn btn-primary' onClick={addChannelSubmit}>Add Channel</button>
+            </form>
           </div>
           <div role='tabpanel' className='tab-pane fade' id='newdirect'>
             New Direct Test
