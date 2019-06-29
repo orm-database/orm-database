@@ -34,12 +34,7 @@ let channels = {
             table: 'channels',
             data: channelObj //ensure the keys of the object match the table columns
         };
-        orm.insert(query, (error, data) => {
-            if (error) {
-                console.log(error.code + ' - ' + error.sqlMessage);
-            }
-            cb(data);
-        });
+        orm.insert(query, cb);
     },
     delete: (user_id, cb) => {
         let query = {
