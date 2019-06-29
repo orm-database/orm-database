@@ -25,7 +25,7 @@ function GroupsView(props) {
 
   // @TODO will likely need to add logic to distinguish between channels group and direct group
   return (
-    <div className='col-lg-2 p-0 group-menu scrollable'>
+    <div className='col-xl-2 col-lg-3 col-md-4 col-sm-5 p-0 group-menu scrollable'>
       <div className='channels-container mt-1 mb-4'>
         <div className='list-group-header d-flex justify-content-between'>
           <h5 className='pl-2 text-light'>Channels</h5>
