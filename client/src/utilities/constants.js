@@ -17,7 +17,8 @@ export const NOTIF = {
   SIGN_UP: 'signup',
   SIGN_OUT: 'signout',
   MESSAGES_RECEIVED: 'messages_received',
-  GROUPS_DOWNLOADED: 'groups_downloaded'
+  GROUPS_DOWNLOADED: 'groups_downloaded',
+  DMS_DOWNLOADED: 'dms_downloaded'
 };
 
 // API routes
