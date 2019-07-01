@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './chatListGroup.css';
+import './channelList.css';
 
 import ChatListItem from '../chatListItem/chatListItem';
 
@@ -7,7 +7,7 @@ import { CHAT_GROUP_TYPES, NOTIF } from '../../utilities/constants';
 import Pubsub from '../../utilities/pubsub';
 import Data from '../../utilities/data';
 
-function ChatListGroup(props) {
+function ChannelList(props) {
   /* props = {
     groupType: String - one of CHAT_GROUP_TYPES
     selectedGroupId: Number - group_id of the chat group
@@ -42,6 +42,7 @@ function ChatListGroup(props) {
   }, []);
 
   const handleNewGroups = (data) => {
+    console.log(data);
     setGroups(data);
     setGroupsFetched(true);
   }
@@ -56,25 +57,19 @@ function ChatListGroup(props) {
       let groupTypeVals = Object.values(CHAT_GROUP_TYPES);
 
       // check if groups contains any info - return null if not
-      if (groups) {
+      if (groups.length) {
         const items = groups.map(item => {
-          let groupType = groupTypeVals.indexOf(item.type);
-  
-          if (groupType >= 0) {
-            let active = props.selectedGroupId === item.group_id;
+          let active = props.selectedGroupId === item.channel_id;
 
-            return (
-              <ChatListItem 
-                type={groupTypeVals[groupType]} 
-                name={item.name} 
-                unreadCount={item.unread_count} 
-                active={active} 
-                key={item.group_id} 
-              />
-            )
-          } else {
-            return null;
-          }
+          return (
+            <ChatListItem 
+              type={'channel'} 
+              name={item.channel_name} 
+              unreadCount={item.unread_count || 0} 
+              active={active} 
+              key={item.channel_id} 
+            />
+          );
         });
   
         return (items);
@@ -94,4 +89,4 @@ function ChatListGroup(props) {
   );
 }
 
-export default ChatListGroup;
+export default ChannelList;
