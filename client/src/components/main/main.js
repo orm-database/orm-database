@@ -11,7 +11,7 @@ function Main() {
   // @TODO use pubsub to subscribe to group changes and pass down as appropriate
   useEffect(() => {
     // TEST DATA
-    setSelectedGroupId(1);
+    setSelectedGroupId('channel_2');
   }, []);
 
   const handleGroupChange = (newGroup) => {
