@@ -61,7 +61,7 @@ router.post('/api/channels/:channel_id', (req, res) => {
                 user_id: userId
             },
             (err, result) => {
-                console.log(result)
+
                 if (err) {
                     console.log(err);
 
