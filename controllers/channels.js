@@ -1,20 +1,8 @@
-var express = require("express");
-var router = express.Router();
-var channel = require("../models/channel.js");
+const express = require('express');
+const channel = require('../models/channel.js');
+const router = express.Router();
 
-router.get("/api/channels", (req, res) => {
-    console.log('retrieve all channels');
-    channel.select((rows) => {
-        res.json(rows);
-    })
-});
-
-router.get("/api/channels/:channel_id", (req, res) => {
-    console.log('retrieve channel: ' + req.params.channel_id);
-    channel.selectWhere(req.params, (rows) => {
-        res.json(rows);
-    })
-});
+// Official
 
 // POST route for creating a channel
 router.post('/api/channels', (req, res) => {
@@ -33,19 +21,6 @@ router.post('/api/channels', (req, res) => {
                 channel_id: result.insertId,
                 channel_name: req.body.channel_name
             });
-        }
-    });
-});
-
-router.delete("/api/channels/:channel_id", (req, res) => {
-    console.log('delete channel: ' + req.params.channel_id);
-    console.log(req.params);
-
-    channel.delete(req.params.channel_id, (result) => {
-        if (result.affectedRows == 0) {
-            return res.status(404).end();
-        } else {
-            res.status(200).end();
         }
     });
 });
@@ -73,6 +48,35 @@ router.post('/api/channel-users', (req, res) => {
                 }
             }
         );
+    });
+});
+
+// Unofficial
+
+router.get('/api/channels', (req, res) => {
+    console.log('retrieve all channels');
+    channel.select((rows) => {
+        res.json(rows);
+    })
+});
+
+router.get('/api/channels/:channel_id', (req, res) => {
+    console.log('retrieve channel: ' + req.params.channel_id);
+    channel.selectWhere(req.params, (rows) => {
+        res.json(rows);
+    })
+});
+
+router.delete('/api/channels/:channel_id', (req, res) => {
+    console.log('delete channel: ' + req.params.channel_id);
+    console.log(req.params);
+
+    channel.delete(req.params.channel_id, (result) => {
+        if (result.affectedRows == 0) {
+            return res.status(404).end();
+        } else {
+            res.status(200).end();
+        }
     });
 });
 

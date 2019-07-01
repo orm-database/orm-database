@@ -1,12 +1,12 @@
-var express = require("express");
-var hashpass = require('hashpass');
-var uuidv1 = require('uuid');
-var router = express.Router();
-var user = require("../models/user.js");
+const express = require('express');
+const hashpass = require('hashpass');
+const uuidv1 = require('uuid');
+const user = require('../models/user.js');
+const router = express.Router();
 
 // GET route for fetching one user by session token header or
 // all users by default
-router.get("/api/users", (req, res) => {
+router.get('/api/users', (req, res) => {
     console.log('list all users');
 
     if (req.headers['x-session-token']) {
@@ -26,7 +26,7 @@ router.get("/api/users", (req, res) => {
 });
 
 // GET route for fetching one user by ID
-router.get("/api/users/:id", (req, res) => {
+router.get('/api/users/:id', (req, res) => {
     console.log('retrieve user');
 
     user.selectWhere({ user_id: req.params.id }, (err, result) => {
@@ -39,7 +39,7 @@ router.get("/api/users/:id", (req, res) => {
 });
 
 // POST route for creating a user
-router.post("/api/users", (req, res) => {
+router.post('/api/users', (req, res) => {
     console.log('create user')
 
     if (!req.body.email_address.includes('@') || !req.body.email_address.includes('.')) {
@@ -97,7 +97,7 @@ router.delete('/api/users/login', (req, res) => {
 });
 
 // DELETE route for deleting a user
-router.delete("/api/users/:id", (req, res) => {
+router.delete('/api/users/:id', (req, res) => {
     console.log('delete user: ');
 
     user.deleteUser(req.params.id, (err, result) => {
