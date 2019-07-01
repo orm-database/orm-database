@@ -24,6 +24,7 @@ var userRoute = require("./controllers/users.js");
 var channelRoute = require("./controllers/channels.js");
 var messageRoute = require("./controllers/messages.js");
 var groupRoute = require("./controllers/groups.js");
+
 app.use(userRoute);
 app.use(channelRoute);
 app.use(messageRoute);
