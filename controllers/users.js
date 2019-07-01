@@ -1,19 +1,22 @@
-var express = require("express");
+var express = require('express');
 var hashpass = require('hashpass');
 var uuidv1 = require('uuid');
 var router = express.Router();
-var user = require("../models/user.js");
+var user = require('../models/user.js');
 
 // GET route for fetching one user by session token header or
 // all users by default
-router.get("/api/users", (req, res) => {
+router.get('/api/users', (req, res) => {
     console.log('list all users');
 
     if (req.headers['x-session-token']) {
 
-        user.selectWhere({ session_token: req.headers['x-session-token'] }, (err, result) => {
+        user.retrieveRelatedObjects({ session_token: req.headers['x-session-token'] }, (err, result) => {
             if (result.length) {
-                res.status(200).json(result[0]);
+                let formatResult = formatUsersObject(result);
+
+                res.status(200).json(formatResult);
+
             } else {
                 res.status(404).json({ 'error': 'user not found' });
             }
@@ -26,7 +29,7 @@ router.get("/api/users", (req, res) => {
 });
 
 // GET route for fetching one user by ID
-router.get("/api/users/:id", (req, res) => {
+router.get('/api/users/:id', (req, res) => {
     console.log('retrieve user');
 
     user.selectWhere({ user_id: req.params.id }, (err, result) => {
@@ -39,7 +42,7 @@ router.get("/api/users/:id", (req, res) => {
 });
 
 // POST route for creating a user
-router.post("/api/users", (req, res) => {
+router.post('/api/users', (req, res) => {
     console.log('create user')
 
     if (!req.body.email_address.includes('@') || !req.body.email_address.includes('.')) {
@@ -97,7 +100,7 @@ router.delete('/api/users/login', (req, res) => {
 });
 
 // DELETE route for deleting a user
-router.delete("/api/users/:id", (req, res) => {
+router.delete('/api/users/:id', (req, res) => {
     console.log('delete user: ');
 
     user.deleteUser(req.params.id, (err, result) => {
@@ -131,6 +134,29 @@ let handleLogin = (req, res, err, result) => {
             res.status(401).json({ 'error': 'improper login credentials' });
         }
     }
+};
+
+let formatUsersObject = (result) => {
+    let newResult = {
+        'user_id': result[0].user_id,
+        'first_name': result[0].first_name,
+        'last_name': result[0].last_name,
+        'email_address': result[0].email_address,
+        'alias': result[0].alias,
+        'session_token': result[0].session_token,
+        'created': result[0].created,
+        'updated': result[0].updated,
+        'channels_member_of': []
+    };
+    console.log('###')
+    result.forEach(element => {
+        newResult.channels_member_of.push({
+            channel_id: element.channel_id,
+            channel_name: element.channel_name
+        });
+    });
+
+    return newResult;
 };
 
 module.exports = router;
