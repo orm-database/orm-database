@@ -2,6 +2,7 @@ import React from 'react';
 import './groupsView.css';
 
 import ChannelList from '../channelList/channelList';
+import DirectList from '../directList/directList';
 import NewGroupModal from '../newGroupModal/newGroupModal';
 
 import { CHAT_GROUP_TYPES, NOTIF } from '../../utilities/constants';
@@ -30,7 +31,7 @@ function GroupsView(props) {
           <button type='button' className='add-btn' onClick={addChannel}></button>
         </div>
         
-        <ChannelList groupType={CHAT_GROUP_TYPES.group} selectedGroupId={props.selectedGroupId} />
+        <ChannelList selectedGroupId={props.selectedGroupId} />
       </div>
       
       <div className='direct-container mt-1 mb-4'>
@@ -38,7 +39,7 @@ function GroupsView(props) {
           <h5 className='pl-2 text-light'>Direct Messages</h5>
           <button type='button' className='add-btn' onClick={addDirectMessage}></button>
         </div>
-        {/* <ChatListGroup groupType={CHAT_GROUP_TYPES.direct} selectedGroupId={props.selectedGroupId} /> */}
+        <DirectList selectedGroupId={props.selectedGroupId} />
       </div>
 
       <NewGroupModal />
