@@ -36,7 +36,7 @@ var Users = {};
     axios.get(API.getAllChannels).then(response => {
       console.log('get all channels resolved');
       console.log(response.data);
-      AllChannels = shallowCopyObj(response.data);
+      AllChannels = JSON.parse(JSON.stringify(response.data));
       Pubsub.publish(NOTIF.GROUPS_DOWNLOADED, AllChannels);
     }).catch(error => {
       console.log(error);
