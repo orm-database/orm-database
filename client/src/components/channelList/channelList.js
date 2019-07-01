@@ -45,6 +45,7 @@ function ChannelList(props) {
 
         const items = groupList.map(item => {
           let active = props.selectedGroupId.indexOf('channel') >= 0 && activeId == item.channel_id;
+          console.log(active);
 
           return (
             <ChatListItem 
@@ -52,6 +53,7 @@ function ChannelList(props) {
               name={item.channel_name} 
               unreadCount={item.unread_count || 0} 
               active={active} 
+              group_id={item.channel_id}
               key={item.channel_id} 
             />
           );
@@ -60,9 +62,7 @@ function ChannelList(props) {
         return (items);
       } else {
         // display an item indicating that the user is not part of any groups/conversations
-        return (
-          <ChatListItem type={CHAT_GROUP_TYPES.empty} />
-        );
+        return null;
       }
     }
   }

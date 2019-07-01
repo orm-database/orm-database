@@ -34,9 +34,7 @@ function DirectList(props) {
 
   const generateDirectListItems = () => {
     if (!directListFetched) {
-      return (
-        <ChatListItem type={CHAT_GROUP_TYPES.loading} />
-      );
+      return null;
     } else {
       if (directList.length) {
         let activeId = props.selectedGroupId.replace( /^\D+/g, '');
@@ -50,6 +48,7 @@ function DirectList(props) {
               name={'**persons name**'}
               unreadCount={item.unread_count || 0}
               active={active}
+              group_id={item.direct_group_id}
               key={item.direct_group_id}
             />
           );
@@ -57,9 +56,7 @@ function DirectList(props) {
 
         return (items);
       } else {
-        return (
-          <ChatListItem type={CHAT_GROUP_TYPES.empty} />
-        );
+        return null
       }
     }
   }

@@ -5,7 +5,7 @@ export const APP_NAME = '**Placeholder**';
 export const CHAT_GROUP_TYPES = {
   empty: 'empty',
   loading: 'loading',
-  group: 'group',
+  channel: 'channel',
   direct: 'direct'
 };
 
@@ -18,7 +18,8 @@ export const NOTIF = {
   SIGN_OUT: 'signout',
   MESSAGES_RECEIVED: 'messages_received',
   GROUPS_DOWNLOADED: 'groups_downloaded',
-  DMS_DOWNLOADED: 'dms_downloaded'
+  DMS_DOWNLOADED: 'dms_downloaded',
+  GROUP_SELECTED: 'group_selected'
 };
 
 // API routes
