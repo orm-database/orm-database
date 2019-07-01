@@ -38,8 +38,8 @@ function SigninForm(props) {
   return (
     <form>
       <div className='modal-body'>
-        <FormInput labelText='Email' placeholder='Email' value={emailVal} onChange={handleEmailChange} />
-        <FormInput labelText='Password' placeholder='Password' value={passwordVal} onChange={handlePasswordChange} />
+        <FormInput label='Email' labelTitle='Email' placeholder='Enter your email' value={emailVal} onChange={handleEmailChange} />
+        <FormInput label='Password' labelTitle='Password' placeholder='Enter your password' value={passwordVal} onChange={handlePasswordChange} />
 
       {/* <div className='modal-body'>
         <div className='form-group'>
