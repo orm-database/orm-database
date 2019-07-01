@@ -90,11 +90,14 @@ var Users = {};
   }
 
   obj.sendMessage = (params) => {
-    axios.post(API.sendMessage, {
-      user_id: Auth.user.user_id,
+    let messageObj = {
+      user_id: user.user_id,
       message_text: params.message_text
-    }).then(response => {
+    };
+    console.log(messageObj);
+    axios.post(API.sendMessage, messageObj).then(response => {
       // @TODO add message to currentMessages and publish a notification
+      console.log(response);
     }).catch(error => {
       console.log(error);
       // @TODO send helpful error back to user
@@ -106,7 +109,7 @@ var Users = {};
     // @TODO fix the route when we figure out the endpoint
     axios.get(API.getMessages).then(response => {
       // set currentChannel with response info
-      console.log(response.data);
+      console.log(response);
       Pubsub.publish(NOTIF.MESSAGES_RECEIVED, null);
     }).catch(error => {
       console.log(error);

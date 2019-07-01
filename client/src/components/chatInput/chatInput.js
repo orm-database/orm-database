@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './chatInput.css';
 
+import Data from '../../utilities/data';
+import Auth, { user } from '../../utilities/auth';
+
 function ChatInput(props) {
   /* props = {
     selectedGroupId: Number - group_id of the chat group
@@ -13,7 +16,14 @@ function ChatInput(props) {
   }
 
   const sendMessage = () => {
-    // @TODO send to api endpoint using props.selectedGroupId and reset messageText on success
+    if (props.selectedGroupId !== '') {
+      let messageObj = {
+        message_text: messageText
+      };
+      Data.sendMessage(messageObj);
+    } else {
+      console.log('props.selectedGroupId empty');
+    }
   }
 
   return (
