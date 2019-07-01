@@ -2,11 +2,13 @@ import axios from 'axios';
 import Pubsub from './pubsub';
 import Auth from './auth';
 import { API, NOTIF } from './constants';
+import shallowCopyObj from './shallowCopy';
 
 const io = require('socket.io-client');
 
 var Data = {};
 
+var AllChannels = {};
 var Channels = {};
 var CurrentChannel = {};
 var Users = {};
@@ -33,7 +35,9 @@ var Users = {};
   obj.getAllChannels = () => {
     axios.get(API.getAllChannels).then(response => {
       console.log('get all channels resolved');
-      Pubsub.publish(NOTIF.GROUPS_DOWNLOADED, response.data);
+      console.log(response.data);
+      AllChannels = shallowCopyObj(response.data);
+      Pubsub.publish(NOTIF.GROUPS_DOWNLOADED, AllChannels);
     }).catch(error => {
       console.log(error);
       // @TODO send helpful error back to user
@@ -110,6 +114,7 @@ var Users = {};
 export default Data;
 
 export {
+  AllChannels,
   Channels,
   CurrentChannel,
   Users
