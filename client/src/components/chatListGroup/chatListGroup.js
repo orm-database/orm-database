@@ -39,7 +39,7 @@ function ChatListGroup(props) {
       setGroups(directs);
       setGroupsFetched(true);
     }
-  });
+  }, []);
 
   const handleNewGroups = (data) => {
     setGroups(data);
