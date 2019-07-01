@@ -10,7 +10,7 @@ var Data = {};
 
 var AllChannels = {};
 var Channels = {};
-var CurrentChannel = {};
+var CurrentChannelMessages = {};
 var Users = {};
 
 (function (obj) {
@@ -25,7 +25,7 @@ var Users = {};
   // @TODO create a listener function for new messages on the current channel
   // socket.io client library?
   obj.joinSocketRoom = (channelId) => {
-
+    
   }
 
   obj.leaveSocketRoom = (channelId) => {
@@ -94,7 +94,6 @@ var Users = {};
       user_id: user.user_id,
       message_text: params.message_text
     };
-    console.log(messageObj);
     axios.post(API.sendMessage, messageObj).then(response => {
       // @TODO add message to currentMessages and publish a notification
       console.log(response);
@@ -108,8 +107,9 @@ var Users = {};
   obj.fetchMessages = (channelId) => {
     // @TODO fix the route when we figure out the endpoint
     axios.get(API.getMessages).then(response => {
-      // set currentChannel with response info
+      // set CurrentChannelMessages with response info
       console.log(response);
+      CurrentChannelMessages = JSON.parse(JSON.stringify(response.data));
       Pubsub.publish(NOTIF.MESSAGES_RECEIVED, null);
     }).catch(error => {
       console.log(error);
@@ -117,10 +117,18 @@ var Users = {};
     });
   }
 
+  obj.fetchMessageById = (messageId) => {
+    axios.get(API.getMessageById + messageId).then(response => {
+      console.log(response);
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
   obj.handleSignout = () => {
     AllChannels = {};
     Channels = {};
-    CurrentChannel = {};
+    CurrentChannelMessages = {};
     Users = {};
   }
 })(Data);
@@ -130,6 +138,6 @@ export default Data;
 export {
   AllChannels,
   Channels,
-  CurrentChannel,
+  CurrentChannelMessages,
   Users
 };
