@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Pubsub from './pubsub';
-import Auth from './auth';
+import Auth, { user } from './auth';
 import { API, NOTIF } from './constants';
 import shallowCopyObj from './shallowCopy';
 
@@ -33,15 +33,17 @@ var Users = {};
   }
 
   obj.getAllChannels = () => {
-    axios.get(API.getAllChannels).then(response => {
-      console.log('get all channels resolved');
-      console.log(response.data);
-      AllChannels = JSON.parse(JSON.stringify(response.data));
-      Pubsub.publish(NOTIF.GROUPS_DOWNLOADED, AllChannels);
-    }).catch(error => {
-      console.log(error);
-      // @TODO send helpful error back to user
-    });
+    if (user.user_id) {
+      axios.get(API.getAllChannels).then(response => {
+        console.log('get all channels resolved');
+        console.log(response.data);
+        AllChannels = JSON.parse(JSON.stringify(response.data));
+        Pubsub.publish(NOTIF.GROUPS_DOWNLOADED, AllChannels);
+      }).catch(error => {
+        console.log(error);
+        // @TODO send helpful error back to user
+      });
+    }
   }
 
   obj.getChannelById = (params) => {
@@ -101,13 +103,22 @@ var Users = {};
 
   // @TODO send auth token with get request
   obj.fetchMessages = (channelId) => {
-    axios.get(API.getMessages + channelId).then(response => {
+    // @TODO fix the route when we figure out the endpoint
+    axios.get(API.getMessages).then(response => {
       // set currentChannel with response info
+      console.log(response.data);
       Pubsub.publish(NOTIF.MESSAGES_RECEIVED, null);
     }).catch(error => {
       console.log(error);
       // @TODO send helpful error back to user
     });
+  }
+
+  obj.handleSignout = () => {
+    AllChannels = {};
+    Channels = {};
+    CurrentChannel = {};
+    Users = {};
   }
 })(Data);
 

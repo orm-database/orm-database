@@ -15,14 +15,14 @@ function DirectList(props) {
   const [directList, setDirectList] = useState([]);
 
   useEffect(() => {
-    // Data.getAllDirectChannels (or whatever the function will be called)
-  }, []);
-
-  useEffect(() => {
     Pubsub.subscribe(NOTIF.DMS_DOWNLOADED, this, handleNewDMS);
+    Pubsub.subscribe(NOTIF.SIGN_IN, this, handleSignin);
+    Pubsub.subscribe(NOTIF.SIGN_OUT, this, handleSignout);
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.DMS_DOWNLOADED, this);
+      Pubsub.unsubscribe(NOTIF.SIGN_IN, this);
+      Pubsub.unsubscribe(NOTIF.SIGN_OUT, this);
     });
   }, []);
 
@@ -30,6 +30,15 @@ function DirectList(props) {
     console.log(data);
     setDirectList(data);
     setDirectListFetched(true);
+  }
+
+  const handleSignin = () => {
+    // @TODO call the fetch directs function when we figure out the endpoint
+  }
+
+  const handleSignout = () => {
+    setDirectList([]);
+    setDirectListFetched(false);
   }
 
   const generateDirectListItems = () => {

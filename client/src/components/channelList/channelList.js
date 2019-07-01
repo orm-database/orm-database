@@ -14,16 +14,16 @@ function ChannelList(props) {
   
   const [groupListFetched, setGroupListFetched] = useState(false);
   const [groupList, setGroupList] = useState([]);
-
-  useEffect(() => {
-    Data.getAllChannels();
-  }, []);
   
   useEffect(() => {
     Pubsub.subscribe(NOTIF.GROUPS_DOWNLOADED, this, handleNewGroups);
+    Pubsub.subscribe(NOTIF.SIGN_IN, this, handleSignin);
+    Pubsub.subscribe(NOTIF.SIGN_OUT, this, handleSignout);
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.GROUPS_DOWNLOADED, this);
+      Pubsub.unsubscribe(NOTIF.SIGN_IN, this);
+      Pubsub.unsubscribe(NOTIF.SIGN_OUT, this);
     });
   }, []);
 
@@ -33,12 +33,19 @@ function ChannelList(props) {
     setGroupListFetched(true);
   }
 
+  const handleSignin = () => {
+    Data.getAllChannels();
+  }
+
+  const handleSignout = () => {
+    setGroupList([]);
+    setGroupListFetched(false);
+  }
+
   const generateChatListItems = () => {
     // display a loading notification while the code is fetching the groups
     if (!groupListFetched) {
-      return (
-        <ChatListItem type={CHAT_GROUP_TYPES.loading} />
-      )
+      return null;
     } else {
       if (groupList.length) {
         let activeId = props.selectedGroupId.replace( /^\D+/g, '');

@@ -12,9 +12,7 @@ function Main() {
 
   // @TODO use pubsub to subscribe to group changes and pass down as appropriate
   useEffect(() => {
-    // TEST DATA
     Pubsub.subscribe(NOTIF.GROUP_SELECTED, this, handleGroupChange);
-    setSelectedGroupId('channel_2');
 
     return(() => {
       Pubsub.unsubscribe(NOTIF.GROUP_SELECTED, this);
