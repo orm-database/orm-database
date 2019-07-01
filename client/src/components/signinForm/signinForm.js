@@ -50,7 +50,7 @@ function SigninForm(props) {
           <label>Password</label>
           <input type='password' className='form-control' placeholder='Enter password' value={passwordVal} onChange={handlePasswordChange}></input>
           {/* Fill in the password part of the form here - it should look like the email form group above */}
-          {/* **IMPORTANT** Keep class names consistent so that Bootstrap will style everything properly */} */}
+          {/* **IMPORTANT** Keep class names consistent so that Bootstrap will style everything properly */}
         {/* </div> */}
         {/* LEAVE THE BELOW HTML AS IS */}
         <button type='button' className='btn btn-link' onClick={props.toggleModalType}>{props.changeTypeBtnText}</button>
