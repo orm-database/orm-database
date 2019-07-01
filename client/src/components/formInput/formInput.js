@@ -11,7 +11,7 @@ function FormInput(props) {
     return (
         <div>
             <label>{props.labelTitle}</label>
-            <input type='text' name={props.labelTitle} placeholder={props.placeholder} value={props.value} onChange={handleChange} />
+            <input className='form-control' type='text' name={props.labelTitle} placeholder={props.placeholder} value={props.value} onChange={handleChange} />
         </div>
     );
   }
