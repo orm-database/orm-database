@@ -11,11 +11,20 @@ router.get('/api/users', (req, res) => {
 
     if (req.headers['x-session-token']) {
 
-        user.retrieveRelatedObjects({ session_token: req.headers['x-session-token'] }, (err, result) => {
+        user.selectUsersJoinChannels({ session_token: req.headers['x-session-token'] }, {}, (err, result, params) => {
             if (result.length) {
                 let formatResult = formatUsersObject(result);
 
-                res.status(200).json(formatResult);
+                user.selectUsersJoinGroups({ session_token: req.headers['x-session-token'] }, formatResult, (err, results, params) => {
+                    console.log(results)
+                    results.forEach(element => {
+                        params.direct_messages.push({
+                            direct_group_id: element.direct_group_id
+                        });
+
+                        res.status(200).json(params);
+                    });
+                });
 
             } else {
                 res.status(404).json({ 'error': 'user not found' });
@@ -146,9 +155,10 @@ let formatUsersObject = (result) => {
         'session_token': result[0].session_token,
         'created': result[0].created,
         'updated': result[0].updated,
-        'channels_member_of': []
+        'channels_member_of': [],
+        'direct_messages': []
     };
-    console.log('###')
+
     result.forEach(element => {
         newResult.channels_member_of.push({
             channel_id: element.channel_id,
