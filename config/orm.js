@@ -121,10 +121,11 @@ let orm = {
 
         console.log(sqlQuery)
     },
-    selectJoinJoinWhere: function (query, params, callback) {
-        let sqlQuery = connection.query(query.string, [query.columns, query.where[0]], function (error, result) {
+    selectJoinJoinWhere: function (query, callback) {
+        let queryString = 'SELECT ?? FROM users LEFT JOIN channel_user ON channel_user.user_id = users.user_id LEFT JOIN channels ON channels.channel_id = channel_user.channel_id WHERE ?';
+        let sqlQuery = connection.query(queryString, [query.columns, query.where[0]], function (error, result) {
             console.log(result)
-            callback(error, result, params);
+            callback(error, result);
         });
 
         console.log(sqlQuery)
