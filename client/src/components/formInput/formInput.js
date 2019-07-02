@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import './formInput.css';
 
 function FormInput(props) {
+  
     const handleChange = (event) => {
       props.onChange(event.target.value);
     }
