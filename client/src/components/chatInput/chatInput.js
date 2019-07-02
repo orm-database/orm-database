@@ -3,6 +3,8 @@ import './chatInput.css';
 
 import Data from '../../utilities/data';
 import Auth, { user } from '../../utilities/auth';
+import Pubsub from '../../utilities/pubsub';
+import { NOTIF } from '../../utilities/constants';
 
 function ChatInput(props) {
   /* props = {
@@ -22,6 +24,7 @@ function ChatInput(props) {
       };
       Data.sendMessage(messageObj).then(newMessageId => {
         Data.emitSocketMessage(newMessageId);
+        setMessageText('');
       }).catch(error => {
         console.log(error);
       });
