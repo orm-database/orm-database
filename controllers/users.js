@@ -13,6 +13,16 @@ router.get("/api/users", (req, res) => {
 
         user.selectWhere({ session_token: req.headers['x-session-token'] }, (err, result) => {
             if (result.length) {
+                let formatResult = formatUsersObject(result);
+
+                user.selectUsersJoinGroups({ session_token: req.headers['x-session-token'] }, formatResult, (err, result, params) => {
+                    if (result.length) {
+                        result.forEach(element => {
+                            params.direct_messages.push({
+                                direct_group_id: element.direct_group_id
+                            });
+                        });
+                    } 
                 res.status(200).json(result[0]);
             } else {
                 res.status(404).json({ 'error': 'user not found' });
