@@ -36,7 +36,7 @@ function ChatView(props) {
   useEffect(() => {
     if (prevMessageId !== null) {
       Data.fetchMessageById(prevMessageId).then(response => {
-        let messages = messageList;
+        let messages = JSON.parse(JSON.stringify(messageList));
         messages.push(response[0]);
         setMessageList(messages);
         console.log(messages);
