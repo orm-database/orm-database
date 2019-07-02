@@ -4,7 +4,7 @@ import Auth, { user } from './auth';
 import { API, NOTIF } from './constants';
 import shallowCopyObj from './shallowCopy';
 
-const io = require('socket.io-client');
+import io from 'socket.io-client';
 
 var Data = {};
 
@@ -16,20 +16,33 @@ var Users = {};
 (function (obj) {
 
   // SOCKET IO TEST
-  var socket = io();
+  const socket = io();
 
-  socket.on('time', function (timeString) {
-    // console.log(timeString);
-  });
+  obj.connectSocket = (userId) => {
+    if (userId) {
+      let params = {
+        user_id: userId
+      };
+      console.log(socket);
+      socket.emit('join', params);
 
-  // @TODO create a listener function for new messages on the current channel
-  // socket.io client library?
-  obj.joinSocketRoom = (channelId) => {
-    
+      socket.on('newMessage', (message_id) => {
+        console.log('received newMessage emit');
+        Pubsub.publish(NOTIF.MESSAGES_RECEIVED, message_id);
+      });
+    } else {
+      console.log('userId undefined');
+      console.log(userId);
+    }
   }
 
-  obj.leaveSocketRoom = (channelId) => {
+  obj.changeSocketRoom = (channelId) => {
+    socket.emit('switchRoom', channelId);
+  }
 
+  obj.emitSocketMessage = (messageId) => {
+    console.log(socket);
+    socket.emit('sendMessage', messageId);
   }
 
   obj.getAllChannels = () => {
@@ -94,13 +107,18 @@ var Users = {};
       user_id: user.user_id,
       message_text: params.message_text
     };
-    axios.post(API.sendMessage, messageObj).then(response => {
-      // @TODO add message to currentMessages and publish a notification
-      console.log(response);
-    }).catch(error => {
-      console.log(error);
-      // @TODO send helpful error back to user
-    });
+    return new Promise((resolve, reject) => {
+      axios.post(API.sendMessage, messageObj).then(response => {
+        // @TODO add message to currentMessages and publish a notification
+        console.log(response);
+        resolve(response.data.insertId);
+      }).catch(error => {
+        console.log(error);
+        reject(error);
+        // @TODO send helpful error back to user
+      });
+    })
+    
   }
 
   // @TODO send auth token with get request
@@ -118,10 +136,14 @@ var Users = {};
   }
 
   obj.fetchMessageById = (messageId) => {
-    axios.get(API.getMessageById + messageId).then(response => {
-      console.log(response);
-    }).catch(error => {
-      console.log(error);
+    return new Promise((resolve, reject) => {
+      axios.get(API.getMessageById + messageId).then(response => {
+        console.log(response);
+        resolve(response.data);
+      }).catch(error => {
+        console.log(error);
+        reject(error);
+      });
     });
   }
 

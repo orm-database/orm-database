@@ -20,8 +20,13 @@ function ChatInput(props) {
       let messageObj = {
         message_text: messageText
       };
-      Data.sendMessage(messageObj);
+      Data.sendMessage(messageObj).then(newMessageId => {
+        Data.emitSocketMessage(newMessageId);
+      }).catch(error => {
+        console.log(error);
+      });
     } else {
+      alert('please select a channel to send a message');
       console.log('props.selectedGroupId empty');
     }
   }

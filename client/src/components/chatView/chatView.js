@@ -12,6 +12,7 @@ function ChatView(props) {
     selectedGroupId: Number - group_id of the chat group
   } */
 
+  const [prevMessageId, setPrevMessageId] = useState(null);
   const [messageList, setMessageList] = useState([]);
 
   // @TODO fetch all messages in the group given by props.selectedGroupId
@@ -32,6 +33,20 @@ function ChatView(props) {
     callFetchMessages()
   }, [props.selectedGroupId]);
 
+  useEffect(() => {
+    if (prevMessageId !== null) {
+      Data.fetchMessageById(prevMessageId).then(response => {
+        let messages = messageList;
+        messages.push(response[0]);
+        setMessageList(messages);
+        console.log(messages);
+        console.log(response);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+  }, [prevMessageId]);
+
   const handleSignin = () => {
     // Not sure this needs to be here
   }
@@ -40,9 +55,11 @@ function ChatView(props) {
     setMessageList([]);
   }
 
-  const handleNewMessages = (newMessage) => {
-    if (newMessage) {
-      // push new message to array
+  const handleNewMessages = (newMessageId) => {
+    if (newMessageId) {
+      console.log('new message from socket.io: ' + newMessageId);
+      // @TODO API request to get the new message by ID
+      setPrevMessageId(newMessageId);
     } else {
       let messages = CurrentChannelMessages;
       setMessageList(messages);
