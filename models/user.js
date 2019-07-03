@@ -77,11 +77,49 @@ let users = {
         let query = {
             table: 'users',
             data: { session_token: null },
-            where: [ where ],
+            where: [where],
             debug: true
         };
 
         orm.update(query, cb);
+    },
+    selectUsersJoinChannels: (where, params, cb) => {
+        let query = {
+            string: 'SELECT ?? FROM users LEFT JOIN channel_user ON channel_user.user_id = users.user_id LEFT JOIN channels ON channels.channel_id = channel_user.channel_id WHERE ?',
+            columns: [
+                'users.user_id',
+                'users.first_name',
+                'users.last_name',
+                'users.email_address',
+                'users.alias',
+                'users.session_token',
+                'users.created',
+                'users.updated',
+                'channels.channel_id',
+                'channels.channel_name'],
+            where: [where],
+        };
+
+        orm.selectJoinJoinWhere(query, params, cb);
+    },
+    selectUsersJoinGroups: (where, params, cb) => {
+        let query = {
+            string: 'SELECT ?? FROM users JOIN direct_group_user ON direct_group_user.user_id = users.user_id JOIN direct_groups ON direct_groups.direct_group_id = direct_group_user.direct_group_id WHERE ?',
+            columns: [
+                'users.user_id',
+                'users.first_name',
+                'users.last_name',
+                'users.email_address',
+                'users.alias',
+                'users.session_token',
+                'users.created',
+                'users.updated',
+                'direct_groups.direct_group_id'
+            ],
+            where: [where],
+        };
+
+        orm.selectJoinJoinWhere(query, params, cb);
     }
 };
 
