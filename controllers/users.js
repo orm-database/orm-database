@@ -22,8 +22,9 @@ router.get("/api/users", (req, res) => {
                                 direct_group_id: element.direct_group_id
                             });
                         });
-                    } 
-                res.status(200).json(result[0]);
+                    }
+                    res.status(200).json(result[0]);
+                });
             } else {
                 res.status(404).json({ 'error': 'user not found' });
             }
