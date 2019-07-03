@@ -13,6 +13,7 @@ router.get("/api/users", (req, res) => {
 
         user.selectUsersJoinChannels({ session_token: req.headers['x-session-token'] }, {}, (err, result) => {
             if (result.length) {
+
                 let formatResult = formatUsersObject(result);
 
                 user.selectUsersJoinGroups({ session_token: req.headers['x-session-token'] }, formatResult, (err, result, params) => {
@@ -23,7 +24,7 @@ router.get("/api/users", (req, res) => {
                             });
                         });
                     }
-                    res.status(200).json(result[0]);
+                    res.status(200).json(params);
                 });
             } else {
                 res.status(404).json({ 'error': 'user not found' });
