@@ -77,11 +77,30 @@ let users = {
         let query = {
             table: 'users',
             data: { session_token: null },
-            where: [ where ],
+            where: [where],
             debug: true
         };
 
         orm.update(query, cb);
+    },
+    selectUsersJoinGroups: (where, params, cb) => {
+        let query = {
+            string: 'SELECT ?? FROM users JOIN direct_group_user ON direct_group_user.user_id = users.user_id JOIN direct_groups ON direct_groups.direct_group_id = direct_group_user.direct_group_id WHERE ?',
+            columns: [
+                'users.user_id',
+                'users.first_name',
+                'users.last_name',
+                'users.email_address',
+                'users.alias',
+                'users.session_token',
+                'users.created',
+                'users.updated',
+                'direct_groups.direct_group_id'
+            ],
+            where: [where],
+        };
+
+        orm.selectJoinJoinWhere(query, params, cb);
     }
 };
 
