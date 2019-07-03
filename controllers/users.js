@@ -144,4 +144,29 @@ let handleLogin = (req, res, err, result) => {
     }
 };
 
+// Format the JSON user response object
+let formatUsersObject = result => {
+    let newResult = {
+        'user_id': result[0].user_id,
+        'first_name': result[0].first_name,
+        'last_name': result[0].last_name,
+        'email_address': result[0].email_address,
+        'alias': result[0].alias,
+        'session_token': result[0].session_token,
+        'created': result[0].created,
+        'updated': result[0].updated,
+        'channels_member_of': [],
+        'direct_messages': []
+    };
+
+    result.forEach(element => {
+        newResult.channels_member_of.push({
+            channel_id: element.channel_id,
+            channel_name: element.channel_name
+        });
+    });
+
+    return newResult;
+};
+
 module.exports = router;
