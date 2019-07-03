@@ -1,5 +1,6 @@
-let express = require('express');
-let group = require('../models/group.js');
+const express = require('express');
+const group = require('../models/group.js');
+
 let router = express.Router();
 
 // POST route for creating a direct message group

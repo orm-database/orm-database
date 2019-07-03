@@ -119,7 +119,7 @@ let users = {
             where: [where],
         };
 
-        orm.selectJoinJoinWhere(query, params, cb);
+        orm.selectJoinWhere(query, params, cb);
     }
 };
 
