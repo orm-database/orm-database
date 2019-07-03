@@ -120,6 +120,14 @@ let orm = {
         });
 
         console.log(sqlQuery)
+    },
+    selectJoinJoinWhere: function (query, params, callback) {
+        let sqlQuery = connection.query(query.string, [query.columns, query.where[0]], function (error, result) {
+            console.log(result)
+            callback(error, result, params);
+        });
+
+        console.log(sqlQuery)
     }
 };
 
