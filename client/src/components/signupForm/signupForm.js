@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './signupForm.css';
 
 import Auth from '../../utilities/auth';
+import FormInput from '../formInput/formInput';
 
 function SignupForm(props) {
   /* props = {
@@ -53,40 +54,13 @@ function SignupForm(props) {
   return (
     <form>
       <div className='modal-body'>
-        {/* fill in form contents similar to how you did for signinForm */}
-        {/* First Name */}
-        <div firstName='form-group'>
-          <label>First Name</label>
-          <input type='first-name' className='form-control' placeholder='Enter first name' value={firstNameVal} onChange={handleFirstNameChange}></input>
-        </div>
-        {/* Last Name */}
-        <div className='form-group'>
-          <label>Last Name</label>
-          <input type='last-name' className='form-control' placeholder='Enter last name' value={lastNameVal} onChange={handleLastNameChange}></input>
-        </div>
-        {/* Username */}
-        <div className='form-group'>
-          <label>Username</label>
-          <input type='username' className='form-control' placeholder='Enter username' value={usernameVal} onChange={handleUsernameChange}></input>
-        </div>
-        {/* Email */}
-        <div className='form-group'>
-          <label>Email Address</label>
-          <input type='email' className='form-control' placeholder='Enter email' value={emailVal} onChange={handleEmailChange}></input>
-        </div>
-        {/* Password */}
-        <div className='form-group'>
-          <label>Password</label>
-          <input type='password' className='form-control' placeholder='Enter password' value={passwordVal} onChange={handlePasswordChange}></input>
-        </div>
-        {/* Confirm Password */}
-        <div className='form-group'>
-          <label>Confirm Password</label>
-          <input type='confirm-password' className='form-control' placeholder='Confirm password' value={confirmPasswordVal} onChange={handleConfirmPasswordChange}></input>
-        </div>
+        <FormInput labelTitle='First Name' type='text' placeholder='First Name' value={firstNameVal} onChange={setFirstNameVal} />
+        <FormInput labelTitle='Last Name' type='text' placeholder='Last Name' value={lastNameVal} onChange={setLastNameVal} />
+        <FormInput labelTitle='Username' type='text' placeholder='Username' value={usernameVal} onChange={setUsernameVal} />
+        <FormInput labelTitle='Email' type='email' placeholder='Email' value={emailVal} onChange={setEmailVal} />
+        <FormInput labelTitle='Password' type='password' placeholder='Password' value={passwordVal} onChange={setPasswordVal} />
+        <FormInput labelTitle='Confirm Password' type='password' placeholder='Confirm password' value={confirmPasswordVal} onChange={setConfirmPasswordVal} />
       </div>
-
-      {/* LEAVE THE BELOW HTML AS IS */}
       <button type='button' className='btn btn-link' onClick={props.toggleModalType}>{props.changeTypeBtnText}</button>
       <div className='modal-footer'>
         <button type='submit' className='btn btn-primary' onClick={authSubmit}>Submit</button>

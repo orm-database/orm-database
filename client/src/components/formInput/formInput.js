@@ -10,9 +10,9 @@ function FormInput(props) {
     }
   
     return (
-        <div>
+        <div className='form-group'>
             <label>{props.labelTitle}</label>
-            <input className='form-control' type='text' name={props.labelTitle} placeholder={props.placeholder} value={props.value} onChange={handleChange} />
+            <input className='form-control' type={props.type} name={props.labelTitle} placeholder={props.placeholder} value={props.value} onChange={handleChange} />
         </div>
     );
   }

@@ -25,7 +25,8 @@ function SigninForm(props) {
     setPasswordVal(event.target.value);
   }
 
-  const authSubmit = () => {
+  const authSubmit = (event) => {
+    event.preventDefault();
     // Eventually make a call to Auth.sendSigninRequest
     // Don't worry about actually making that call because the Auth object doesn't play nice with the API yet.
 
@@ -37,26 +38,13 @@ function SigninForm(props) {
 
   return (
     <form>
-      <div className='form-group'>
-        <FormInput label='Email' labelTitle='Email' placeholder='Enter your email' value={emailVal} onChange={setEmailVal} />
-        <FormInput label='Password' labelTitle='Password' placeholder='Enter your password' value={passwordVal} onChange={setPasswordVal} />
-
-      {/* <div className='modal-body'>
-        <div className='form-group'>
-          <label>Email Address</label>
-          <input type='email' className='form-control' placeholder='Enter email' value={emailVal} onChange={handleEmailChange}></input>
-        </div>
-        <div className='form-group'>
-          <label>Password</label>
-          <input type='password' className='form-control' placeholder='Enter password' value={passwordVal} onChange={handlePasswordChange}></input>
-          {/* Fill in the password part of the form here - it should look like the email form group above */}
-          {/* **IMPORTANT** Keep class names consistent so that Bootstrap will style everything properly */}
-        {/* </div> */}
-        {/* LEAVE THE BELOW HTML AS IS */}
-        <button type='button' className='btn btn-link' onClick={props.toggleModalType}>{props.changeTypeBtnText}</button>
-        <div className='modal-footer'>
-          <button type='submit' className='btn btn-primary' onClick={authSubmit}>Submit</button>
-        </div>
+      <div className='modal-body'>
+        <FormInput labelTitle='Email' type='email' placeholder='Enter your email' value={emailVal} onChange={setEmailVal} />
+        <FormInput labelTitle='Password' type='password' placeholder='Enter your password' value={passwordVal} onChange={setPasswordVal} />
+      </div>
+      <button type='button' className='btn btn-link' onClick={props.toggleModalType}>{props.changeTypeBtnText}</button>
+      <div className='modal-footer'>
+        <button type='submit' className='btn btn-primary' onClick={authSubmit}>Submit</button>
       </div>
     </form>
   );
