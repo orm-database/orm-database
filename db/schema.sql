@@ -13,7 +13,7 @@ CREATE TABLE `users` (
   `salt` varchar(50)  NOT NULL,
   `session_token` varchar(50),
   `created` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  `updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE users
@@ -27,7 +27,7 @@ select 'create messages - begin';
 CREATE TABLE `messages` (
   `message_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `message_text` varchar(256),
+  `message_text` varchar(4000) NOT NULL,
   `message_time` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (`message_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -39,16 +39,21 @@ select 'create messages - end';
 select 'create channels - begin';
 CREATE TABLE `channels` (
   `channel_id` int(11) NOT NULL AUTO_INCREMENT,
-  `channel_name` varchar(50),
+  `channel_name` varchar(50) NOT NULL,
+  `created` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (`channel_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE channels
+	ADD CONSTRAINT unique_alias UNIQUE KEY(`channel_name`);
 select 'create channels - end';
 
 
 select 'create channel_user - begin';
 CREATE TABLE `channel_user` (
-  `channel_id` int(11),
-  `user_id` int(11) 
+  `channel_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  PRIMARY KEY (`channel_id, user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE `channel_user` ADD CONSTRAINT `fk_channel_user_channels_channel_id` FOREIGN KEY (`channel_id`) 
     REFERENCES `channels` (`channel_id`);
@@ -60,15 +65,18 @@ select 'create channel_user - end';
 select 'create direct_groups - begin';
 CREATE TABLE `direct_groups` (
   `direct_group_id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`direct_group_id`)
+  `created` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+ PRIMARY KEY (`direct_group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 select 'create direct_groups - end';
 
 
 select 'create direct_group_user - begin';
 CREATE TABLE `direct_group_user` (
-  `direct_group_id` int(11),
-  `user_id` int(11) DEFAULT NULL
+  `direct_group_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  PRIMARY KEY(`direct_group_id`, `user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE `direct_group_user` ADD CONSTRAINT `fk_direct_group_group_id` FOREIGN KEY (`direct_group_id`) 
     REFERENCES `direct_groups` (`direct_group_id`);
@@ -79,8 +87,10 @@ select 'create direct_group_user - end';
 
 select 'create direct_message - begin';
 CREATE TABLE `direct_group_message` (
-  `direct_group_id` int(11),
-  `message_id` int(11)
+  `direct_group_id` int(11) NOT NULL,
+  `message_id` int(11) NOT NULL,
+  `created` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  PRIMARY KEY(`direct_group_id`, `message_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE `direct_group_message` ADD CONSTRAINT `fk_group_message_user` FOREIGN KEY (`direct_group_id`) 
     REFERENCES `direct_group_user` (`direct_group_id`);
@@ -91,8 +101,10 @@ select 'create direct_message - end';
 
 select 'create channel_message - begin';
 CREATE TABLE `channel_message` (
-  `channel_id` int(11),
-  `message_id` int(11)
+  `channel_id` int(11) NOT NULL,
+  `message_id` int(11) NOT NULL,
+  `created` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  PRIMARY KEY(`channel_id`, `message_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE `channel_message` ADD CONSTRAINT `fk_channel_message_channel_id` FOREIGN KEY (`channel_id`) 
     REFERENCES `channels` (`channel_id`);
