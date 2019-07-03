@@ -11,7 +11,7 @@ router.get("/api/users", (req, res) => {
 
     if (req.headers['x-session-token']) {
 
-        user.selectUsersJoinChannels({ session_token: req.headers['x-session-token'] }, (err, result) => {
+        user.selectUsersJoinChannels({ session_token: req.headers['x-session-token'] }, {}, (err, result) => {
             if (result.length) {
                 let formatResult = formatUsersObject(result);
 
