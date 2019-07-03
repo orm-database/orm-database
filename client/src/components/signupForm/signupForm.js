@@ -39,6 +39,16 @@ function SignupForm(props) {
   }
 
   const authSubmit = () => {
+    var params = {
+      first_name: firstNameVal,
+      last_name: lastNameVal,
+      alias: usernameVal,
+      email: emailVal,
+      password: passwordVal,
+      password_confirm: confirmPasswordVal
+    }
+  
+    Auth.sendSignupRequest(params);
     // Eventually send to Auth.sendSignupRequest, but that functions isn't properly configured yet.
     // Just worry about getting this function to fire and console.log all of the pertinent information
 

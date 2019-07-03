@@ -25,8 +25,8 @@ function SigninForm(props) {
     setPasswordVal(event.target.value);
   }
 
-  const authSubmit = (event) => {
-    event.preventDefault();
+  const authSubmit = () => {
+    Auth.sendSigninRequest(emailVal,passwordVal);
     // Eventually make a call to Auth.sendSigninRequest
     // Don't worry about actually making that call because the Auth object doesn't play nice with the API yet.
 
@@ -44,7 +44,7 @@ function SigninForm(props) {
       </div>
       <button type='button' className='btn btn-link' onClick={props.toggleModalType}>{props.changeTypeBtnText}</button>
       <div className='modal-footer'>
-        <button type='submit' className='btn btn-primary' onClick={authSubmit}>Submit</button>
+        <button type='button' className='btn btn-primary' onClick={authSubmit}>Submit</button>
       </div>
     </form>
   );
