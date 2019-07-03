@@ -44,7 +44,7 @@ CREATE TABLE `channels` (
   PRIMARY KEY (`channel_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE channels
-	ADD CONSTRAINT unique_alias UNIQUE KEY(`channel_name`);
+	ADD CONSTRAINT unique_channel_name UNIQUE KEY(`channel_name`);
 select 'create channels - end';
 
 
