@@ -15,7 +15,7 @@ INSERT INTO channel_user (channel_id, user_id)
 INSERT INTO messages (user_id, message_text)
 	VALUES(1, 'Hello Project Team');
 
-INSERT INTO channel_message VALUES(1, 1);    
+INSERT INTO channel_message (channel_id, message_id) VALUES(1, 1);    
 
 
 SELECT * FROM channel_message

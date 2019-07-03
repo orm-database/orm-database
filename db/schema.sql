@@ -53,7 +53,7 @@ CREATE TABLE `channel_user` (
   `channel_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `created` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  PRIMARY KEY (`channel_id, user_id`)
+  PRIMARY KEY (`channel_id`, `user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE `channel_user` ADD CONSTRAINT `fk_channel_user_channels_channel_id` FOREIGN KEY (`channel_id`) 
     REFERENCES `channels` (`channel_id`);
