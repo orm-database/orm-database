@@ -62,22 +62,24 @@ let formatGroupsObject = result => {
         'messages': []
     };
 
-    result.forEach(element => {
-        newResult.messages.push({
-            message_id: element.message_id,
-            message_text: element.message_text,
-            message_time: element.message_time,
-            user: {
-                user_id: element.user_id,
-                first_name: element.first_name,
-                last_name: element.last_name,
-                email_address: element.email_address,
-                alias: element.alias,
-                created: element.created,
-                updated: element.updated
-            }
+    if (result.messages) {
+        result.forEach(element => {
+            newResult.messages.push({
+                message_id: element.message_id,
+                message_text: element.message_text,
+                message_time: element.message_time,
+                user: {
+                    user_id: element.user_id,
+                    first_name: element.first_name,
+                    last_name: element.last_name,
+                    email_address: element.email_address,
+                    alias: element.alias,
+                    created: element.created,
+                    updated: element.updated
+                }
+            });
         });
-    });
+    }
 
     return newResult;
 };

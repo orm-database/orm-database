@@ -48,7 +48,7 @@ let channels = {
     },
     selectChannelsJoinMessages: (where, cb) => {
         let query = {
-            string: 'SELECT ?? FROM channels JOIN channel_message ON channel_message.channel_id = channels.channel_id JOIN messages ON messages.message_id = channel_message.message_id JOIN users ON users.user_id = messages.user_id WHERE channels.channel_id = ? ORDER BY messages.message_time',
+            string: 'SELECT ?? FROM channels LEFT JOIN channel_message ON channel_message.channel_id = channels.channel_id LEFT JOIN messages ON messages.message_id = channel_message.message_id LEFT JOIN users ON users.user_id = messages.user_id WHERE channels.channel_id = ? ORDER BY messages.message_time',
             columns: [
                 'channels.channel_id',
                 'channels.channel_name',

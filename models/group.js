@@ -18,7 +18,7 @@ let group = {
     },
     selectGroupsJoinMessages: (where, cb) => {
         let query = {
-            string: 'SELECT ?? FROM direct_groups JOIN direct_group_message ON direct_group_message.direct_group_id = direct_groups.direct_group_id JOIN messages ON messages.message_id = direct_group_message.message_id JOIN users ON users.user_id = messages.user_id WHERE direct_groups.direct_group_id = ? ORDER BY messages.message_time',
+            string: 'SELECT ?? FROM direct_groups LEFT JOIN direct_group_message ON direct_group_message.direct_group_id = direct_groups.direct_group_id LEFT JOIN messages ON messages.message_id = direct_group_message.message_id LEFT JOIN users ON users.user_id = messages.user_id WHERE direct_groups.direct_group_id = ? ORDER BY messages.message_time',
             columns: [
                 'direct_groups.direct_group_id',
                 'messages.message_id',

@@ -126,6 +126,7 @@ let orm = {
         let sqlQuery = connection.query(query.string, [query.columns, query.where[0]], function (error, result) {
             callback(error, result, params);
         });
+        console.log(sqlQuery)
     }
 };
 
