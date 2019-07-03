@@ -17,8 +17,9 @@ router.get("/api/messages/:message_id", (req, res) => {
 });
 
 router.post("/api/messages", (req, res) => {
-    console.log('create message: ' + req.params.message_id);
-    message.create(req.params, (rows) => {
+    // console.log('create message: ' + req.params.message_id);
+    console.log(req.body);
+    message.create(req.body, (rows) => {
         res.json(rows);
         res.status(200).end();
     })

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import Pubsub from './pubsub';
 import { API, NOTIF } from './constants';
+import shallowCopyObj from './shallowCopy';
+import Data from './data';
 
 var Auth = {};
 
@@ -40,7 +42,8 @@ var user = {};
       axios.post(API.signin, signinObj).then(response => {
         let session_token = response.headers['x-session-token'];
         localStorage.setItem('x-session-token', session_token);
-        user = response.body;
+        user = shallowCopyObj(response.data);
+        console.log(user);
         // user = response.data.user;
         Pubsub.publish(NOTIF.SIGN_IN, null);
       }).catch(error => {
@@ -66,7 +69,10 @@ var user = {};
         password: params.password,
         password_confirm: params.password_confirm
       }).then(response => {
-        user = response.data.user;
+        let session_token = response.headers['x-session-token'];
+        localStorage.setItem('x-session-token', session_token);
+        user = shallowCopyObj(response.data);
+        console.log(user);
         Pubsub.publish(NOTIF.SIGN_IN, null);
       }).catch(error => {
         // @TODO return error codes and display helpful messages to the user, i.e. incorrect password, etc.
@@ -94,7 +100,9 @@ var user = {};
     }).then(response => {
       if (response.status == 200) {
         user = {};
+        localStorage.setItem('x-session-token', '');
         Pubsub.publish(NOTIF.SIGN_OUT, null);
+        Data.handleSignout();
         console.log('signout success');
       } else {
         // @TODO not sure what to do in a .then handler here
@@ -149,10 +157,6 @@ const validateUserData = (data) => {
   }
 
   return false;
-}
-
-const shallowCopyObj = (obj) => {
-  return Object.assign({}, obj);
 }
 
 export default Auth;
