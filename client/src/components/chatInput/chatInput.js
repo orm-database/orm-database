@@ -19,8 +19,10 @@ function ChatInput(props) {
 
   const sendMessage = () => {
     if (props.selectedGroupId !== '') {
+      let channel_id = props.selectedGroupId.match(/\d+/)[0];
       let messageObj = {
-        message_text: messageText
+        message_text: messageText,
+        channel_id: channel_id
       };
       Data.sendMessage(messageObj).then(newMessageId => {
         Data.emitSocketMessage(newMessageId);

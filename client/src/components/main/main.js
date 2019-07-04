@@ -35,6 +35,7 @@ function Main() {
 
   const handleSignout = () => {
     setAuthenticated(false);
+    setSelectedGroupId('');
   }
 
   const handleSignin = () => {
