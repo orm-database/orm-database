@@ -61,7 +61,7 @@ let messages = {
 		        ON channels.channel_id = channel_message.channel_id
 	        JOIN users
 		        ON users.user_id = messages.message_id
-        WHERE channel_message.channel_id  = `+ ch;
+        WHERE channel_message.channel_id  = `+ channel_id;
         let queryArray = 1;
         orm.query(queryString, queryArray, (error, data) => {
             cb(data);
