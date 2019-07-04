@@ -60,7 +60,7 @@ let messages = {
 	        JOIN channels
 		        ON channels.channel_id = channel_message.channel_id
 	        JOIN users
-		        ON users.user_id = messages.message_id
+		        ON users.user_id = messages.user_id
         WHERE channel_message.channel_id  = `+ channel_id;
         let queryArray = 1;
         orm.query(queryString, queryArray, (error, data) => {
