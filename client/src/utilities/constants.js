@@ -19,7 +19,8 @@ export const NOTIF = {
   MESSAGES_RECEIVED: 'messages_received',
   GROUPS_DOWNLOADED: 'groups_downloaded',
   DMS_DOWNLOADED: 'dms_downloaded',
-  GROUP_SELECTED: 'group_selected'
+  GROUP_SELECTED: 'group_selected',
+  CHANNEL_JOIN: 'channel_join'
 };
 
 // API routes
