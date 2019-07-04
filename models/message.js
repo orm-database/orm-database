@@ -3,7 +3,7 @@ const orm = require("../config/orm.js");
 let messages = {
     select: (cb) => {
         let query = {
-            columns: ['message_id', 'message_text'],
+            columns: ['message_id', 'message_text', 'message_time'],
             table: 'messages',
         };
         orm.select(query, (error, data) => {
@@ -26,6 +26,27 @@ let messages = {
             where: [where]
         };
         orm.select(query, (error, data) => {
+            cb(data);
+        });
+    },
+    selectAllMessages: (cb) => {
+        let queryString = `
+        SELECT messages.message_text, messages.message_time, users.user_id, users.first_name, users.last_name, users.alias FROM messages 
+            JOIN users
+  	            ON messages.user_id = users.user_id`;
+        let queryArray = 1;
+        orm.query(queryString, queryArray, (error, data) => {
+            cb(data);
+        });
+    },
+    selectByMessageId: (message_id, cb) => {
+        let queryString = `
+        SELECT messages.message_text, messages.message_time, users.user_id, users.first_name, users.last_name, users.alias FROM messages 
+            JOIN users
+  	            ON messages.user_id = users.user_id
+            WHERE messages.message_id = `+ message_id;
+        let queryArray = 1;
+        orm.query(queryString, queryArray, (error, data) => {
             cb(data);
         });
     },

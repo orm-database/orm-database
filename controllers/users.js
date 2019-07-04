@@ -7,13 +7,14 @@ let router = express.Router();
 
 // GET route for fetching one user by session token header or
 // all users by default
-router.get('/api/users', (req, res) => {
+router.get("/api/users", (req, res) => {
     console.log('list all users');
 
     if (req.headers['x-session-token']) {
 
-        user.selectUsersJoinChannels({ session_token: req.headers['x-session-token'] }, {}, (err, result, params) => {
+        user.selectUsersJoinChannels({ session_token: req.headers['x-session-token'] }, {}, (err, result) => {
             if (result.length) {
+
                 let formatResult = formatUsersObject(result);
 
                 user.selectUsersJoinGroups({ session_token: req.headers['x-session-token'] }, formatResult, (err, result, params) => {
@@ -24,7 +25,6 @@ router.get('/api/users', (req, res) => {
                             });
                         });
                     }
-
                     res.status(200).json(params);
                 });
             } else {
@@ -39,7 +39,7 @@ router.get('/api/users', (req, res) => {
 });
 
 // GET route for fetching one user by ID
-router.get('/api/users/:id', (req, res) => {
+router.get("/api/users/:id", (req, res) => {
     console.log('retrieve user');
 
     user.selectWhere({ user_id: req.params.id }, (err, result) => {
@@ -52,7 +52,7 @@ router.get('/api/users/:id', (req, res) => {
 });
 
 // POST route for creating a user
-router.post('/api/users', (req, res) => {
+router.post("/api/users", (req, res) => {
     console.log('create user')
 
     if (!req.body.email_address.includes('@') || !req.body.email_address.includes('.')) {
@@ -119,6 +119,19 @@ router.post('/api/users/login', (req, res) => {
 router.delete('/api/users/login', (req, res) => {
     user.update({ session_token: req.headers['x-session-token'] }, (err, result) => {
         res.status(200).json({ 'message': 'user logged out successfully' });
+    });
+});
+
+// DELETE route for deleting a user
+router.delete("/api/users/:id", (req, res) => {
+    console.log('delete user: ');
+
+    user.deleteUser(req.params.id, (err, result) => {
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ 'message': 'user delete failed' });
+        } else {
+            res.status(200).json({ 'message': 'user deleted successfully' });
+        }
     });
 });
 

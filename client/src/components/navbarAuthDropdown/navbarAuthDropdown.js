@@ -3,7 +3,6 @@ import './navbarAuthDropdown.css';
 
 import Pubsub from '../../utilities/pubsub';
 import { NOTIF, AUTH_MODAL_TYPES } from '../../utilities/constants';
-import Data from '../../utilities/data';
 import Auth from '../../utilities/auth';
 
 function NavbarAuthDropdown(props) {
@@ -59,7 +58,7 @@ function NavbarAuthDropdown(props) {
     // @TODO finish this function
     return (
       <div className='d-flex justify-content-center'>
-        <button type='button' className='btn btn-danger' onClick={() => Data.sendSignoutRequest()}>Sign Out</button>
+        <button type='button' className='btn btn-danger' onClick={() => Auth.sendSignoutRequest()}>Sign Out</button>
       </div>
     );
   }
