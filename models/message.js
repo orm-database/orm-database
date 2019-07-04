@@ -50,6 +50,23 @@ let messages = {
             cb(data);
         });
     },
+    selectByChannelId: (channel_id, cb) => {
+        let queryString = `
+        SELECT channels.channel_id, channels.channel_name, channel_message.message_id, messages.message_text, messages.message_time,  
+	                users.user_id, users.first_name, users.last_name, users.alias
+        FROM channel_message
+	        JOIN messages
+		        ON messages.message_id = channel_message.message_id
+	        JOIN channels
+		        ON channels.channel_id = channel_message.channel_id
+	        JOIN users
+		        ON users.user_id = messages.message_id
+        WHERE channel_message.channel_id  = `+channel_id;
+        let queryArray = 1;
+        orm.query(queryString, queryArray, (error, data) => {
+            cb(data);
+        });
+    },
     create: (channelObj, cb) => {
         let query = {
             table: 'messages',
