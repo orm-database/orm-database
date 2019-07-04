@@ -105,7 +105,8 @@ var Users = {};
   obj.sendMessage = (params) => {
     let messageObj = {
       user_id: user.user_id,
-      message_text: params.message_text
+      message_text: params.message_text,
+      channel_id: params.channel_id
     };
     return new Promise((resolve, reject) => {
       axios.post(API.sendMessage, messageObj).then(response => {
@@ -121,9 +122,8 @@ var Users = {};
     
   }
 
-  // @TODO send auth token with get request
+  // Shouldn't be called by anything
   obj.fetchMessages = (channelId) => {
-    // @TODO fix the route when we figure out the endpoint
     axios.get(API.getMessages).then(response => {
       // set CurrentChannelMessages with response info
       console.log(response);
@@ -133,6 +133,17 @@ var Users = {};
       console.log(error);
       // @TODO send helpful error back to user
     });
+  }
+
+  // @TODO send auth token with get request
+  obj.getChannelMessages = (channelId) => {
+    axios.get(API.getMessagesByChannelId + channelId).then(response => {
+      CurrentChannelMessages = JSON.parse(JSON.stringify(response.data));
+      Pubsub.publish(NOTIF.MESSAGES_RECEIVED, null);
+    }).catch(error => {
+      console.log(error);
+      // @TODO send helpful error back to user
+    })
   }
 
   obj.fetchMessageById = (messageId) => {

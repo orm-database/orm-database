@@ -72,8 +72,8 @@ function ChatView(props) {
     let groupId = props.selectedGroupId.replace( /^\D+/g, '');
 
     // if (groupType === 'channel' && groupId >= 0) {
-    if (groupType === 'channel') { // FOR TESTING ONLY - the above line will be used when everything gets set up properly
-      Data.fetchMessages(groupId);
+    if (groupType === 'channel' && groupId >= 0) {
+      Data.getChannelMessages(groupId);
     } else {
       console.log('download direct messages');
     }
