@@ -21,7 +21,12 @@ router.get("/api/messages/:message_id", (req, res) => {
         res.json(rows);
     })
 });
-
+router.get("/api/messages/channel/:channel_id", (req, res) => {
+    console.log('retrieve message: ' + req.params.channel_id);
+    message.selectByChannelId(req.params.channel_id, (rows) => {
+        res.json(rows);
+    })
+});
 router.post("/api/messages", (req, res) => {
     console.log(req.body);
     message.create(req.body, (rows) => {
