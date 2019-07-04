@@ -83,10 +83,10 @@ function ChatView(props) {
       const messages = messageList.map((message, index) => {
         return (
           <MessageItem 
-            author={message.author || 'message_id: ' + message.message_id} 
-            timestamp={message.timestamp || 'placeholder'} 
+            author={message.alias || 'unknown'} 
+            timestamp={message.message_time || ''} 
             content={message.message_text} 
-            key={message.message_id} 
+            key={message.message_id || index} 
           />
         );
       });
