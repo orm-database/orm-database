@@ -6,6 +6,7 @@ import MessageItem from '../messageItem/messageItem';
 import Data, { CurrentChannelMessages } from '../../utilities/data';
 import Pubsub from '../../utilities/pubsub';
 import { NOTIF } from '../../utilities/constants';
+import { formatMessageTimestamp } from '../../utilities/helper';
 
 function ChatView(props) {
   /* props = {
@@ -84,7 +85,7 @@ function ChatView(props) {
         return (
           <MessageItem 
             author={message.alias || 'unknown'} 
-            timestamp={message.message_time || ''} 
+            timestamp={formatMessageTimestamp(message.message_time) || ''} 
             content={message.message_text} 
             key={message.message_id || index} 
           />
