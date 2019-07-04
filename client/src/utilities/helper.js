@@ -11,7 +11,7 @@ const formatMessageTimestamp = (timestamp) => {
   dateString = mdy.join('/');
   
   let timeString = date.toLocaleTimeString();
-  timeString = timeString.replace(/(:\d{2}\s)/, ' ');
+  timeString = timeString.replace(/(:\d{2}\s)/, ' '); // removes the seconds data from the timeString
   
   let formattedTimestamp = dateString + ' ' + timeString;
   return formattedTimestamp;
