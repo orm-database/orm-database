@@ -16,12 +16,11 @@ var Users = {};
 (function (obj) {
 
   // SOCKET IO TEST
-  const socket = io();
-  // let socket;
+  let socket;
 
   obj.connectSocket = (userId) => {
     if (userId) {
-      // socket = io();
+      socket = io();
       let params = {
         user_id: userId
       };
