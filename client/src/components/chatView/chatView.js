@@ -13,6 +13,7 @@ function ChatView(props) {
     selectedGroupId: Number - group_id of the chat group
   } */
 
+  const [authenticated, setAuthenticated] = useState(false);
   const [prevMessageId, setPrevMessageId] = useState(null);
   const [messageList, setMessageList] = useState([]);
 
@@ -31,7 +32,10 @@ function ChatView(props) {
   }, []);
 
   useEffect(() => {
-    callFetchMessages()
+    if (authenticated) {
+      console.log(authenticated);
+      callFetchMessages()
+    }
   }, [props.selectedGroupId]);
 
   useEffect(() => {
@@ -50,9 +54,11 @@ function ChatView(props) {
 
   const handleSignin = () => {
     // Not sure this needs to be here
+    setAuthenticated(true);
   }
 
   const handleSignout = () => {
+    setAuthenticated(false);
     setMessageList([]);
   }
 

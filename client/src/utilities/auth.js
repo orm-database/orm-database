@@ -13,9 +13,6 @@ var user = {};
 
   obj.checkForExistingSession = () => {
     let session_token = localStorage.getItem('x-session-token');
-    let headers = {
-      'x-session-token': session_token
-    };
 
     if (session_token) {
       axios.get(API.getUsers, { headers: { 'x-session-token': session_token } }).then(response => {
