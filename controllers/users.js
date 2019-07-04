@@ -122,19 +122,6 @@ router.delete('/api/users/login', (req, res) => {
     });
 });
 
-// DELETE route for deleting a user
-router.delete("/api/users/:id", (req, res) => {
-    console.log('delete user: ');
-
-    user.deleteUser(req.params.id, (err, result) => {
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ 'message': 'user delete failed' });
-        } else {
-            res.status(200).json({ 'message': 'user deleted successfully' });
-        }
-    });
-});
-
 // Update the user from the SELECT query with a session_token
 let handleLogin = (req, res, err, result) => {
     if (err) {
