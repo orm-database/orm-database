@@ -2,7 +2,7 @@ import axios from 'axios';
 import Pubsub from './pubsub';
 import Auth, { user } from './auth';
 import { API, NOTIF } from './constants';
-import shallowCopyObj from './helper';
+import { shallowCopyObj } from './helper';
 
 import io from 'socket.io-client';
 

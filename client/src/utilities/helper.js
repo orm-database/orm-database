@@ -2,4 +2,10 @@ const shallowCopyObj = (obj) => {
   return Object.assign({}, obj);
 }
 
-export default shallowCopyObj;
+const formatMessageTimestamp = (timeString) => {
+
+}
+
+export {
+  shallowCopyObj
+};

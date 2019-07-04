@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Pubsub from './pubsub';
 import { API, NOTIF } from './constants';
-import shallowCopyObj from './helper';
+import { shallowCopyObj } from './helper';
 import Data from './data';
 
 var Auth = {};
