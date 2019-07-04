@@ -6,6 +6,7 @@ import MessageItem from '../messageItem/messageItem';
 import Data, { CurrentChannelMessages } from '../../utilities/data';
 import Pubsub from '../../utilities/pubsub';
 import { NOTIF } from '../../utilities/constants';
+import { formatMessageTimestamp } from '../../utilities/helper';
 
 function ChatView(props) {
   /* props = {
@@ -83,10 +84,10 @@ function ChatView(props) {
       const messages = messageList.map((message, index) => {
         return (
           <MessageItem 
-            author={message.author || 'message_id: ' + message.message_id} 
-            timestamp={message.timestamp || 'placeholder'} 
+            author={message.alias || 'unknown'} 
+            timestamp={formatMessageTimestamp(message.message_time) || ''} 
             content={message.message_text} 
-            key={message.message_id} 
+            key={message.message_id || index} 
           />
         );
       });
