@@ -61,21 +61,39 @@ let messages = {
 		        ON channels.channel_id = channel_message.channel_id
 	        JOIN users
 		        ON users.user_id = messages.message_id
-        WHERE channel_message.channel_id  = `+channel_id;
+        WHERE channel_message.channel_id  = `+ ch;
         let queryArray = 1;
         orm.query(queryString, queryArray, (error, data) => {
             cb(data);
         });
     },
     create: (channelObj, cb) => {
+        let messageObj = {
+            user_id: channelObj.user_id,
+            message_text: channelObj.message_text
+        }
         let query = {
             table: 'messages',
-            data: channelObj //ensure the keys of the object match the table columns
+            data: messageObj //ensure the keys of the object match the table columns
         };
         orm.insert(query, (error, data) => {
             if (error) {
                 console.log(error.code + ' - ' + error.sqlMessage);
             }
+            var message_id = data.insertId;
+            let channelMessageObj = {
+                channel_id: channelObj.channel_id,
+                message_id: message_id
+            }
+            let query = {
+                table: 'channel_message',
+                data: channelMessageObj //ensure the keys of the object match the table columns
+            };
+            orm.insert(query, (error, data) => {
+                if (error) {
+                    console.log(error.code + ' - ' + error.sqlMessage);
+                }
+            })
             cb(data);
         });
     },
