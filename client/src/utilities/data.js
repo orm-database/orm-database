@@ -97,6 +97,8 @@ var Users = {};
       users: params.users
     }).then(response => {
       // @TODO add new channel to channels, or overwrite?
+      Pubsub.publish(NOTIF.CHANNEL_JOIN, null);
+      Pubsub.publish(NOTIF.GROUP_MODAL_TOGGLE, null);
     }).catch(error => {
       console.log(error);
       // @TODO send helpful error back to user

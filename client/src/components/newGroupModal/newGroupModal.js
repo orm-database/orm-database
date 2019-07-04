@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './newGroupModal.css';
 
 import Modal from 'react-modal';
@@ -25,11 +25,14 @@ function NewGroupModal(props) {
   const [modalType, setModalType] = useState(GROUP_MODAL_TYPES.group);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const modalOpen = useRef(modalIsOpen);
+
   const [channelNameVal, setChannelNameVal] = useState('');
   const [directRecipientVal, setDirectRecipientVal] = useState('');
 
   const closeModal = () => {
     setModalIsOpen(false);
+    modalOpen.current = false;
   }
 
   useEffect(() => {
@@ -41,7 +44,9 @@ function NewGroupModal(props) {
   }, []);
 
   const handleModalToggle = (data) => {
-    setModalIsOpen(!modalIsOpen);
+    console.log(modalOpen);
+    setModalIsOpen(!modalOpen.current);
+    modalOpen.current = !modalOpen.current;
   }
 
   const handleChannelNameChange = (event) => {

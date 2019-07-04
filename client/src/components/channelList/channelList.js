@@ -17,11 +17,13 @@ function ChannelList(props) {
   
   useEffect(() => {
     Pubsub.subscribe(NOTIF.GROUPS_DOWNLOADED, this, handleNewGroups);
+    Pubsub.subscribe(NOTIF.CHANNEL_JOIN, this, handleNewChannelJoin);
     Pubsub.subscribe(NOTIF.SIGN_IN, this, handleSignin);
     Pubsub.subscribe(NOTIF.SIGN_OUT, this, handleSignout);
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.GROUPS_DOWNLOADED, this);
+      Pubsub.unsubscribe(NOTIF.CHANNEL_JOIN, this);
       Pubsub.unsubscribe(NOTIF.SIGN_IN, this);
       Pubsub.unsubscribe(NOTIF.SIGN_OUT, this);
     });
@@ -31,6 +33,10 @@ function ChannelList(props) {
     console.log(data);
     setGroupList(data);
     setGroupListFetched(true);
+  }
+
+  const handleNewChannelJoin = () => {
+    Data.getAllChannels();
   }
 
   const handleSignin = () => {
