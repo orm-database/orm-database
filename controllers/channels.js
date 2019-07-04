@@ -5,7 +5,7 @@ let router = express.Router();
 
 // GET route for listing all channels
 router.get("/api/channels", (req, res) => {
-    console.log('retrieve all channels');
+    console.log('List all channels');
 
     channel.select((err, result) => {
         if (err) {
@@ -20,13 +20,15 @@ router.get("/api/channels", (req, res) => {
 
 // GET route for retrieving a channel
 router.get("/api/channels/:channel_id", (req, res) => {
-    console.log('retrieve channel: ' + req.params.channel_id);
+    console.log('Retrieve channel: ' + req.params.channel_id);
 
     channel.selectChannelsJoinMessages(req.params.channel_id, (err, result, params) => {
         if (err) {
             console.log(err);
 
             res.status(500).json({ 'error': 'oops we did something bad' });
+        } else if (!result.length) {
+            res.status(404).json({ 'error': 'channel not found' });
         } else {
             let formatResult = formatChannelsObject(result);
 
@@ -37,7 +39,7 @@ router.get("/api/channels/:channel_id", (req, res) => {
 
 // POST route for creating a channel
 router.post('/api/channels', (req, res) => {
-    console.log('create channel');
+    console.log('Create channel');
 
     // @TODO check if channel exists
     // do stuff
@@ -59,7 +61,7 @@ router.post('/api/channels', (req, res) => {
 // DELETE route for deleting a channel
 // @TODO: must delete parent object
 router.delete("/api/channels/:channel_id", (req, res) => {
-    console.log('delete channel: ' + req.params.channel_id);
+    console.log('Delete channel: ' + req.params.channel_id);
 
     channel.delete({ channel_id: req.params.channel_id }, (err, result) => {
 
@@ -72,9 +74,9 @@ router.delete("/api/channels/:channel_id", (req, res) => {
     });
 });
 
-// GET route for retrieving channel users
+// POST route for creating channel users
 router.post('/api/channel-users/', (req, res) => {
-    console.log('add channel users');
+    console.log('Add channel users');
 
     req.body.users.forEach(userId => {
         channel.insertChannelUsers(
@@ -106,7 +108,8 @@ let formatChannelsObject = result => {
         'messages': []
     };
 
-    if (result.messages) {
+    if (result[0].message_id) {
+        console.log('abc')
         result.forEach(element => {
             newResult.messages.push({
                 message_id: element.message_id,

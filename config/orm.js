@@ -119,14 +119,11 @@ let orm = {
         let sqlQuery = connection.query(queryString, [query.table, query.columns], function (error, result) {
             callback(error, result);
         });
-
-        console.log(sqlQuery)
     },
     selectJoinWhere: function (query, params, callback) {
         let sqlQuery = connection.query(query.string, [query.columns, query.where[0]], function (error, result) {
             callback(error, result, params);
         });
-        console.log(sqlQuery)
     }
 };
 

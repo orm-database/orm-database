@@ -27,6 +27,8 @@ router.get("/api/groups/:direct_group_id", (req, res) => {
             console.log(err);
 
             res.status(500).json({ 'error': 'oops we did something bad' });
+        } else if (!result.length) {
+            res.status(404).json({ 'error': 'group not found' });
         } else {
             let formatResult = formatGroupsObject(result);
 
@@ -62,7 +64,7 @@ let formatGroupsObject = result => {
         'messages': []
     };
 
-    if (result.messages) {
+    if (result[0].message_id) {
         result.forEach(element => {
             newResult.messages.push({
                 message_id: element.message_id,
