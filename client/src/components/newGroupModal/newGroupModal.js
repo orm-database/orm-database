@@ -5,8 +5,9 @@ import Modal from 'react-modal';
 
 import Data from '../../utilities/data';
 import Pubsub from '../../utilities/pubsub';
-import { NOTIF, GROUP_MODAL_TYPES } from '../../utilities/constants';
+import { NOTIF, GROUP_MODAL_TYPES, CHAT_GROUP_TYPES } from '../../utilities/constants';
 import Auth, { user } from '../../utilities/auth';
+import ChatListItem from '../chatListItem/chatListItem';
 
 const customStyles = {
   content: {
@@ -28,7 +29,9 @@ function NewGroupModal(props) {
   const modalOpen = useRef(modalIsOpen);
 
   const [channelNameVal, setChannelNameVal] = useState('');
-  const [directRecipientVal, setDirectRecipientVal] = useState('');
+
+  const [channelList, setChannelList] = useState([]);
+  const [selectedChannelId, setSelectedChannelId] = useState('');
 
   const closeModal = () => {
     setModalIsOpen(false);
@@ -37,11 +40,21 @@ function NewGroupModal(props) {
 
   useEffect(() => {
     Pubsub.subscribe(NOTIF.GROUP_MODAL_TOGGLE, this, handleModalToggle);
+    Pubsub.subscribe(NOTIF.GROUPS_DOWNLOADED, this, handleAllGroupsDownload);
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.GROUP_MODAL_TOGGLE, this);
+      Pubsub.unsubscribe(NOTIF.GROUPS_DOWNLOADED, this);
     });
   }, []);
+
+  useEffect(() => {
+    if (modalIsOpen) {
+      Data.getAllChannels();
+    } else {
+      setChannelList([]);
+    }
+  }, [modalIsOpen])
 
   const handleModalToggle = (data) => {
     console.log(modalOpen);
@@ -49,12 +62,40 @@ function NewGroupModal(props) {
     modalOpen.current = !modalOpen.current;
   }
 
+  const handleAllGroupsDownload = (data) => {
+    setChannelList(data);
+  }
+
   const handleChannelNameChange = (event) => {
     setChannelNameVal(event.target.value);
   }
 
-  const handleDirectRecipientChange = (event) => {
-    setDirectRecipientVal(event.target.value);
+  const handleChannelSelection = (channelId) => {
+    setSelectedChannelId(channelId);
+  }
+
+  const generateChannelList = () => {
+    if (channelList.length) {
+      let list = channelList.map(channel => {
+        let active = selectedChannelId == channel.channel_id;
+        return (
+          <ChatListItem
+            type={CHAT_GROUP_TYPES.channel}
+            name={channel.channel_name}
+            unreadCount={0}
+            dark={true}
+            active={active}
+            onSelect={handleChannelSelection}
+            group_id={channel.channel_id}
+            key={channel.channel_id}
+          />
+        );
+      });
+
+      return (list);
+    } else {
+      return null;
+    }
   }
 
   const addChannelSubmit = () => {
@@ -73,15 +114,16 @@ function NewGroupModal(props) {
       } else {
         console.log('error joining channel');
         console.log(channel_id, user);
-      } 
+      }
     });
   }
 
-  const sendDirectMessageSubmit = () => {
+  const joinChannelSubmit = () => {
     let params = {
-
+      channel_id: selectedChannelId,
+      users: [user.user_id]
     };
-    // @TODO send to Data.[send direct message]
+    Data.joinChannel(params);
   }
 
   const generateErrorInfo = () => {
@@ -103,35 +145,33 @@ function NewGroupModal(props) {
       <div className='modal-body'>
         <ul className='nav nav-tabs' role='tablist'>
           <li className='nav-item'>
-            <a className='nav-link active' href='#newgroup' role='tab' data-toggle='tab'>New Channel</a>
+            <a className='nav-link active' href='#createChannel' role='tab' data-toggle='tab'>Create Channel</a>
           </li>
-          {/* <li className='nav-item'>
-            <a className='nav-link' href='#newdirect' role='tab' data-toggle='tab'>New Direct Message</a>
-          </li> */}
+          <li className='nav-item'>
+            <a className='nav-link' href='#joinChannel' role='tab' data-toggle='tab'>Join Channel</a>
+          </li>
         </ul>
 
         <div className='tab-content'>
-          <div role='tabpanel' className='tab-pane fade in active show' id='newgroup'>
+          <div role='tabpanel' className='tab-pane fade in active show' id='createChannel'>
             <form>
               <div className='form-group mt-4'>
                 <input type='text' className='form-control' value={channelNameVal} onChange={handleChannelNameChange} placeholder='Enter Channel Name'></input>
               </div>
               <div className='d-flex justify-content-between'>
-                <button type='button' className='btn btn-primary' onClick={addChannelSubmit}>Add Channel</button>
+                <button type='button' className='btn btn-primary' onClick={addChannelSubmit}>Create Channel</button>
                 <button type='button' className='btn btn-secondary' onClick={closeModal}>Close</button>
               </div>
             </form>
           </div>
-          <div role='tabpanel' className='tab-pane fade' id='newdirect'>
-            <form>
-              <div className='form-group mt-4'>
-                <input type='text' className='form-control' value={directRecipientVal} onChange={handleDirectRecipientChange} placeholder={'Enter Recipient\'s Name'}></input>
-              </div>
-              <div className='d-flex justify-content-between'>
-                <button type='button' className='btn btn-primary' onClick={sendDirectMessageSubmit}>Send Message</button>
-                <button type='button' className='btn btn-secondary' onClick={closeModal}>Close</button>
-              </div>
-            </form>
+          <div role='tabpanel' className='tab-pane fade' id='joinChannel'>
+            <div className='list-group my-2'>
+              {generateChannelList()}
+            </div>
+            <div className='d-flex justify-content-between'>
+              <button type='button' className='btn btn-primary' onClick={joinChannelSubmit}>Join Channel</button>
+              <button type='button' className='btn btn-secondary' onClick={closeModal}>Close</button>
+            </div>
           </div>
         </div>
       </div>

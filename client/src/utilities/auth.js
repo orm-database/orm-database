@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Pubsub from './pubsub';
 import { API, NOTIF } from './constants';
-import { shallowCopyObj } from './helper';
+import { shallowCopyObj, deepCopyObj } from './helper';
 import Data from './data';
 
 var Auth = {};
@@ -17,7 +17,7 @@ var user = {};
     if (session_token) {
       axios.get(API.getUsers, { headers: { 'x-session-token': session_token } }).then(response => {
         if (validateUserData(response.data)) {
-          user = shallowCopyObj(response.data);
+          user = deepCopyObj(response.data);
         }
         console.log(user);
         Pubsub.publish(NOTIF.SIGN_IN, null);
@@ -39,10 +39,17 @@ var user = {};
       axios.post(API.signin, signinObj).then(response => {
         let session_token = response.headers['x-session-token'];
         localStorage.setItem('x-session-token', session_token);
-        user = shallowCopyObj(response.data);
-        console.log(user);
-        // user = response.data.user;
-        Pubsub.publish(NOTIF.SIGN_IN, null);
+        
+        // this extra call is not ideal, but it will need to be here until we get the API endpoints ironed out - 2 weeks was not long enough for this project
+        axios.get(API.getUsers, { headers: { 'x-session-token': session_token } }).then(response => {
+          user = deepCopyObj(response.data);
+          console.log(user);
+          // user = response.data.user;
+          Pubsub.publish(NOTIF.SIGN_IN, null);
+        }).catch(error => {
+          console.log(error);
+        });
+
       }).catch(error => {
         // @TODO return error codes and display helpful messages to the user, i.e. incorrect password, etc.
         // Potentially make more DRY
@@ -68,7 +75,7 @@ var user = {};
       }).then(response => {
         let session_token = response.headers['x-session-token'];
         localStorage.setItem('x-session-token', session_token);
-        user = shallowCopyObj(response.data);
+        user = deepCopyObj(response.data);
         console.log(user);
         Pubsub.publish(NOTIF.SIGN_IN, null);
       }).catch(error => {

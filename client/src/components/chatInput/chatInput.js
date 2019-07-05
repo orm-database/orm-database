@@ -17,7 +17,8 @@ function ChatInput(props) {
     setMessageText(event.target.value);
   }
 
-  const sendMessage = () => {
+  const sendMessage = (event) => {
+    event.preventDefault();
     if (props.selectedGroupId !== '') {
       let channel_id = props.selectedGroupId.match(/\d+/)[0];
       let messageObj = {
@@ -37,12 +38,15 @@ function ChatInput(props) {
   }
 
   return (
-    <div className='input-group mb-3'>
-      <input type='text' className='form-control' value={messageText} onChange={handleTextInput} placeholder='Send message' aria-label='Chat Message'></input>
-      <div className='input-group-append'>
-        <button className='btn btn-primary' type='button' onClick={sendMessage} id='button-addon2'>Send</button>
+    <form>
+      <div className='input-group mb-3'>
+        <input type='text' className='form-control' value={messageText} onChange={handleTextInput} placeholder='Send message' aria-label='Chat Message'></input>
+        <div className='input-group-append'>
+          <input className='btn btn-primary' type='submit' onClick={sendMessage} id='button-addon2' value={'Send'}></input>
+        </div>
       </div>
-    </div>
+    </form>
+
   );
 }
 
