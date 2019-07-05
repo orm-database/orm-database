@@ -87,19 +87,6 @@ router.post("/api/users", (req, res) => {
     }
 });
 
-// DELETE route for deleting a user
-router.delete('/api/users/:id', (req, res) => {
-    console.log('delete user: ');
-
-    user.deleteUser(req.params.id, (err, result) => {
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ 'message': 'user delete failed' });
-        } else {
-            res.status(200).json({ 'message': 'user deleted successfully' });
-        }
-    });
-});
-
 // POST route for user log in
 router.post('/api/users/login', (req, res) => {
     if (req.body.email_address === undefined) {
