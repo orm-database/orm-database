@@ -6,7 +6,7 @@ import ChatListItem from '../chatListItem/chatListItem';
 import { CHAT_GROUP_TYPES, NOTIF } from '../../utilities/constants';
 import Pubsub from '../../utilities/pubsub';
 import Data from '../../utilities/data';
-import { user } from '../../utilities/auth';
+import Auth, { user } from '../../utilities/auth';
 
 function ChannelList(props) {
   /* props = {
@@ -17,13 +17,13 @@ function ChannelList(props) {
   const [groupList, setGroupList] = useState([]);
   
   useEffect(() => {
-    Pubsub.subscribe(NOTIF.GROUPS_DOWNLOADED, this, handleNewGroups);
+    // Pubsub.subscribe(NOTIF.GROUPS_DOWNLOADED, this, handleNewGroups);
     Pubsub.subscribe(NOTIF.CHANNEL_JOIN, this, handleNewChannelJoin);
     Pubsub.subscribe(NOTIF.SIGN_IN, this, handleSignin);
     Pubsub.subscribe(NOTIF.SIGN_OUT, this, handleSignout);
 
     return (() => {
-      Pubsub.unsubscribe(NOTIF.GROUPS_DOWNLOADED, this);
+      // Pubsub.unsubscribe(NOTIF.GROUPS_DOWNLOADED, this);
       Pubsub.unsubscribe(NOTIF.CHANNEL_JOIN, this);
       Pubsub.unsubscribe(NOTIF.SIGN_IN, this);
       Pubsub.unsubscribe(NOTIF.SIGN_OUT, this);
@@ -37,7 +37,8 @@ function ChannelList(props) {
   }
 
   const handleNewChannelJoin = () => {
-    Data.getAllChannels();
+    // @TODO change this to the getUser API call
+    Auth.checkForExistingSession();
   }
 
   const handleSignin = () => {

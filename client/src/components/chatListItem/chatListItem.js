@@ -15,15 +15,25 @@ function ChatListItem(props) {
   } */
 
   const [btnClassName, setBtnClassName] = useState('list-group-item list-group-item-action py-1 d-flex justify-content-between align-items-center');
-  const [spanClassName, setSpanClassName] = useState('text-light not-selected');
+  const [spanClassName, setSpanClassName] = useState(props.dark ? 'not-selected' : 'text-light not-selected');
+
+
 
   useEffect(() => {
     if (props.active) {
       setBtnClassName('list-group-item list-group-item-action active py-1 d-flex justify-content-between align-items-center');
-      setSpanClassName('text-light selected');
+      if (props.dark) {
+        setSpanClassName('selected');
+      } else {
+        setSpanClassName('text-light selected');
+      }
     } else {
       setBtnClassName('list-group-item list-group-item-action py-1 d-flex justify-content-between align-items-center');
-      setSpanClassName('text-light not-selected');
+      if (props.dark) {
+        setSpanClassName('not-selected');
+      } else {
+        setSpanClassName('text-light not-selected');
+      }
     }
   }, [props.active]);
 
@@ -38,9 +48,13 @@ function ChatListItem(props) {
   }
 
   const newGroupSelected = () => {
-    let data = props.type + '_' + props.group_id;
-    console.log(data);
-    Pubsub.publish(NOTIF.GROUP_SELECTED, data);
+    if (props.onSelect) {
+      props.onSelect(props.group_id);
+    } else {
+      let data = props.type + '_' + props.group_id;
+      console.log(data);
+      Pubsub.publish(NOTIF.GROUP_SELECTED, data);
+    }
   }
 
   return (

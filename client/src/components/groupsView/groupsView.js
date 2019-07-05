@@ -19,7 +19,7 @@ function GroupsView(props) {
   }
 
   const addDirectMessage = () => {
-    Pubsub.publish(NOTIF.GROUP_MODAL_TOGGLE, null);
+    // @TODO implement DM modal
   }
 
   // @TODO will likely need to add logic to distinguish between channels group and direct group
