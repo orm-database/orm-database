@@ -106,6 +106,7 @@ let orm = {
         if (query.debug) {
             console.log(statement.sql);
         }
+        console.log(statement)
     },
     query: function (queryString, queryArray, callback) {
         connection.query(queryString, queryArray, function (error, result) {
@@ -118,16 +119,11 @@ let orm = {
         let sqlQuery = connection.query(queryString, [query.table, query.columns], function (error, result) {
             callback(error, result);
         });
-
-        console.log(sqlQuery)
     },
-    selectJoinJoinWhere: function (query, params, callback) {
+    selectJoinWhere: function (query, params, callback) {
         let sqlQuery = connection.query(query.string, [query.columns, query.where[0]], function (error, result) {
-            console.log(result)
             callback(error, result, params);
         });
-
-        console.log(sqlQuery)
     }
 };
 

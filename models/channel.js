@@ -1,14 +1,12 @@
 const orm = require("../config/orm.js");
 
 let channels = {
-    select: (cb) => {
+    select: cb => {
         let query = {
             columns: ['channel_id', 'channel_name'],
             table: 'channels',
         };
-        orm.select(query, (error, data) => {
-            cb(data);
-        });
+        orm.select(query, cb);
     },
     selectJoin: (cb) => {
         let queryString = `SELECT * FROM channels 
@@ -25,9 +23,7 @@ let channels = {
             table: 'channels',
             where: [where]
         };
-        orm.select(query, (error, data) => {
-            cb(data);
-        });
+        orm.select(query, cb);
     },
     create: (channelObj, cb) => {
         let query = {
@@ -36,14 +32,12 @@ let channels = {
         };
         orm.insert(query, cb);
     },
-    delete: (user_id, cb) => {
+    delete: (where, cb) => {
         let query = {
-            table: 'users',
-            where: [{ user_id: user_id }]
+            table: 'channels',
+            where: [where]
         };
-        orm.delete(query, (error, data) => {
-            cb(data);
-        });
+        orm.delete(query, cb);
     },
     insertChannelUsers: (channelUsers, cb) => {
         let query = {
@@ -51,8 +45,29 @@ let channels = {
             data: channelUsers
         };
         orm.insert(query, cb);
-    }
+    },
+    selectChannelsJoinMessages: (where, cb) => {
+        let query = {
+            string: 'SELECT ?? FROM channels LEFT JOIN channel_message ON channel_message.channel_id = channels.channel_id LEFT JOIN messages ON messages.message_id = channel_message.message_id LEFT JOIN users ON users.user_id = messages.user_id WHERE channels.channel_id = ? ORDER BY messages.message_time',
+            columns: [
+                'channels.channel_id',
+                'channels.channel_name',
+                'messages.message_id',
+                'messages.message_text',
+                'messages.message_time',
+                'users.user_id',
+                'users.first_name',
+                'users.last_name',
+                'users.email_address',
+                'users.alias',
+                'users.created',
+                'users.updated'
+            ],
+            where: [where],
+        };
 
+        orm.selectJoinWhere(query, {}, cb);
+    }
 };
 
 module.exports = channels;
