@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './authModal.css';
 
 import Modal from 'react-modal';
+import AuthModalHeader from '../authModalHeader/authModalHeader';
+import SigninForm from '../signinForm/signinForm';
+import SignupForm from '../signupForm/signupForm';
 
 import Auth from '../../utilities/auth';
 import Pubsub from '../../utilities/pubsub';
 import { NOTIF, AUTH_MODAL_TYPES } from '../../utilities/constants';
-
 const customStyles = {
   content: {
     top: '50%',
