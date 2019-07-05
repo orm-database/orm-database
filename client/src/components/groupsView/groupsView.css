@@ -18,3 +18,12 @@
   background-size: 25px 25px;
   border: none;
 }
+
+@media only screen and (max-width: 575px) {
+  .group-menu {
+    position: absolute;
+    z-index: 2;
+    max-width: 50px;
+    box-shadow: 5px 0 3px rgba(0, 0, 0, 0.2);
+  }
+}
