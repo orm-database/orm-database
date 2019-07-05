@@ -22,8 +22,15 @@
 @media only screen and (max-width: 575px) {
   .group-menu {
     position: absolute;
-    z-index: 2;
-    max-width: 50px;
+    /* z-index: 2; */
+    max-width: 0;
+    /* box-shadow: 5px 0 3px rgba(0, 0, 0, 0.2); */
+  }
+
+  .show {
+    position: absolute;
+    z-index: 5;
+    max-width: 90%;
     box-shadow: 5px 0 3px rgba(0, 0, 0, 0.2);
   }
 }

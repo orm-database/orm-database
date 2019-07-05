@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './groupsView.css';
 
 import ChannelList from '../channelList/channelList';
@@ -12,6 +12,28 @@ function GroupsView(props) {
   /* props = {
     selectedGroupId: Number - group_id of the chat group
   } */
+  const menuDisplay = useRef(false);
+  const [groupMenuClass, setGroupMenuClass] = useState('col-xl-2 col-lg-3 col-md-4 col-sm-5 p-0 group-menu scrollable');
+
+  useEffect(() => {
+    Pubsub.subscribe(NOTIF.TOGGLE_SIDEBAR_MOBILE, this, handleSidebarToggle);
+
+    return (() => {
+      Pubsub.unsubscribe(NOTIF.TOGGLE_SIDEBAR_MOBILE, this);
+    });
+  }, []);
+
+  const handleSidebarToggle = () => {
+    if (window.innerWidth <= 575) {
+      if (menuDisplay.current) {
+        setGroupMenuClass('col-xl-2 col-lg-3 col-md-4 col-sm-5 p-0 group-menu scrollable');
+        menuDisplay.current = false;
+      } else {
+        setGroupMenuClass('col-xl-2 col-lg-3 col-md-4 col-sm-5 p-0 group-menu show scrollable');
+        menuDisplay.current = true;
+      }
+    }
+  }
 
   const addChannel = () => {
     // @TODO implement logic for adding a channel
@@ -24,7 +46,7 @@ function GroupsView(props) {
 
   // @TODO will likely need to add logic to distinguish between channels group and direct group
   return (
-    <div className='col-xl-2 col-lg-3 col-md-4 col-sm-5 p-0 group-menu scrollable'>
+    <div className={groupMenuClass}>
       <div className='channels-container mt-1 mb-4'>
         <div className='list-group-header d-flex justify-content-between'>
           <h5 className='pl-2 text-light'>Channels</h5>

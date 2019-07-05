@@ -58,7 +58,7 @@ function ChatListItem(props) {
   }
 
   return (
-    <button type='button' className={btnClassName} onClick={newGroupSelected}>
+    <button type='button' className={btnClassName + ' item'} onClick={newGroupSelected}>
       <span className={spanClassName}>{props.name}</span>
       {generateUnreadCountBadge()}
     </button>

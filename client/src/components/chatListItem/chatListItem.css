@@ -10,3 +10,11 @@
 .not-selected {
   font-weight: 300;
 }
+
+.list-group-item-action:hover {
+  background-color: none;
+}
+
+button.item:focus {
+  outline: none;
+}
