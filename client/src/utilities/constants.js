@@ -5,29 +5,42 @@ export const APP_NAME = '**Placeholder**';
 export const CHAT_GROUP_TYPES = {
   empty: 'empty',
   loading: 'loading',
-  group: 'group',
+  channel: 'channel',
   direct: 'direct'
 };
 
 // Notification strings for pubsub
 export const NOTIF = {
   MODAL_TOGGLE: 'modal_toggle',
+  GROUP_MODAL_TOGGLE: 'group_modal_toggle',
   SIGN_IN: 'signin',
   SIGN_UP: 'signup',
   SIGN_OUT: 'signout',
-  MESSAGES_RECEIVED: 'messages_received'
+  MESSAGES_RECEIVED: 'messages_received',
+  GROUPS_DOWNLOADED: 'groups_downloaded',
+  DMS_DOWNLOADED: 'dms_downloaded',
+  GROUP_SELECTED: 'group_selected',
+  CHANNEL_JOIN: 'channel_join'
 };
 
 // API routes
-// @TODO change these to match what the backend engineers go with
 export const API = {
-  signin: '/api/signin',
+  getUsers: '/api/users',
+  getUserById: '/api/user/',
+  signin: '/api/users/login',
   signup: '/api/users',
-  signout: '/api/signout',
-  create: '/api/create',
-  join: '/api/join',
-  sendMessage: '/api/send',
-  getMessages: '/api/get/'
+  signout: '/api/users/login',
+  deleteUserById: '/api/users/',
+  getAllChannels: '/api/channels',
+  getChannelById: '/api/channels/',
+  createChannel: '/api/channels',
+  deleteChannelById: '/api/channels/',
+  join: '/api/channel-users',
+  sendMessage: '/api/messages',
+  getMessages: '/api/messages',
+  getMessagesByChannelId: '/api/messages/channel/',
+  getMessageById: '/api/messages/',
+  deleteMessageById: '/api/messages/'
 };
 
 // Auth modal types
@@ -35,4 +48,11 @@ export const API = {
 export const AUTH_MODAL_TYPES = {
   signin: 'Sign In',
   signup: 'Sign Up'
+};
+
+// New group modal types
+// Doubly purposed to be the text displayed at the top of the modal
+export const GROUP_MODAL_TYPES = {
+  group: 'New Group',
+  direct: 'New Direct Message'
 };

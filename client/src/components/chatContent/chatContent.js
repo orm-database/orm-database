@@ -10,7 +10,7 @@ function ChatContent(props) {
   } */
 
   return (
-    <div className='col-lg-10 d-flex flex-column justify-content-end chat-view'>
+    <div className='col-xl-10 col-lg-9 col-md-8 col-sm-7 d-flex flex-column justify-content-end chat-view'>
       <ChatView selectedGroupId={props.selectedGroupId} />
 
       <ChatInput selectedGroupId={props.selectedGroupId} />

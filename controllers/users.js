@@ -1,8 +1,9 @@
-var express = require("express");
-var hashpass = require('hashpass');
-var uuidv1 = require('uuid');
-var router = express.Router();
-var user = require("../models/user.js");
+const express = require('express');
+const hashpass = require('hashpass');
+const uuidv1 = require('uuid');
+const user = require('../models/user.js');
+
+let router = express.Router();
 
 // GET route for fetching one user by session token header or
 // all users by default
@@ -11,9 +12,21 @@ router.get("/api/users", (req, res) => {
 
     if (req.headers['x-session-token']) {
 
-        user.selectWhere(req.headers['x-session-token'], (err, result) => {
+        user.selectUsersJoinChannels({ session_token: req.headers['x-session-token'] }, {}, (err, result) => {
             if (result.length) {
-                res.status(200).json(result[0]);
+
+                let formatResult = formatUsersObject(result);
+
+                user.selectUsersJoinGroups({ session_token: req.headers['x-session-token'] }, formatResult, (err, result, params) => {
+                    if (result.length) {
+                        result.forEach(element => {
+                            params.direct_messages.push({
+                                direct_group_id: element.direct_group_id
+                            });
+                        });
+                    }
+                    res.status(200).json(params);
+                });
             } else {
                 res.status(404).json({ 'error': 'user not found' });
             }
@@ -54,9 +67,7 @@ router.post("/api/users", (req, res) => {
             email_address: req.body.email_address,
             alias: req.body.alias,
             password: hashedPassword.hash,
-            salt: hashedPassword.salt,
-            session_token: 'abcdefg', // @TODO replace placeholder
-            // created: req.body.created
+            salt: hashedPassword.salt
         };
         user.createUser(userRequest, (err, result) => {
             if (err) {
@@ -98,19 +109,6 @@ router.delete('/api/users/login', (req, res) => {
     });
 });
 
-// DELETE route for deleting a user
-router.delete("/api/users/:id", (req, res) => {
-    console.log('delete user: ');
-
-    user.deleteUser(req.params.id, (err, result) => {
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ 'message': 'user delete failed' });
-        } else {
-            res.status(200).json({ 'message': 'user deleted successfully' });
-        }
-    });
-});
-
 // Update the user from the SELECT query with a session_token
 let handleLogin = (req, res, err, result) => {
     if (err) {
@@ -133,6 +131,31 @@ let handleLogin = (req, res, err, result) => {
             res.status(401).json({ 'error': 'improper login credentials' });
         }
     }
+};
+
+// Format the JSON user response object
+let formatUsersObject = result => {
+    let newResult = {
+        'user_id': result[0].user_id,
+        'first_name': result[0].first_name,
+        'last_name': result[0].last_name,
+        'email_address': result[0].email_address,
+        'alias': result[0].alias,
+        'session_token': result[0].session_token,
+        'created': result[0].created,
+        'updated': result[0].updated,
+        'channels_member_of': [],
+        'direct_messages': []
+    };
+
+    result.forEach(element => {
+        newResult.channels_member_of.push({
+            channel_id: element.channel_id,
+            channel_name: element.channel_name
+        });
+    });
+
+    return newResult;
 };
 
 module.exports = router;

@@ -106,10 +106,23 @@ let orm = {
         if (query.debug) {
             console.log(statement.sql);
         }
+        console.log(statement)
     },
     query: function (queryString, queryArray, callback) {
         connection.query(queryString, queryArray, function (error, result) {
             callback(error, result);
+        });
+    },
+    insertNull: function (query, callback) {
+        let queryString = 'INSERT INTO ?? (??) VALUES (NULL)';
+
+        let sqlQuery = connection.query(queryString, [query.table, query.columns], function (error, result) {
+            callback(error, result);
+        });
+    },
+    selectJoinWhere: function (query, params, callback) {
+        let sqlQuery = connection.query(query.string, [query.columns, query.where[0]], function (error, result) {
+            callback(error, result, params);
         });
     }
 };

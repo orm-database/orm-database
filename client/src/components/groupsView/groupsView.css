@@ -8,3 +8,13 @@
 .direct-container h5 {
   font-weight: 300;
 }
+
+.add-btn {
+  height: 25px;
+  width: 25px;
+  margin: 0 4px 0 4px;
+  background: none;
+  background: url('../../images/icons8-plus.svg');
+  background-size: 25px 25px;
+  border: none;
+}

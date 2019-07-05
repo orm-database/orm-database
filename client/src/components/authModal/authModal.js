@@ -69,6 +69,56 @@ function AuthModal() {
     setModalIsOpen(false);
   }
 
+  const handleFirstNameChange = (event) => {
+    setFirstNameVal(event.target.value);
+  }
+
+  const handleLastNameChange = (event) => {
+    setLastNameVal(event.target.value);
+  }
+
+  const handleUsernameChange = (event) => {
+    setUsernameVal(event.target.value);
+  }
+
+  const handleEmailChange = (event) => {
+    // @TODO implement live validation
+    setEmailVal(event.target.value);
+  }
+
+  const handlePasswordChange = (event) => {
+    // @TODO implement live validation
+    setPasswordVal(event.target.value);
+  }
+
+  const handleConfirmPasswordChange = (event) => {
+    setConfirmPasswordVal(event.target.value);
+  }
+
+  const authSubmit = (event) => {
+    event.preventDefault();
+
+    if (modalType === AUTH_MODAL_TYPES.signin) {
+      let signinObj = {
+        email_address: emailVal,
+        password: passwordVal
+      };
+
+      Auth.sendSigninRequest(signinObj);
+    } else if (modalType === AUTH_MODAL_TYPES.signup) {
+      let signupObj = {
+        first_name: firstNameVal,
+        last_name: lastNameVal,
+        alias: usernameVal,
+        email: emailVal,
+        password: passwordVal,
+        password_confirm: confirmPasswordVal 
+      };
+
+      Auth.sendSignupRequest(signupObj);
+    }
+  }
+
   const generateFormContents = () => {
     if (modalType === AUTH_MODAL_TYPES.signin) {
       return (

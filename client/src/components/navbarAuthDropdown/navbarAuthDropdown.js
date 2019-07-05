@@ -3,17 +3,20 @@ import './navbarAuthDropdown.css';
 
 import Pubsub from '../../utilities/pubsub';
 import { NOTIF, AUTH_MODAL_TYPES } from '../../utilities/constants';
+import Auth from '../../utilities/auth';
 
 function NavbarAuthDropdown(props) {
 
   const [authenticated, setAuthenticated] = useState(false);
 
-  // @TODO check local storage for session token and try to sign in if it exists
+  useEffect(() => {
+    Auth.checkForExistingSession();
+  }, []);
+
+
   useEffect(() => {
     Pubsub.subscribe(NOTIF.SIGN_IN, this, handleSignin);
     Pubsub.subscribe(NOTIF.SIGN_OUT, this, handleSignout);
-
-
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.SIGN_IN, this);
@@ -54,7 +57,9 @@ function NavbarAuthDropdown(props) {
   const generateAuthenticatedMenu = () => {
     // @TODO finish this function
     return (
-      <p>Signed In</p>
+      <div className='d-flex justify-content-center'>
+        <button type='button' className='btn btn-danger' onClick={() => Auth.sendSignoutRequest()}>Sign Out</button>
+      </div>
     );
   }
 
