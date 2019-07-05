@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './newGroupModal.css';
+import './newDirectMessageModal.css';
 
 import Modal from 'react-modal';
 
@@ -20,7 +20,7 @@ const customStyles = {
   }
 };
 
-function NewGroupModal(props) {
+function NewDirectMessageModal(props) {
 
   const [modalType, setModalType] = useState(GROUP_MODAL_TYPES.group);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -136,4 +136,4 @@ function NewGroupModal(props) {
   )
 }
 
-export default NewGroupModal;
+export default NewDirectMessageModal;
