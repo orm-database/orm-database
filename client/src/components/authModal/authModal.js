@@ -9,7 +9,6 @@ import SignupForm from '../signupForm/signupForm';
 import Auth from '../../utilities/auth';
 import Pubsub from '../../utilities/pubsub';
 import { NOTIF, AUTH_MODAL_TYPES } from '../../utilities/constants';
-
 const customStyles = {
   content: {
     top: '50%',
@@ -32,6 +31,13 @@ function AuthModal() {
   const [modalType, setModalType] = useState(AUTH_MODAL_TYPES.signin);
   const [changeTypeBtnText, setChangeTypeBtnText] = useState(changeTypeBtnTextValues.signin);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const [firstNameVal, setFirstNameVal] = useState('');
+  const [lastNameVal, setLastNameVal] = useState('');
+  const [usernameVal, setUsernameVal] = useState('');
+  const [emailVal, setEmailVal] = useState('');
+  const [passwordVal, setPasswordVal] = useState('');
+  const [confirmPasswordVal, setConfirmPasswordVal] = useState('');
 
   useEffect(() => {
     Pubsub.subscribe(NOTIF.MODAL_TOGGLE, this, handleModalToggle);
@@ -122,11 +128,45 @@ function AuthModal() {
   const generateFormContents = () => {
     if (modalType === AUTH_MODAL_TYPES.signin) {
       return (
-        <SigninForm toggleModalType={toggleModalType} changeTypeBtnText={changeTypeBtnText} />
+        <div className='modal-body'>
+          <div className='form-group'>
+            <label>Email Address</label>
+            <input type='email' className='form-control' placeholder='Enter email' value={emailVal} onChange={handleEmailChange}></input>
+          </div>
+          <div className='form-group'>
+            <label>Password</label>
+            <input type='password' className='form-control' placeholder='Password' value={passwordVal} onChange={handlePasswordChange}></input>
+          </div>
+        </div>
       );
     } else if (modalType === AUTH_MODAL_TYPES.signup) {
       return (
-        <SignupForm toggleModalType={toggleModalType} changeTypeBtnText={changeTypeBtnText} />
+        <div className='modal-body'>
+          <div className='form-group'>
+            <label>First Name</label>
+            <input type='email' className='form-control' placeholder='First Name' value={firstNameVal} onChange={handleFirstNameChange}></input>
+          </div>
+          <div className='form-group'>
+            <label>Last Name</label>
+            <input type='email' className='form-control' placeholder='Last Name' value={lastNameVal} onChange={handleLastNameChange}></input>
+          </div>
+          <div className='form-group'>
+            <label>Username</label>
+            <input type='email' className='form-control' placeholder='Username' value={usernameVal} onChange={handleUsernameChange}></input>
+          </div>
+          <div className='form-group'>
+            <label>Email Address</label>
+            <input type='email' className='form-control' placeholder='Enter email' value={emailVal} onChange={handleEmailChange}></input>
+          </div>
+          <div className='form-group'>
+            <label>Password</label>
+            <input type='password' className='form-control' placeholder='Password' value={passwordVal} onChange={handlePasswordChange}></input>
+          </div>
+          <div className='form-group'>
+            <label>Confirm Password</label>
+            <input type='password' className='form-control' placeholder='Password' value={confirmPasswordVal} onChange={handleConfirmPasswordChange}></input>
+          </div>
+        </div>
       )
     } else {
       console.log('error in authModal type: ' + modalType);
@@ -146,11 +186,22 @@ function AuthModal() {
       contentLabel='Auth Modal'
       ariaHideApp={false}
     >
-      <AuthModalHeader modalType={modalType} closeModal={closeModal} />
+      <div className='modal-header'>
+        <h5 className='modal-title'>{modalType}</h5>
+        <button type='button' className='close' onClick={closeModal}>
+          <span aria-hidden='true'>&times;</span>
+        </button>
+      </div>
       <div className='error-info'>
         {generateErrorInfo()}
       </div>
-      {generateFormContents()} 
+      <form>
+        {generateFormContents()}
+        <button type='button' className='btn btn-link' onClick={toggleModalType}>{changeTypeBtnText}</button>
+        <div className='modal-footer'>
+          <button type='submit' className='btn btn-primary' onClick={authSubmit}>Submit</button>
+        </div>
+      </form>
     </Modal>
   )
 }
