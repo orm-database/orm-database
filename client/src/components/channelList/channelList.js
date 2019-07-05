@@ -6,6 +6,7 @@ import ChatListItem from '../chatListItem/chatListItem';
 import { CHAT_GROUP_TYPES, NOTIF } from '../../utilities/constants';
 import Pubsub from '../../utilities/pubsub';
 import Data from '../../utilities/data';
+import { user } from '../../utilities/auth';
 
 function ChannelList(props) {
   /* props = {
@@ -40,7 +41,10 @@ function ChannelList(props) {
   }
 
   const handleSignin = () => {
-    Data.getAllChannels();
+    // Data.getAllChannels();
+    console.log(user.channels_member_of);
+    setGroupList(user.channels_member_of);
+    setGroupListFetched(true);
   }
 
   const handleSignout = () => {
@@ -53,7 +57,9 @@ function ChannelList(props) {
     if (!groupListFetched) {
       return null;
     } else {
-      if (groupList.length) {
+      if (groupList.length && groupList[0].channel_id === null) {
+        return null;
+      } else if (groupList.length) {
         let activeId = props.selectedGroupId.replace( /^\D+/g, '');
 
         const items = groupList.map(item => {
