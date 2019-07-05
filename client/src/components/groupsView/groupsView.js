@@ -29,7 +29,7 @@ function GroupsView(props) {
         setGroupMenuClass('col-xl-2 col-lg-3 col-md-4 col-sm-5 p-0 group-menu scrollable');
         menuDisplay.current = false;
       } else {
-        setGroupMenuClass('col-xl-2 col-lg-3 col-md-4 col-sm-5 p-0 group-menu show scrollable');
+        setGroupMenuClass('col-xl-2 col-lg-3 col-md-4 col-sm-5 p-0 group-menu group-menu-show scrollable');
         menuDisplay.current = true;
       }
     }
@@ -38,6 +38,7 @@ function GroupsView(props) {
   const addChannel = () => {
     // @TODO implement logic for adding a channel
     Pubsub.publish(NOTIF.GROUP_MODAL_TOGGLE, null);
+    Pubsub.publish(NOTIF.TOGGLE_SIDEBAR_MOBILE, null);
   }
 
   const addDirectMessage = () => {

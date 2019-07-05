@@ -54,6 +54,7 @@ function ChatListItem(props) {
       let data = props.type + '_' + props.group_id;
       console.log(data);
       Pubsub.publish(NOTIF.GROUP_SELECTED, data);
+      Pubsub.publish(NOTIF.TOGGLE_SIDEBAR_MOBILE, null);
     }
   }
 

@@ -88,10 +88,14 @@ function ChatView(props) {
   const generateMessages = () => {
     if (messageList.length) {
       const messages = messageList.map((message, index) => {
+        let timestamp = formatMessageTimestamp(message.message_time);
+        if (window.innerWidth <= 575) {
+          timestamp = '';
+        }
         return (
           <MessageItem 
             author={message.alias || 'unknown'} 
-            timestamp={formatMessageTimestamp(message.message_time) || ''} 
+            timestamp={timestamp || ''} 
             content={message.message_text} 
             key={message.message_id || index} 
           />
