@@ -1,5 +1,5 @@
 // Global name of the application
-export const APP_NAME = '**Placeholder**';
+export const APP_NAME = 'Babel';
 
 // Chat Group Types
 export const CHAT_GROUP_TYPES = {
