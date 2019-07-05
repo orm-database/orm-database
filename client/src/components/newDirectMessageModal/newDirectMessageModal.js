@@ -103,11 +103,8 @@ function NewGroupModal(props) {
       <div className='modal-body'>
         <ul className='nav nav-tabs' role='tablist'>
           <li className='nav-item'>
-            <a className='nav-link active' href='#newgroup' role='tab' data-toggle='tab'>New Channel</a>
-          </li>
-          {/* <li className='nav-item'>
             <a className='nav-link' href='#newdirect' role='tab' data-toggle='tab'>New Direct Message</a>
-          </li> */}
+          </li>
         </ul>
 
         <div className='tab-content'>
