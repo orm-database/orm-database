@@ -1,0 +1,8 @@
+.navbar-brand {
+  background: none;
+  border: none;
+}
+
+.navbar-brand:focus {
+  outline: none;
+}

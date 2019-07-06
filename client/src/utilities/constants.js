@@ -1,5 +1,5 @@
 // Global name of the application
-export const APP_NAME = '**Placeholder**';
+export const APP_NAME = 'Babel';
 
 // Chat Group Types
 export const CHAT_GROUP_TYPES = {
@@ -20,7 +20,9 @@ export const NOTIF = {
   GROUPS_DOWNLOADED: 'groups_downloaded',
   DMS_DOWNLOADED: 'dms_downloaded',
   GROUP_SELECTED: 'group_selected',
-  CHANNEL_JOIN: 'channel_join'
+  CHANNEL_JOIN: 'channel_join',
+
+  TOGGLE_SIDEBAR_MOBILE: 'toggle_sidebar_mobile'
 };
 
 // API routes
