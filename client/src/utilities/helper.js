@@ -57,8 +57,18 @@ const formatMessageTimestamp = (timestamp) => {
   return formattedTimestamp;
 }
 
+const orderByTimestamp = (messageArr) => {
+  return messageArr.sort((a, b) => {
+    let aDate = new Date(a.message_time).getTime();
+    let bDate = new Date(b.message_time).getTime();
+
+    return aDate - bDate;
+  });
+}
+
 export {
   shallowCopyObj,
   deepCopyObj,
-  formatMessageTimestamp
+  formatMessageTimestamp,
+  orderByTimestamp
 };

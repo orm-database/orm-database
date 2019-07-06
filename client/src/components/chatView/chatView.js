@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './chatView.css';
 
 import MessageItem from '../messageItem/messageItem';
@@ -12,6 +12,8 @@ function ChatView(props) {
   /* props = {
     selectedGroupId: Number - group_id of the chat group
   } */
+
+  const messagesEndRef = useRef(null);
 
   const [authenticated, setAuthenticated] = useState(false);
   const [prevMessageId, setPrevMessageId] = useState(null);
@@ -42,6 +44,7 @@ function ChatView(props) {
     if (prevMessageId !== null) {
       Data.fetchMessageById(prevMessageId).then(response => {
         let messages = JSON.parse(JSON.stringify(messageList));
+        response[0].message_id = prevMessageId;
         messages.push(response[0]);
         setMessageList(messages);
         console.log(messages);
@@ -51,6 +54,10 @@ function ChatView(props) {
       });
     }
   }, [prevMessageId]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messageList]);
 
   const handleSignin = () => {
     // Not sure this needs to be here
@@ -75,7 +82,7 @@ function ChatView(props) {
 
   const callFetchMessages = () => {
     let groupType = props.selectedGroupId.indexOf('channel') >= 0 ? 'channel' : 'direct';
-    let groupId = props.selectedGroupId.replace( /^\D+/g, '');
+    let groupId = props.selectedGroupId.replace(/^\D+/g, '');
 
     // if (groupType === 'channel' && groupId >= 0) {
     if (groupType === 'channel' && groupId >= 0) {
@@ -83,6 +90,10 @@ function ChatView(props) {
     } else {
       console.log('download direct messages');
     }
+  }
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
   }
 
   const generateMessages = () => {
@@ -93,11 +104,11 @@ function ChatView(props) {
           timestamp = '';
         }
         return (
-          <MessageItem 
-            author={message.alias || 'unknown'} 
-            timestamp={timestamp || ''} 
-            content={message.message_text} 
-            key={message.message_id || index} 
+          <MessageItem
+            author={message.alias || 'unknown'}
+            timestamp={timestamp || ''}
+            content={message.message_text}
+            key={message.message_id || index}
           />
         );
       });
@@ -112,6 +123,9 @@ function ChatView(props) {
   return (
     <ul className='list-group list-group-flush scrollable'>
       {generateMessages()}
+      <li style={{ float: "left", clear: "both" }}
+        ref={messagesEndRef}>
+      </li>
     </ul>
   );
 }
