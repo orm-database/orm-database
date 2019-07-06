@@ -59,9 +59,10 @@ var user = {};
         Pubsub.publish(NOTIF.AUTH_ERROR, errorObj);
       });
     } else {
-      // @TODO kick back a real error and display in the modal
-      console.log('ERROR: problem with signin params:');
-      console.log(params);
+      let errorObj = {
+        message: 'Please fill in the required fields'
+      };
+      Pubsub.publish(NOTIF.AUTH_ERROR, errorObj);
     }
   }
 
