@@ -32,6 +32,8 @@ function AuthModal() {
   const [changeTypeBtnText, setChangeTypeBtnText] = useState(changeTypeBtnTextValues.signin);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [firstNameVal, setFirstNameVal] = useState('');
   const [lastNameVal, setLastNameVal] = useState('');
   const [usernameVal, setUsernameVal] = useState('');
@@ -42,10 +44,14 @@ function AuthModal() {
   useEffect(() => {
     Pubsub.subscribe(NOTIF.MODAL_TOGGLE, this, handleModalToggle);
     Pubsub.subscribe(NOTIF.SIGN_IN, this, closeModal);
+    
+    Pubsub.subscribe(NOTIF.AUTH_ERROR, this, handleErrorInfo);
 
     return (() => {
       Pubsub.unsubscribe(NOTIF.MODAL_TOGGLE, this);
       Pubsub.unsubscribe(NOTIF.SIGN_IN, this);
+
+      Pubsub.unsubscribe(NOTIF.AUTH_ERROR, this);
     });
   }, []);
 
@@ -58,6 +64,7 @@ function AuthModal() {
       setChangeTypeBtnText(changeTypeBtnTextValues.signup);
     }
 
+    setErrorMessage('');
     setModalIsOpen(!modalIsOpen);
   }
 
@@ -73,6 +80,10 @@ function AuthModal() {
   // shouldn't be necessary to have a separate close function instead of sending it to the toggle function, but keeping it for assurity (sp?)
   const closeModal = () => {
     setModalIsOpen(false);
+  }
+
+  const handleErrorInfo = (errorObj) => {
+    setErrorMessage(errorObj.message);
   }
 
   const handleFirstNameChange = (event) => {
@@ -103,6 +114,8 @@ function AuthModal() {
 
   const authSubmit = (event) => {
     event.preventDefault();
+
+    setErrorMessage('');
 
     if (modalType === AUTH_MODAL_TYPES.signin) {
       let signinObj = {
@@ -175,7 +188,9 @@ function AuthModal() {
 
   const generateErrorInfo = () => {
     // @TODO figure out what type of error info will be sent back
-    return null;
+    return (
+      <span className='text-danger'>{errorMessage}</span>
+    );
   }
 
   return (
