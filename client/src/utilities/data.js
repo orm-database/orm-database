@@ -12,6 +12,7 @@ var AllChannels = {};
 var Channels = {};
 var CurrentChannelMessages = {};
 var Users = {};
+var AllUsers = {};
 
 (function (obj) {
 
@@ -60,6 +61,21 @@ var Users = {};
     }
   }
 
+    // NEW AND IN PROGRESS
+    obj.getAllUsers = () => {
+      if (user.user_id) {
+        axios.get(API.getAllUsers).then(response => {
+          console.log('get all users resolved');
+          console.log(response.data);
+          AllUsers = JSON.parse(JSON.stringify(response.data));
+          Pubsub.publish(NOTIF.DIRECT_MESSAGE_USERS_DOWNLOADED, AllUsers);
+        }).catch(error => {
+          console.log(error);
+          // @TODO send helpful error back to user
+        });
+      }
+    }
+
   obj.getChannelById = (params) => {
     axios.get(API.getAllChannels + params.channel_id).then(response => {
       console.log('get channel by Id resolved');
@@ -105,6 +121,45 @@ var Users = {};
     });
   }
 
+// Is this needed
+  obj.createDirectMessage = (params) => {
+    return new Promise((resolve, reject) => {
+      axios.post(API.createChannel, {
+        channel_name: params.channel_name
+      }).then(response => {
+        // @TODO add new channel to channels, or overwrite?
+        console.log('create channel resolved');
+        console.log(response);
+        resolve(response.data);
+      }).catch(error => {
+        console.log(error);
+        reject();
+        // @TODO send helpful error back to user
+      });
+    });
+    
+  }
+
+
+  obj.sendDirectMessage = (params) => {
+    let messageObj = {
+      user_id: user.user_id,
+      message_text: params.message_text,
+      channel_id: params.direct_group_id
+    };
+    return new Promise((resolve, reject) => {
+      axios.post(API.sendMessage, messageObj).then(response => {
+        // @TODO add message to currentMessages and publish a notification
+        console.log(response);
+        resolve(response.data.insertId);
+      }).catch(error => {
+        console.log(error);
+        reject(error);
+        // @TODO send helpful error back to user
+      });
+    })
+  }
+
   obj.sendMessage = (params) => {
     let messageObj = {
       user_id: user.user_id,
@@ -122,7 +177,6 @@ var Users = {};
         // @TODO send helpful error back to user
       });
     })
-    
   }
 
   // Shouldn't be called by anything

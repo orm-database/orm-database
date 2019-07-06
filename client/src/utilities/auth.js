@@ -35,21 +35,17 @@ var user = {};
         email_address: params.email_address,
         password: params.password
       };
-
+      // this extra call is not ideal, but we need to hack our way to getting the correct info on signin.  In the future, the API will need to be refactored to send back all the necessary info
       axios.post(API.signin, signinObj).then(response => {
         let session_token = response.headers['x-session-token'];
         localStorage.setItem('x-session-token', session_token);
-        
-        // this extra call is not ideal, but it will need to be here until we get the API endpoints ironed out - 2 weeks was not long enough for this project
         axios.get(API.getUsers, { headers: { 'x-session-token': session_token } }).then(response => {
           user = deepCopyObj(response.data);
           console.log(user);
-          // user = response.data.user;
           Pubsub.publish(NOTIF.SIGN_IN, null);
         }).catch(error => {
           console.log(error);
         });
-
       }).catch(error => {
         // @TODO return error codes and display helpful messages to the user, i.e. incorrect password, etc.
         // Potentially make more DRY
@@ -73,11 +69,25 @@ var user = {};
         password: params.password,
         password_confirm: params.password_confirm
       }).then(response => {
-        let session_token = response.headers['x-session-token'];
-        localStorage.setItem('x-session-token', session_token);
-        user = deepCopyObj(response.data);
-        console.log(user);
-        Pubsub.publish(NOTIF.SIGN_IN, null);
+        let signinObj = {
+          email_address: params.email,
+          password: params.password
+        };
+        console.log(signinObj);
+        // these TWO extra calls are not ideal, but we need to hack our way to getting the correct info on signup.  In the future, the API will need to be refactored to send back all the necessary info
+        axios.post(API.signin, signinObj).then(signinResp => {
+          let session_token = signinResp.headers['x-session-token'];
+          localStorage.setItem('x-session-token', session_token);
+          axios.get(API.getUsers, { headers: { 'x-session-token': session_token } }).then(getResponse => {
+            user = deepCopyObj(getResponse.data);
+            console.log(user);
+            Pubsub.publish(NOTIF.SIGN_IN, null);
+          }).catch(error => {
+            console.log(error);
+          });
+        }).catch(error => {
+          console.log(error);
+        });
       }).catch(error => {
         // @TODO return error codes and display helpful messages to the user, i.e. incorrect password, etc.
         // Potentially make more DRY
