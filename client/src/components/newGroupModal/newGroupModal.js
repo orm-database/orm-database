@@ -104,7 +104,9 @@ function NewGroupModal(props) {
 
       return (list);
     } else {
-      return null;
+      return (
+        <span>No Channels Available</span>
+      );
     }
   }
 
