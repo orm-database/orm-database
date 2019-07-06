@@ -44,7 +44,8 @@ export const API = {
   getMessagesByChannelId: '/api/messages/channel/',
   getMessageById: '/api/messages/',
   deleteMessageById: '/api/messages/',
-  getAllUsers: '/api/users'
+  getAllUsers: '/api/users',
+  createDirectMessage: '/api/groups'
 };
 
 // Auth modal types

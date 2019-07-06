@@ -61,20 +61,19 @@ var AllUsers = {};
     }
   }
 
-    // NEW AND IN PROGRESS
-    obj.getAllUsers = () => {
-      if (user.user_id) {
-        axios.get(API.getAllUsers).then(response => {
-          console.log('get all users resolved');
-          console.log(response.data.data);
-          AllUsers = JSON.parse(JSON.stringify(response.data.data));
-          Pubsub.publish(NOTIF.DIRECT_MESSAGE_USERS_DOWNLOADED, AllUsers);
-        }).catch(error => {
-          console.log(error);
-          // @TODO send helpful error back to user
-        });
-      }
+  obj.getAllUsers = () => {
+    if (user.user_id) {
+      axios.get(API.getAllUsers).then(response => {
+        console.log('get all users resolved');
+        console.log(response.data.data);
+        AllUsers = JSON.parse(JSON.stringify(response.data.data));
+        Pubsub.publish(NOTIF.DIRECT_MESSAGE_USERS_DOWNLOADED, AllUsers);
+      }).catch(error => {
+        console.log(error);
+        // @TODO send helpful error back to user
+      });
     }
+  }
 
   obj.getChannelById = (params) => {
     axios.get(API.getAllChannels + params.channel_id).then(response => {
@@ -121,14 +120,13 @@ var AllUsers = {};
     });
   }
 
-// Is this needed
   obj.createDirectMessage = (params) => {
     return new Promise((resolve, reject) => {
-      axios.post(API.createChannel, {
-        channel_name: params.channel_name
+      axios.post(API.createDirectMessage, {
+        direct_group_id: params.direct_group_id
       }).then(response => {
         // @TODO add new channel to channels, or overwrite?
-        console.log('create channel resolved');
+        console.log('create direct message resolved');
         console.log(response);
         resolve(response.data);
       }).catch(error => {
@@ -137,9 +135,7 @@ var AllUsers = {};
         // @TODO send helpful error back to user
       });
     });
-    
   }
-
 
   obj.sendDirectMessage = (params) => {
     let messageObj = {

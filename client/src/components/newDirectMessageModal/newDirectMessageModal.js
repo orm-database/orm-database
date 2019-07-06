@@ -5,9 +5,9 @@ import Modal from 'react-modal';
 
 import Data from '../../utilities/data';
 import Pubsub from '../../utilities/pubsub';
-import { NOTIF, GROUP_MODAL_TYPES } from '../../utilities/constants';
+import { NOTIF, GROUP_MODAL_TYPES, CHAT_GROUP_TYPES } from '../../utilities/constants';
 import Auth, { user } from '../../utilities/auth';
-import UserListItem from '../userListItem/userListItem';
+import ChatListItem from '../chatListItem/chatListItem';
 
 const customStyles = {
   content: {
@@ -28,7 +28,7 @@ function NewDirectMessageModal(props) {
 
   const modalOpen = useRef(modalIsOpen);
 
-  //const [userNameVal, setChannelNameVal] = useState('');
+  const [directGroupVal, setDirectGroupVal] = useState('');
 
   const [userList, setUserList] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState('');
@@ -67,33 +67,30 @@ function NewDirectMessageModal(props) {
     setUserList(data);
   }
 
-//   const handleChannelNameChange = (event) => {
-//     setChannelNameVal(event.target.value);
-//   }
+  const handleDirectGroupChange = (event) => {
+    setDirectGroupVal(event.target.value);
+  }
 
-//   const handleDirectRecipientChange = (event) => {
-//     setDirectRecipientVal(event.target.value);
-//   }
+  const handleDirectRecipientChange = (userId) => {
+    setSelectedUserId(userId);
+  }
 
   const generateUserList = () => {
       console.log('generate user is called');
 
     if (userList.length) {
-      let list = userList.map(user => {
-        //let active = selectedUserId == user.user_id;
+      let list = userList.map(userDM => {
+        let active = selectedUserId == userDM.user_id;
         return (
-          <UserListItem
-            user_id={user.user_id}
-            user_first_name={user.first_name}
-            user_last_name={user.last_name}
-            // type={CHAT_GROUP_TYPES.channel}
-            // name={channel.channel_name}
-            // unreadCount={0}
+            <ChatListItem
+            type={CHAT_GROUP_TYPES.direct}
+            name={userDM.first_name + ' ' + userDM.last_name}
+            unreadCount={0}
             dark={true}
-            // active={active}
-            // onSelect={handleChannelSelection}
-            // group_id={channel.channel_id}
-            key={user.user_id}
+            active={active}
+            onSelect={handleDirectRecipientChange}
+            group_id={userDM.user_id}
+            key={userDM.user_id}
           />
         );
       });
@@ -107,31 +104,22 @@ function NewDirectMessageModal(props) {
 
   const addDirectMessageSubmit = () => {
       console.log('direct message submit')
-
-    // let params = {
-    //   channel_name: channelNameVal
-    // };
-    // Data.createDirectMessage(params).then(response => {
-    //   let channel_id = response.channel_id;
-    //   console.log(user);
-    //   if ((channel_id || channel_id == 0) && user.user_id) {
-    //     let joinObj = {
-    //       channel_id: channel_id,
-    //       users: [user.user_id]
-    //     }
-    //     Data.joinChannel(joinObj);
-    //   } else {
-    //     console.log('error creating direct message');
-    //     console.log(channel_id, user);
-    //   } 
-    // });
-  }
-
-  const sendDirectMessageSubmit = () => {
     let params = {
-
+        direct_group_id: directGroupVal
     };
-    // @TODO send to Data.[send direct message]
+    Data.createDirectMessage(params).then(response => {
+      let direct_group_id = response.direct_group_id;
+      console.log(user);
+      if ((direct_group_id || direct_group_id == 0) && user.user_id) {
+        let joinObj = {
+            direct_group_id: direct_group_id,
+            users: [user.user_id]
+        }
+      } else {
+        console.log('error creating direct message');
+        console.log(direct_group_id, user);
+      } 
+    });
   }
 
   const generateErrorInfo = () => {
@@ -158,7 +146,6 @@ function NewDirectMessageModal(props) {
         </ul>
         <div className='list-group my-2'>
           {generateUserList()}
-            user list goes here
         </div>
         <div className='d-flex justify-content-between'>
             <button type='button' className='btn btn-primary' onClick={addDirectMessageSubmit}>Send Direct Message</button>
