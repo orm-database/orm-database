@@ -2,7 +2,7 @@ import axios from 'axios';
 import Pubsub from './pubsub';
 import Auth, { user } from './auth';
 import { API, NOTIF } from './constants';
-import { shallowCopyObj } from './helper';
+import { shallowCopyObj, orderByTimestamp } from './helper';
 
 import io from 'socket.io-client';
 
@@ -195,7 +195,7 @@ var AllUsers = {};
   // @TODO send auth token with get request
   obj.getChannelMessages = (channelId) => {
     axios.get(API.getMessagesByChannelId + channelId).then(response => {
-      CurrentChannelMessages = JSON.parse(JSON.stringify(response.data));
+      CurrentChannelMessages = orderByTimestamp(JSON.parse(JSON.stringify(response.data)));
       Pubsub.publish(NOTIF.MESSAGES_RECEIVED, null);
     }).catch(error => {
       console.log(error);
