@@ -43,6 +43,8 @@ function GroupsView(props) {
 
   const addDirectMessage = () => {
     // @TODO implement DM modal
+    Pubsub.publish(NOTIF.DIRECT_MESSAGE_MODAL_TOGGLE, null);
+    Pubsub.publish(NOTIF.TOGGLE_SIDEBAR_MOBILE, null);
   }
 
   // @TODO will likely need to add logic to distinguish between channels group and direct group
