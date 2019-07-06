@@ -111,32 +111,39 @@ function NewGroupModal(props) {
   }
 
   const addChannelSubmit = () => {
-    setErrorMessage('');
-    let params = {
-      channel_name: channelNameVal
-    };
-    Data.createChannel(params).then(response => {
-      let channel_id = response.channel_id;
-      console.log(user);
-      if ((channel_id || channel_id == 0) && user.user_id) {
-        let joinObj = {
-          channel_id: channel_id,
-          users: [user.user_id]
+    if (channelNameVal) {
+      let params = {
+        channel_name: channelNameVal
+      };
+      Data.createChannel(params).then(response => {
+        let channel_id = response.channel_id;
+        console.log(user);
+        if ((channel_id || channel_id == 0) && user.user_id) {
+          let joinObj = {
+            channel_id: channel_id,
+            users: [user.user_id]
+          }
+          Data.joinChannel(joinObj);
+        } else {
+          console.log('error joining channel');
+          console.log(channel_id, user);
         }
-        Data.joinChannel(joinObj);
-      } else {
-        console.log('error joining channel');
-        console.log(channel_id, user);
-      }
-    });
+      });
+    } else {
+      setErrorMessage('Please enter a channel name');
+    }
   }
 
   const joinChannelSubmit = () => {
-    let params = {
-      channel_id: selectedChannelId,
-      users: [user.user_id]
-    };
-    Data.joinChannel(params);
+    if (selectedChannelId) {
+      let params = {
+        channel_id: selectedChannelId,
+        users: [user.user_id]
+      };
+      Data.joinChannel(params);
+    } else {
+      setErrorMessage('Please select a channel');
+    }
   }
 
   const generateErrorInfo = () => {
