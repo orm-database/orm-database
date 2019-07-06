@@ -110,7 +110,8 @@ function NewGroupModal(props) {
     }
   }
 
-  const addChannelSubmit = () => {
+  const addChannelSubmit = (event) => {
+    event.preventDefault();
     if (channelNameVal) {
       let params = {
         channel_name: channelNameVal
@@ -134,7 +135,8 @@ function NewGroupModal(props) {
     }
   }
 
-  const joinChannelSubmit = () => {
+  const joinChannelSubmit = (event) => {
+    event.preventDefault();
     if (selectedChannelId) {
       let params = {
         channel_id: selectedChannelId,
@@ -181,7 +183,7 @@ function NewGroupModal(props) {
                 <input type='text' className='form-control' value={channelNameVal} onChange={handleChannelNameChange} placeholder='Enter Channel Name'></input>
               </div>
               <div className='d-flex justify-content-between'>
-                <button type='button' className='btn btn-primary' onClick={addChannelSubmit}>Create Channel</button>
+                <button type='submit' className='btn btn-primary' onClick={addChannelSubmit}>Create Channel</button>
                 <button type='button' className='btn btn-secondary' onClick={closeModal}>Close</button>
               </div>
             </form>
@@ -191,7 +193,7 @@ function NewGroupModal(props) {
               {generateChannelList()}
             </div>
             <div className='d-flex justify-content-between'>
-              <button type='button' className='btn btn-primary' onClick={joinChannelSubmit}>Join Channel</button>
+              <button type='submit' className='btn btn-primary' onClick={joinChannelSubmit}>Join Channel</button>
               <button type='button' className='btn btn-secondary' onClick={closeModal}>Close</button>
             </div>
           </div>
