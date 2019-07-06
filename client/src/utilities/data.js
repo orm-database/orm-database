@@ -96,6 +96,7 @@ var AllUsers = {};
         // @TODO add new channel to channels, or overwrite?
         console.log('create channel resolved');
         console.log(response);
+        Pubsub.publish(NOTIF.GROUP_SELECTED, 'channel_' + response.data.channel_id);
         resolve(response.data);
       }).catch(error => {
         console.log(error);
