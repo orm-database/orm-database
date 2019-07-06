@@ -98,6 +98,10 @@ var AllUsers = {};
         resolve(response.data);
       }).catch(error => {
         console.log(error);
+        let errorObj = {
+          message: 'Error creating channel, please try again'
+        };
+        Pubsub.publish(NOTIF.CHANNEL_ERROR, errorObj);
         reject();
         // @TODO send helpful error back to user
       });
@@ -117,6 +121,10 @@ var AllUsers = {};
       Pubsub.publish(NOTIF.GROUP_MODAL_TOGGLE, null);
     }).catch(error => {
       console.log(error);
+      let errorObj = {
+        message: 'Error joining channel, please try again'
+      };
+      Pubsub.publish(NOTIF.CHANNEL_ERROR, errorObj);
       // @TODO send helpful error back to user
     });
   }

@@ -28,6 +28,8 @@ function NewGroupModal(props) {
 
   const modalOpen = useRef(modalIsOpen);
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [channelNameVal, setChannelNameVal] = useState('');
 
   const [channelList, setChannelList] = useState([]);
@@ -42,9 +44,13 @@ function NewGroupModal(props) {
     Pubsub.subscribe(NOTIF.GROUP_MODAL_TOGGLE, this, handleModalToggle);
     Pubsub.subscribe(NOTIF.GROUPS_DOWNLOADED, this, handleAllGroupsDownload);
 
+    Pubsub.subscribe(NOTIF.CHANNEL_ERROR, this, handleErrorMessage);
+
     return (() => {
       Pubsub.unsubscribe(NOTIF.GROUP_MODAL_TOGGLE, this);
       Pubsub.unsubscribe(NOTIF.GROUPS_DOWNLOADED, this);
+
+      Pubsub.unsubscribe(NOTIF.CHANNEL_ERROR, this);
     });
   }, []);
 
@@ -60,6 +66,10 @@ function NewGroupModal(props) {
     console.log(modalOpen);
     setModalIsOpen(!modalOpen.current);
     modalOpen.current = !modalOpen.current;
+  }
+
+  const handleErrorMessage = (errorObj) => {
+    setErrorMessage(errorObj.message);
   }
 
   const handleAllGroupsDownload = (data) => {
@@ -99,6 +109,7 @@ function NewGroupModal(props) {
   }
 
   const addChannelSubmit = () => {
+    setErrorMessage('');
     let params = {
       channel_name: channelNameVal
     };
@@ -127,7 +138,9 @@ function NewGroupModal(props) {
   }
 
   const generateErrorInfo = () => {
-    return null;
+    return (
+      <span className='text-danger'>{errorMessage}</span>
+    );
   }
 
   // @TODO break down this component into more

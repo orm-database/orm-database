@@ -24,6 +24,7 @@ export const NOTIF = {
   DMS_DOWNLOADED: 'dms_downloaded',
   GROUP_SELECTED: 'group_selected',
   CHANNEL_JOIN: 'channel_join',
+  CHANNEL_ERROR: 'channel_error',
   TOGGLE_SIDEBAR_MOBILE: 'toggle_sidebar_mobile'
 };
 
