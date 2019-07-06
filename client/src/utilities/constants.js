@@ -13,7 +13,7 @@ export const CHAT_GROUP_TYPES = {
 export const NOTIF = {
   MODAL_TOGGLE: 'modal_toggle',
   GROUP_MODAL_TOGGLE: 'group_modal_toggle',
-  DIRECT_MESSAGE_MODAL_TOGGLE: 'direct_modal_toggle',
+  DIRECT_MESSAGE_MODAL_TOGGLE: 'direct_message_modal_toggle',
   SIGN_IN: 'signin',
   SIGN_UP: 'signup',
   SIGN_OUT: 'signout',
@@ -24,7 +24,6 @@ export const NOTIF = {
   DMS_DOWNLOADED: 'dms_downloaded',
   GROUP_SELECTED: 'group_selected',
   CHANNEL_JOIN: 'channel_join',
-  CHANNEL_ERROR: 'channel_error',
   TOGGLE_SIDEBAR_MOBILE: 'toggle_sidebar_mobile'
 };
 
@@ -46,7 +45,8 @@ export const API = {
   getMessagesByChannelId: '/api/messages/channel/',
   getMessageById: '/api/messages/',
   deleteMessageById: '/api/messages/',
-  getAllUsers: '/api/users'
+  getAllUsers: '/api/users',
+  createDirectMessage: '/api/groups'
 };
 
 // Auth modal types

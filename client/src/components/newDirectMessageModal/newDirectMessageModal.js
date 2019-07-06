@@ -5,8 +5,9 @@ import Modal from 'react-modal';
 
 import Data from '../../utilities/data';
 import Pubsub from '../../utilities/pubsub';
-import { NOTIF, GROUP_MODAL_TYPES } from '../../utilities/constants';
+import { NOTIF, GROUP_MODAL_TYPES, CHAT_GROUP_TYPES } from '../../utilities/constants';
 import Auth, { user } from '../../utilities/auth';
+import ChatListItem from '../chatListItem/chatListItem';
 
 const customStyles = {
   content: {
@@ -27,9 +28,9 @@ function NewDirectMessageModal(props) {
 
   const modalOpen = useRef(modalIsOpen);
 
-  const [userNameVal, setChannelNameVal] = useState('');
+  const [directGroupVal, setDirectGroupVal] = useState('');
 
-  const [userList, setUserlList] = useState([]);
+  const [userList, setUserList] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState('');
 
   const closeModal = () => {
@@ -62,68 +63,63 @@ function NewDirectMessageModal(props) {
   }
 
   const handleAllUsersDownload = (data) => {
+      console.log(data);
     setUserList(data);
   }
 
-//   const handleChannelNameChange = (event) => {
-//     setChannelNameVal(event.target.value);
-//   }
+  const handleDirectGroupChange = (event) => {
+    setDirectGroupVal(event.target.value);
+  }
 
-//   const handleDirectRecipientChange = (event) => {
-//     setDirectRecipientVal(event.target.value);
-//   }
+  const handleDirectRecipientChange = (userId) => {
+    setSelectedUserId(userId);
+  }
 
   const generateUserList = () => {
-    if (channelList.length) {
-      let list = channelList.map(channel => {
-        let active = selectedChannelId == channel.channel_id;
+      console.log('generate user is called');
+
+    if (userList.length) {
+      let list = userList.map(userDM => {
+        let active = selectedUserId == userDM.user_id;
         return (
-          <ChatListItem
-            type={CHAT_GROUP_TYPES.channel}
-            name={channel.channel_name}
+            <ChatListItem
+            type={CHAT_GROUP_TYPES.direct}
+            name={userDM.first_name + ' ' + userDM.last_name}
             unreadCount={0}
             dark={true}
             active={active}
-            onSelect={handleChannelSelection}
-            group_id={channel.channel_id}
-            key={channel.channel_id}
+            onSelect={handleDirectRecipientChange}
+            group_id={userDM.user_id}
+            key={userDM.user_id}
           />
         );
       });
-
+        console.log(list);
       return (list);
     } else {
+        console.log('didnt run')
       return null;
     }
   }
 
   const addDirectMessageSubmit = () => {
-
+      console.log('direct message submit')
     let params = {
-      channel_name: channelNameVal
+        direct_group_id: directGroupVal
     };
-    //sends 
     Data.createDirectMessage(params).then(response => {
-      let channel_id = response.channel_id;
+      let direct_group_id = response.direct_group_id;
       console.log(user);
-      if ((channel_id || channel_id == 0) && user.user_id) {
+      if ((direct_group_id || direct_group_id == 0) && user.user_id) {
         let joinObj = {
-          channel_id: channel_id,
-          users: [user.user_id]
+            direct_group_id: direct_group_id,
+            users: [user.user_id]
         }
-        Data.joinChannel(joinObj);
       } else {
         console.log('error creating direct message');
-        console.log(channel_id, user);
+        console.log(direct_group_id, user);
       } 
     });
-  }
-
-  const sendDirectMessageSubmit = () => {
-    let params = {
-
-    };
-    // @TODO send to Data.[send direct message]
   }
 
   const generateErrorInfo = () => {
@@ -145,35 +141,16 @@ function NewDirectMessageModal(props) {
       <div className='modal-body'>
         <ul className='nav nav-tabs' role='tablist'>
           <li className='nav-item'>
-            <a className='nav-link active' href='#createChannel' role='tab' data-toggle='tab'>Create Channel</a>
-          </li>
-          <li className='nav-item'>
-            <a className='nav-link' href='#joinChannel' role='tab' data-toggle='tab'>Join Channel</a>
+            <a className='nav-link active' href='#sendDirectMessage' role='tab' data-toggle='tab'>Select User</a>
           </li>
         </ul>
-
-        <div className='tab-content'>
-          <div role='tabpanel' className='tab-pane fade in active show' id='createChannel'>
-            <form>
-              <div className='form-group mt-4'>
-                <input type='text' className='form-control' value={channelNameVal} onChange={handleChannelNameChange} placeholder='Enter Channel Name'></input>
-              </div>
-              <div className='d-flex justify-content-between'>
-                <button type='button' className='btn btn-primary' onClick={addChannelSubmit}>Create Channel</button>
-                <button type='button' className='btn btn-secondary' onClick={closeModal}>Close</button>
-              </div>
-            </form>
-          </div>
-          <div role='tabpanel' className='tab-pane fade' id='joinChannel'>
-            <div className='list-group my-2'>
-              {generateUserList()}
-            </div>
-            <div className='d-flex justify-content-between'>
-              <button type='button' className='btn btn-primary' onClick={joinChannelSubmit}>Join Channel</button>
-              <button type='button' className='btn btn-secondary' onClick={closeModal}>Close</button>
-            </div>
-          </div>
+        <div className='list-group my-2'>
+          {generateUserList()}
         </div>
+        <div className='d-flex justify-content-between'>
+            <button type='button' className='btn btn-primary' onClick={addDirectMessageSubmit}>Send Direct Message</button>
+            <button type='button' className='btn btn-secondary' onClick={closeModal}>Close</button>
+      </div>
       </div>
     </Modal>
   )
