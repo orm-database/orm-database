@@ -13,7 +13,7 @@ export const CHAT_GROUP_TYPES = {
 export const NOTIF = {
   MODAL_TOGGLE: 'modal_toggle',
   GROUP_MODAL_TOGGLE: 'group_modal_toggle',
-  DIRECT_MESSAGE_MODAL_TOGGLE: 'direct_modal_toggle',
+  DIRECT_MESSAGE_MODAL_TOGGLE: 'direct_message_modal_toggle',
   SIGN_IN: 'signin',
   SIGN_UP: 'signup',
   SIGN_OUT: 'signout',

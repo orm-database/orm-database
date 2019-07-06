@@ -4,6 +4,7 @@ import './groupsView.css';
 import ChannelList from '../channelList/channelList';
 import DirectList from '../directList/directList';
 import NewGroupModal from '../newGroupModal/newGroupModal';
+import NewDirectMessageModal from '../newDirectMessageModal/newDirectMessageModal';
 
 import { CHAT_GROUP_TYPES, NOTIF } from '../../utilities/constants';
 import Pubsub from '../../utilities/pubsub';
@@ -68,6 +69,7 @@ function GroupsView(props) {
       </div>
 
       <NewGroupModal />
+      <NewDirectMessageModal />
     </div>
   );
 }

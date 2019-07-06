@@ -66,8 +66,8 @@ var AllUsers = {};
       if (user.user_id) {
         axios.get(API.getAllUsers).then(response => {
           console.log('get all users resolved');
-          console.log(response.data);
-          AllUsers = JSON.parse(JSON.stringify(response.data));
+          console.log(response.data.data);
+          AllUsers = JSON.parse(JSON.stringify(response.data.data));
           Pubsub.publish(NOTIF.DIRECT_MESSAGE_USERS_DOWNLOADED, AllUsers);
         }).catch(error => {
           console.log(error);
