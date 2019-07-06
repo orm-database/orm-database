@@ -54,11 +54,12 @@ function ChatListItem(props) {
       let data = props.type + '_' + props.group_id;
       console.log(data);
       Pubsub.publish(NOTIF.GROUP_SELECTED, data);
+      Pubsub.publish(NOTIF.TOGGLE_SIDEBAR_MOBILE, null);
     }
   }
 
   return (
-    <button type='button' className={btnClassName} onClick={newGroupSelected}>
+    <button type='button' className={btnClassName + ' item'} onClick={newGroupSelected}>
       <span className={spanClassName}>{props.name}</span>
       {generateUnreadCountBadge()}
     </button>
