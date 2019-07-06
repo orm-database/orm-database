@@ -66,9 +66,22 @@ const orderByTimestamp = (messageArr) => {
   });
 }
 
+const removeChannelsMemberOf = (allChannels, channelsMemberOf) => {
+  return allChannels.filter(channel => {
+    let flag = true;
+    channelsMemberOf.forEach(myChannel => {
+      if (myChannel.channel_id === channel.channel_id) {
+        flag = false;
+      }
+    });
+    return flag;
+  });
+}
+
 export {
   shallowCopyObj,
   deepCopyObj,
   formatMessageTimestamp,
-  orderByTimestamp
+  orderByTimestamp,
+  removeChannelsMemberOf
 };

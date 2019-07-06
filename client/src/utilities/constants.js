@@ -17,12 +17,14 @@ export const NOTIF = {
   SIGN_IN: 'signin',
   SIGN_UP: 'signup',
   SIGN_OUT: 'signout',
+  AUTH_ERROR: 'auth_error',
   MESSAGES_RECEIVED: 'messages_received',
   GROUPS_DOWNLOADED: 'groups_downloaded',
   DIRECT_MESSAGE_USERS_DOWNLOADED: 'direct_message_users_downloaded',
   DMS_DOWNLOADED: 'dms_downloaded',
   GROUP_SELECTED: 'group_selected',
   CHANNEL_JOIN: 'channel_join',
+  CHANNEL_ERROR: 'channel_error',
   TOGGLE_SIDEBAR_MOBILE: 'toggle_sidebar_mobile'
 };
 

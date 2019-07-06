@@ -2,7 +2,7 @@ import axios from 'axios';
 import Pubsub from './pubsub';
 import Auth, { user } from './auth';
 import { API, NOTIF } from './constants';
-import { shallowCopyObj, orderByTimestamp } from './helper';
+import { shallowCopyObj, orderByTimestamp, removeChannelsMemberOf } from './helper';
 
 import io from 'socket.io-client';
 
@@ -53,6 +53,7 @@ var AllUsers = {};
         console.log('get all channels resolved');
         console.log(response.data);
         AllChannels = JSON.parse(JSON.stringify(response.data));
+        AllChannels = removeChannelsMemberOf(AllChannels, user.channels_member_of ? user.channels_member_of : []);
         Pubsub.publish(NOTIF.GROUPS_DOWNLOADED, AllChannels);
       }).catch(error => {
         console.log(error);
@@ -98,6 +99,10 @@ var AllUsers = {};
         resolve(response.data);
       }).catch(error => {
         console.log(error);
+        let errorObj = {
+          message: 'Error creating channel, please try again'
+        };
+        Pubsub.publish(NOTIF.CHANNEL_ERROR, errorObj);
         reject();
         // @TODO send helpful error back to user
       });
@@ -117,6 +122,10 @@ var AllUsers = {};
       Pubsub.publish(NOTIF.GROUP_MODAL_TOGGLE, null);
     }).catch(error => {
       console.log(error);
+      let errorObj = {
+        message: 'Error joining channel, please try again'
+      };
+      Pubsub.publish(NOTIF.CHANNEL_ERROR, errorObj);
       // @TODO send helpful error back to user
     });
   }

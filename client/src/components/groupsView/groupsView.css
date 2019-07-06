@@ -19,6 +19,10 @@
   border: none;
 }
 
+button:focus {
+  outline: none;
+}
+
 @media only screen and (max-width: 575px) {
   .group-menu {
     position: absolute;
