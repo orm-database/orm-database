@@ -34,6 +34,13 @@ router.post("/api/messages", (req, res) => {
         res.status(200).end();
     })
 });
+router.post('/api/messages/direct', (req, res) => {
+  console.log(req.body);
+  message.createDM(req.body, (rows) => {
+    res.json(rows);
+    res.status(200).end();
+  });
+});
 
 router.delete("/api/messages/:message_id", (req, res) => {
     console.log('delete message: '+req.params.message_id);

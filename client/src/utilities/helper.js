@@ -57,8 +57,31 @@ const formatMessageTimestamp = (timestamp) => {
   return formattedTimestamp;
 }
 
+const orderByTimestamp = (messageArr) => {
+  return messageArr.sort((a, b) => {
+    let aDate = new Date(a.message_time).getTime();
+    let bDate = new Date(b.message_time).getTime();
+
+    return aDate - bDate;
+  });
+}
+
+const removeChannelsMemberOf = (allChannels, channelsMemberOf) => {
+  return allChannels.filter(channel => {
+    let flag = true;
+    channelsMemberOf.forEach(myChannel => {
+      if (myChannel.channel_id === channel.channel_id) {
+        flag = false;
+      }
+    });
+    return flag;
+  });
+}
+
 export {
   shallowCopyObj,
   deepCopyObj,
-  formatMessageTimestamp
+  formatMessageTimestamp,
+  orderByTimestamp,
+  removeChannelsMemberOf
 };

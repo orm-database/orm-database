@@ -17,6 +17,7 @@ export const NOTIF = {
   SIGN_IN: 'signin',
   SIGN_UP: 'signup',
   SIGN_OUT: 'signout',
+  AUTH_ERROR: 'auth_error',
   MESSAGES_RECEIVED: 'messages_received',
   GROUPS_DOWNLOADED: 'groups_downloaded',
   DIRECT_MESSAGE_USERS_DOWNLOADED: 'direct_message_users_downloaded',

@@ -45,16 +45,24 @@ var user = {};
           Pubsub.publish(NOTIF.SIGN_IN, null);
         }).catch(error => {
           console.log(error);
+          let errorObj = {
+            message: 'Error signing in, please try again'
+          };
+          Pubsub.publish(NOTIF.AUTH_ERROR, errorObj);
         });
       }).catch(error => {
         // @TODO return error codes and display helpful messages to the user, i.e. incorrect password, etc.
         // Potentially make more DRY
-        console.log(error);
+        let errorObj = {
+          message: 'Error signing in, please try again'
+        };
+        Pubsub.publish(NOTIF.AUTH_ERROR, errorObj);
       });
     } else {
-      // @TODO kick back a real error and display in the modal
-      console.log('ERROR: problem with signin params:');
-      console.log(params);
+      let errorObj = {
+        message: 'Please fill in the required fields'
+      };
+      Pubsub.publish(NOTIF.AUTH_ERROR, errorObj);
     }
   }
 
@@ -84,19 +92,31 @@ var user = {};
             Pubsub.publish(NOTIF.SIGN_IN, null);
           }).catch(error => {
             console.log(error);
+            let errorObj = {
+              message: 'Error signing up, please try again'
+            };
+            Pubsub.publish(NOTIF.AUTH_ERROR, errorObj);
           });
         }).catch(error => {
           console.log(error);
+          let errorObj = {
+            message: 'Error signing up, please try again'
+          };
+          Pubsub.publish(NOTIF.AUTH_ERROR, errorObj);
         });
       }).catch(error => {
         // @TODO return error codes and display helpful messages to the user, i.e. incorrect password, etc.
         // Potentially make more DRY
-        console.log(error);
+        let errorObj = {
+          message: 'Error signing up, please try again'
+        };
+        Pubsub.publish(NOTIF.AUTH_ERROR, errorObj);
       });
     } else {
-      // @TODO kick back a real error and display in the modal
-      console.log('ERROR: problem with signup params:');
-      console.log(params);
+      let errorObj = {
+        message: 'Please fill out all fields'
+      };
+      Pubsub.publish(NOTIF.AUTH_ERROR, errorObj);
     }
 
   }
